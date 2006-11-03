@@ -1,0 +1,416 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-10-07 15:31-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: public/index.php:57
+msgid "Error: module does not exist or is not readable"
+msgstr ""
+
+#: Includes/presenter.php:133 Includes/presenter.php:135
+msgid "First Page"
+msgstr ""
+
+#: Includes/presenter.php:138 Includes/presenter.php:140
+msgid "Last Page"
+msgstr ""
+
+#: Includes/presenter.php:143 Includes/presenter.php:145
+msgid "Next Page"
+msgstr ""
+
+#: Includes/presenter.php:148 Includes/presenter.php:150
+msgid "Previous Page"
+msgstr ""
+
+#: Includes/vpopmail_admin.php:196 Modules/Accounts.php:260
+#: Modules/Accounts.php:288 Modules/Domains.php:100 Modules/Domains.php:140
+msgid "Error: "
+msgstr ""
+
+#: Modules/Accounts.php:18 Modules/Domains.php:60 Modules/Forwards.php:17
+msgid "Error: no domain supplied"
+msgstr ""
+
+#: Modules/Accounts.php:29 Modules/Accounts.php:75 Modules/Accounts.php:111
+#: Modules/Domains.php:65 Modules/Forwards.php:26
+msgid "Error: you do not have edit privileges on domain "
+msgstr ""
+
+#: Modules/Accounts.php:68 Modules/Accounts.php:104 Modules/Accounts.php:269
+#: Modules/Accounts.php:282
+msgid "Error: no account supplied"
+msgstr ""
+
+#: Modules/Accounts.php:127
+msgid "Error: passwords to not match"
+msgstr ""
+
+#: Modules/Accounts.php:135
+msgid "Error: message routing is not set"
+msgstr ""
+
+#: Modules/Accounts.php:147
+msgid "Error: you must supply a forward address"
+msgstr ""
+
+#: Modules/Accounts.php:158
+msgid "Error: unsupported routing selection"
+msgstr ""
+
+#: Modules/Accounts.php:216
+msgid "Account Modified Successfully"
+msgstr ""
+
+#: Modules/Accounts.php:232
+msgid "account"
+msgstr ""
+
+#: Modules/Accounts.php:238
+msgid " comment"
+msgstr ""
+
+#: Modules/Accounts.php:244
+msgid " password"
+msgstr ""
+
+#: Modules/Accounts.php:250
+msgid "Error: missing fields: "
+msgstr ""
+
+#: Modules/Accounts.php:255
+msgid "Error: invalid account name"
+msgstr ""
+
+#: Modules/Accounts.php:262
+msgid "Account Added Successfully"
+msgstr ""
+
+#: Modules/Accounts.php:290
+msgid "Account Deleted Successfully"
+msgstr ""
+
+#: Modules/Accounts.php:296
+msgid "Delete Canceled"
+msgstr ""
+
+#: Modules/Accounts.php:301
+msgid "Error: unknown event"
+msgstr ""
+
+#: Modules/Domains.php:79 Modules/Domains.php:88
+msgid "Error: you do not have add domain privileges"
+msgstr ""
+
+#: Modules/Domains.php:93
+msgid "Error: domain or password missing"
+msgstr ""
+
+#: Modules/Domains.php:103
+msgid "Domain added successfully"
+msgstr ""
+
+#: Modules/Domains.php:111 Modules/Domains.php:133
+msgid "Error: domain missing"
+msgstr ""
+
+#: Modules/Domains.php:116 Modules/Domains.php:128
+msgid "Error: you do not have delete domain privileges"
+msgstr ""
+
+#: Modules/Domains.php:143
+msgid "Domain deleted successfully"
+msgstr ""
+
+#: Modules/Domains.php:150
+msgid "Domain deletion canceled"
+msgstr ""
+
+#: Modules/Domains.php:156
+msgid "Error: unkown event"
+msgstr ""
+
+#: Modules/Forwards.php:50
+msgid "No forwards to display"
+msgstr ""
+
+#: Modules/Forwards.php:72 Modules/Forwards.php:101 Modules/Forwards.php:147
+msgid "Error: no forward supplied"
+msgstr ""
+
+#: Modules/Forwards.php:108
+msgid "Error: no forward destination line supplied"
+msgstr ""
+
+#: Modules/Forwards.php:130
+msgid "Forward Deleted Successfully"
+msgstr ""
+
+#: Modules/Forwards.php:136 Modules/Forwards.php:174
+msgid "Forward Modified Successfully"
+msgstr ""
+
+#: Modules/Forwards.php:152
+msgid "Error: no destination supplied"
+msgstr ""
+
+#: Modules/Forwards.php:160
+msgid "Error: invalid forward supplied"
+msgstr ""
+
+#: Modules/Login.php:24
+msgid "Error: missing fields"
+msgstr ""
+
+#: Modules/Login.php:31
+msgid "Error: invalid email address format"
+msgstr ""
+
+#: tpl/account_confirm_delete.tpl:1
+msgid "Are you sure you want to delete this account?"
+msgstr ""
+
+#: tpl/account_confirm_delete.tpl:6 tpl/domain_confirm_delete.tpl:6
+msgid "cancel"
+msgstr ""
+
+#: tpl/account_confirm_delete.tpl:6 tpl/domain_confirm_delete.tpl:6
+#: tpl/list_accounts.tpl:32 tpl/list_domains.tpl:24 tpl/list_forwards.tpl:26
+#: tpl/modify_forward.tpl:16
+msgid "delete"
+msgstr ""
+
+#: tpl/add_account.tpl:1
+msgid "Add Account to domain"
+msgstr ""
+
+#: tpl/add_account.tpl:15 tpl/list_accounts.tpl:19
+msgid "Account"
+msgstr ""
+
+#: tpl/add_account.tpl:16 tpl/modify_account.tpl:20
+msgid "Real Name"
+msgstr ""
+
+#: tpl/add_account.tpl:17 tpl/add_domain.tpl:15 tpl/login.tpl:20
+#: tpl/modify_account.tpl:24
+msgid "Password"
+msgstr ""
+
+#: tpl/add_account.tpl:26 tpl/list_accounts.tpl:15
+msgid "Add Account"
+msgstr ""
+
+#: tpl/add_account.tpl:31 tpl/list_accounts.tpl:38 tpl/list_forwards.tpl:32
+msgid "Domain Menu"
+msgstr ""
+
+#: tpl/add_domain.tpl:1 tpl/add_domain.tpl:23 tpl/list_domains.tpl:12
+msgid "Add Domain"
+msgstr ""
+
+#: tpl/add_domain.tpl:14 tpl/list_domains.tpl:16
+msgid "Domain"
+msgstr ""
+
+#: tpl/back.tpl:1
+msgid "back"
+msgstr ""
+
+#: tpl/domain_confirm_delete.tpl:1
+msgid "Are you sure you want to delete this domain?"
+msgstr ""
+
+#: tpl/domain_menu.tpl:8
+msgid "Email Accounts"
+msgstr ""
+
+#: tpl/domain_menu.tpl:9
+msgid "Forwards"
+msgstr ""
+
+#: tpl/domain_menu.tpl:10
+msgid "Auto-Responders"
+msgstr ""
+
+#: tpl/domain_menu.tpl:11
+msgid "Mailing Lists"
+msgstr ""
+
+#: tpl/header.tpl:5
+msgid "Toaster Administration"
+msgstr ""
+
+#: tpl/header.tpl:22 tpl/logged_in_msg.tpl:1
+msgid "ToasterAdmin Logo"
+msgstr ""
+
+#: tpl/list_accounts.tpl:1
+msgid "Email Accounts in domain"
+msgstr ""
+
+#: tpl/list_accounts.tpl:20
+msgid "Comment"
+msgstr ""
+
+#: tpl/list_accounts.tpl:21
+msgid "Quota"
+msgstr ""
+
+#: tpl/list_accounts.tpl:22 tpl/list_domains.tpl:17 tpl/list_forwards.tpl:17
+msgid "Edit"
+msgstr ""
+
+#: tpl/list_accounts.tpl:23 tpl/list_domains.tpl:18 tpl/list_forwards.tpl:18
+#: tpl/modify_forward.tpl:9
+msgid "Delete"
+msgstr ""
+
+#: tpl/list_accounts.tpl:31 tpl/list_domains.tpl:23 tpl/list_forwards.tpl:25
+msgid "edit"
+msgstr ""
+
+#: tpl/list_domains.tpl:1
+msgid "Admin Main"
+msgstr ""
+
+#: tpl/list_forwards.tpl:1
+msgid "Forwards in domain"
+msgstr ""
+
+#: tpl/list_forwards.tpl:15
+msgid "Forward"
+msgstr ""
+
+#: tpl/list_forwards.tpl:16
+msgid "Recipient"
+msgstr ""
+
+#: tpl/logged_in_msg.tpl:3
+msgid "logged in as"
+msgstr ""
+
+#: tpl/logged_in_msg.tpl:4
+msgid "logout"
+msgstr ""
+
+#: tpl/login.tpl:7
+msgid "please log in"
+msgstr ""
+
+#: tpl/login.tpl:16
+msgid "Email Address"
+msgstr ""
+
+#: tpl/login.tpl:24
+msgid "Login"
+msgstr ""
+
+#: tpl/logout.tpl:2
+msgid "You have been logged out."
+msgstr ""
+
+#: tpl/logout.tpl:4
+msgid "Login Again"
+msgstr ""
+
+#: tpl/main_domain.tpl:1
+msgid "domain main"
+msgstr ""
+
+#: tpl/menu_link.tpl:2
+msgid "Main Menu"
+msgstr ""
+
+#: tpl/modify_account.tpl:1
+msgid "Edit Account"
+msgstr ""
+
+#: tpl/modify_account.tpl:14
+msgid "Modify User:"
+msgstr ""
+
+#: tpl/modify_account.tpl:28
+msgid "Password (again)"
+msgstr ""
+
+#: tpl/modify_account.tpl:37
+msgid "Routing:"
+msgstr ""
+
+#: tpl/modify_account.tpl:38
+msgid "Standard (No Forwarding)"
+msgstr ""
+
+#: tpl/modify_account.tpl:42
+msgid "All Mail Deleted"
+msgstr ""
+
+#: tpl/modify_account.tpl:47
+msgid "Forward to:"
+msgstr ""
+
+#: tpl/modify_account.tpl:48
+msgid "Save a Copy"
+msgstr ""
+
+#: tpl/modify_account.tpl:55
+msgid "Send a Vacation Auto-Response"
+msgstr ""
+
+#: tpl/modify_account.tpl:56
+msgid "Vacation Subject:"
+msgstr ""
+
+#: tpl/modify_account.tpl:57
+msgid "Vacation Message:"
+msgstr ""
+
+#: tpl/modify_account.tpl:62
+msgid "Modify Account"
+msgstr ""
+
+#: tpl/modify_forward.tpl:1
+msgid "Modify Forward"
+msgstr ""
+
+#: tpl/modify_forward.tpl:8
+msgid "Destination"
+msgstr ""
+
+#: tpl/modify_forward.tpl:29
+msgid "Add Address to Forward"
+msgstr ""
+
+#: tpl/modify_forward.tpl:31
+msgid "Address"
+msgstr ""
+
+#: tpl/modify_forward.tpl:34
+msgid "Add Address"
+msgstr ""
+
+#: tpl/modify_forward.tpl:39
+msgid "Forwards Menu"
+msgstr ""
+
+#: tpl/pagination.tpl:1
+msgid "Page"
+msgstr ""
+
+#: tpl/pagination.tpl:1
+msgid "of"
+msgstr ""
