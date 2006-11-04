@@ -57,4 +57,6 @@ $base_url = $_SERVER['PHP_SELF'];
 
 $tpl->assign('version', $version);
 
+register_shutdown_function('destruct');
+
 ?>

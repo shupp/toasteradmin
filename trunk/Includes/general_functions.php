@@ -68,5 +68,15 @@ function decryptPass($encryptedpass, $key) {
 
 }
 
+function destruct() {
+    global $vp;
+
+    if( is_object($vp) && isset($vp->Socket)) {
+        Socket_shutdown( $vp->Socket, 2 );
+        Socket_close( $vp->Socket );
+        unset( $vp->Socket );
+    }
+}
+
 
 ?>
