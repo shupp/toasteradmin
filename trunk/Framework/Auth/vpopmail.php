@@ -6,7 +6,12 @@ abstract class Framework_Auth_vpopmail extends Framework_Auth
 {
     public function authenticate()
     {
-        return $this->user->authenticate($this->session->__get('email'), $this->session->__get('password'));
+        if($this->user->authenticate($this->session->__get('email'), $this->session->__get('password'))) {
+            return true;
+        } else {
+            header('Location: ./?module=Login');
+            return false;
+        }
     }
 }
 
