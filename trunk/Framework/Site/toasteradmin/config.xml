@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<framework>
+    <vpopmaildHost>home.shupp.org</vpopmaildHost>
+    <vpopmaildPort>89</vpopmaildPort>
+    <loginEmail>test@test.com</loginEmail>
+    <loginPass>test</loginPass>
+    <logFile>/tmp/framework.log</logFile>
+    <user>
+        <userClass>vpopmail</userClass>
+    </user>
+</framework>
