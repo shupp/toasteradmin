@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Framework_Site_Example
+ * Framework_Site_toasteradmin
  * 
  * @author      Joe Stump <joe@joestump.net>
  * @copyright   Joe Stump <joe@joestump.net>
@@ -13,7 +13,7 @@
 
 
 /**
- * Framework_Site_Example
+ * Framework_Site_toasteradmin
  * 
  * Framework allows you to run multiple sites with multiple templates and
  * modules. Each site needs it's own site driver. You can use this to house
@@ -24,7 +24,7 @@
  * @package     Framework
  * @filesource
  */
-class Framework_Site_Example extends Framework_Site_Common
+class Framework_Site_toasteradmin extends Framework_Site_Common
 {
     /**
      * $name
@@ -32,7 +32,7 @@ class Framework_Site_Example extends Framework_Site_Common
      * @access      public
      * @var         string      $name       Name of site driver
      */
-    public $name = 'Example';
+    public $name = 'toasteradmin';
 
     /**
      * prepare
