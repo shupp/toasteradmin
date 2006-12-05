@@ -19,6 +19,7 @@
  * @global string FRAMEWORK_BASE_PATH Absolute path to our framework
  */
 define('FRAMEWORK_BASE_PATH',dirname(__FILE__) . '/..');
+ini_set('include_path', FRAMEWORK_BASE_PATH . ini_get('include_path'));
 // ini_set('session.auto_start', 1);
 
 require_once('Framework.php');
