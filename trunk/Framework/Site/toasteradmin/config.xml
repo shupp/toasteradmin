@@ -2,6 +2,7 @@
 <framework>
     <vpopmaildHost>home.shupp.org</vpopmaildHost>
     <vpopmaildPort>89</vpopmaildPort>
+    <mcryptKey>My Secret Key</mcryptKey>
     <logFile>/tmp/framework.log</logFile>
     <user>
         <userClass>vpopmail</userClass>
