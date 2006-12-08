@@ -33,24 +33,12 @@ class Framework_Module_Logout extends Framework_Auth_vpopmail
         $this->setData('QF_Form', $form->toHtml());
     }
 
-    public function loginNow()
-    {
-        if(!empty($_POST['email']) && !empty($_POST['password'])) {
-
-            if($this->user->authenticate($_POST['email'], $_POST['password'])) {
-                $this->session->email = $_POST['email'];
-                $this->session->password = $_POST['password'];
-                header("Location: ./index.php?module=Welcome");
-            } else {
-                $this->session->email = null;
-                $this->session->password = null;
-                header("Location: ./index.php?module=Login");
-            }
-        } else {
-            header("Location: ./index.php?module=Login");
-        }
-    }
-
+    /**
+     * logoutNow 
+     * 
+     * @access public
+     * @return void
+     */
     public function logoutNow()
     {
         $this->session->destroy();
@@ -58,6 +46,12 @@ class Framework_Module_Logout extends Framework_Auth_vpopmail
         return;
     }
 
+    /**
+     * createLogoutForm 
+     * 
+     * @access private
+     * @return void
+     */
     private function createLogoutForm()
     {
         $form = new HTML_QuickForm('formLogout', 'post', $_SERVER['REQUEST_URI'] . '&event=logoutNow');
