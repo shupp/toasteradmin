@@ -35,19 +35,25 @@ class Framework_Module_Login extends Framework_Auth_No
 
     public function loginNow()
     {
-        if(!empty($_POST['email']) && !empty($_POST['password'])) {
-
-            if($this->user->authenticate($_POST['email'], $_POST['password'])) {
+        $form = $this->createLoginForm();
+        if ($form->validate()) {
+            $this->user->authenticate($_POST['email'], $_POST['password']);
+            if(!$this->user->Error) {
+                $emailArray = explode('@', $_POST['email']);
+                $this->session->domain = $emailArray[1];
                 $this->session->email = $_POST['email'];
-                $this->session->password = $_POST['password'];
+                $this->session->password = $this->user->encryptPass($_POST['password'], 
+                    (string)Framework::$site->config->mcryptKey);
                 header("Location: ./index.php?module=Welcome");
             } else {
+                $this->setData('loginError', $this->user->Error);
+                $this->setData('QF_Form', $form->toHtml());
                 $this->session->email = null;
                 $this->session->password = null;
-                header("Location: ./index.php?module=Login");
+                return;
             }
         } else {
-            header("Location: ./index.php?module=Login");
+            $this->setData('QF_Form', $form->toHtml());
         }
     }
 
@@ -65,11 +71,6 @@ class Framework_Module_Login extends Framework_Auth_No
         $form->addRule('password', 'Please enter your password', 'required', null, 'client');
         $form->applyFilter('__ALL__', 'trim');
 
-        if ($form->validate()) {
-            // $form->freeze();
-            // $data = $form->exportValues();
-            // $user = self::getUser($data['username']);
-        }
         return $form;
     }
 
