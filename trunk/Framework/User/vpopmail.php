@@ -11,15 +11,69 @@
  *
  */
 class Framework_User_vpopmail extends Framework_User {
-    var $Socket;
-    var $Error;
-    var $LoginUser;
-    var $Compact;
-    var $ShowXmit = false;
-    var $ShowRecv = false;
-    var $ShowData = false;
-    var $ShowCmd = false;
-    var $GidFlagValues = array(
+    /**
+     * Socket 
+     * 
+     * @var mixed
+     * @access public
+     */
+    public $Socket = null;
+    /**
+     * Error 
+     * 
+     * @var mixed
+     * @access public
+     */
+    public $Error = null;
+    /**
+     * LoginUser 
+     * 
+     * @var mixed
+     * @access public
+     */
+    public $LoginUser = null;
+    /**
+     * Compact 
+     * 
+     * @var mixed
+     * @access public
+     */
+    public $Compact = null;
+    /**
+     * ShowXmit 
+     * 
+     * @var mixed
+     * @access public
+     */
+    public $ShowXmit = false;
+    /**
+     * ShowRecv 
+     * 
+     * @var mixed
+     * @access public
+     */
+    public $ShowRecv = false;
+    /**
+     * ShowData 
+     * 
+     * @var mixed
+     * @access public
+     */
+    public $ShowData = false;
+    /**
+     * ShowCmd 
+     * 
+     * @var mixed
+     * @access public
+     */
+    public $ShowCmd = false;
+    /**
+     * GidFlagValues 
+     * 
+     * @var array
+     * @access public
+     */
+    public $GidFlagValues = array(
         'no_password_change' => 0x01, 
         'no_pop' => 0x02, 
         'no_webmail' => 0x04, 
@@ -1288,10 +1342,9 @@ class Framework_User_vpopmail extends Framework_User {
      * @version 1.0
      *
      */
-    function has_sysadmin_privs($acct_info = '') {
+    function isSysAdmin($acct_info = '') {
         if ($acct_info == '') {
-            global $user_info;
-            $acct_info = $user_info;
+            $acct_info = $this->GetLoginUser();
         }
         return $this->GetGidBit($acct_info['gidflags'], 'system_admin_privileges');
     }
@@ -1560,5 +1613,6 @@ class Framework_User_vpopmail extends Framework_User {
         $clearpass = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $encryptedpass, MCRYPT_MODE_ECB, $iv);
         return trim($clearpass);
     }
+
 }
 ?>
