@@ -1530,5 +1530,35 @@ class Framework_User_vpopmail extends Framework_User {
     function display_forward_line($line) {
         if (ereg('^&', $line)) return ereg_replace('^&', '', $line);
     }
+
+    /**
+     * encryptPass 
+     * 
+     * @param mixed $pass 
+     * @param mixed $key 
+     * @access public
+     * @return void
+     */
+    function encryptPass($pass, $key) {
+        $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
+        $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+        $cryptpass = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key, $pass, MCRYPT_MODE_ECB, $iv);
+        return $cryptpass;
+    }
+
+    /**
+     * decryptPass 
+     * 
+     * @param mixed $encryptedpass 
+     * @param mixed $key 
+     * @access public
+     * @return void
+     */
+    function decryptPass($encryptedpass, $key) {
+        $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
+        $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+        $clearpass = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $encryptedpass, MCRYPT_MODE_ECB, $iv);
+        return trim($clearpass);
+    }
 }
 ?>
