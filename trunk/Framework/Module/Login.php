@@ -40,6 +40,7 @@ class Framework_Module_Login extends Framework_Auth_No
             $this->user->authenticate($_POST['email'], $_POST['password']);
             if(!$this->user->Error) {
                 $emailArray = explode('@', $_POST['email']);
+                $this->session->user = $emailArray[0];
                 $this->session->domain = $emailArray[1];
                 $this->session->email = $_POST['email'];
                 $this->session->password = $this->user->encryptPass($_POST['password'], 
