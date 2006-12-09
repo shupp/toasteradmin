@@ -49,7 +49,7 @@ class Framework_Module_Domains extends Framework_Auth_vpopmail
                 return;
             }
         }
-        listDomains();
+        $this->listDomains();
     }
 
 
