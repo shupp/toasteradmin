@@ -78,7 +78,7 @@ class Framework_Module_Domains extends Framework_Auth_vpopmail
             $count++;
         }
         $this->setData('domains', $domains);
-        $this->setData('add_domain_url', htmlspecialchars("$base_url?module=Domains&event=add_domain"));
+        $this->setData('add_domain_url', htmlspecialchars("./?module=Domains&event=add_domain"));
         $this->tplFile = 'listDomains.tpl';
         return;
 
