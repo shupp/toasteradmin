@@ -101,4 +101,30 @@ class Framework_Module_Domains extends Framework_Auth_vpopmail
         return;
 
     }
+
+
+    function domainMenu()
+    {
+        // Make sure the domain was supplied
+        if(!isset($_REQUEST['domain'])) {
+            PEAR::raiseError(_("Error: no domain supplied"));
+            return;
+        }
+
+        if(!$this->user->isDomainAdmin($_REQUEST['domain'])) {
+            PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $_REQUEST['domain']);
+            return;
+        }
+        // Setup URLs
+        $this->setData('domain', $_REQUEST['domain']);
+        $this->setData('list_accounts_url', htmlspecialchars('./?module=Accounts&domain=' . $_REQUEST['domain']));
+        $this->setData('list_forwards_url', htmlspecialchars('./?module=Forwards&domain=' . $_REQUEST['domain']));
+        $this->setData('list_responders_url', htmlspecialchars('./?module=Responders&domain=' . $_REQUEST['domain']));
+        $this->setData('list_lists_url', htmlspecialchars('./?module=Lists&domain=' . $_REQUEST['domain']));
+        $this->tplFile = 'domainMenu.tpl';
+        return;
+    }
+
 }
+    
+?>
