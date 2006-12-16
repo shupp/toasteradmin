@@ -18,6 +18,13 @@
  * @author Joe Stump <joe@joestump.net>
  * @global string FRAMEWORK_BASE_PATH Absolute path to our framework
  */
+
+if(!isset($_GET['module'])) {
+    header("Location: ./?module=Login");
+    exit;
+}
+
+
 define('FRAMEWORK_BASE_PATH',dirname(__FILE__) . '/..');
 ini_set('include_path', FRAMEWORK_BASE_PATH . PATH_SEPARATOR . ini_get('include_path'));
 // ini_set('session.auto_start', 1);
