@@ -3,19 +3,19 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
- * Framework_Module_Welcome
+ * Framework_Module_Logout
  *
- * @author      Joe Stump <joe@joestump.net>
- * @copyright   Joe Stump <joe@joestump.net> 
+ * @author      Bill Shupp <hostmaster@shupp.org>
+ * @copyright   Bill Shupp <hostmaster@shupp.org>
  * @package     Framework
  * @subpackage  Module
  * @filesource
  */
 
 /**
- * Framework_Module_Welcome
+ * Framework_Module_Logout
  *
- * @author      Joe Stump <joe@joestump.net>
+ * @author      Bill Shupp <hostmaster@shupp.org>
  * @package     Framework
  * @subpackage  Module
  */
