@@ -45,7 +45,7 @@ class Framework_Module_Login extends Framework_Auth_No
                 $this->session->email = $_POST['email'];
                 $this->session->password = $this->user->encryptPass($_POST['password'], 
                     (string)Framework::$site->config->mcryptKey);
-                header("Location: ./index.php?module=Welcome");
+                header("Location: ./index.php?module=Domains");
             } else {
                 $this->setData('loginError', $this->user->Error);
                 $this->setData('QF_Form', $form->toHtml());
