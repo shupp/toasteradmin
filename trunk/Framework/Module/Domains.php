@@ -39,6 +39,18 @@ class Framework_Module_Domains extends Framework_Auth_vpopmail
      */
     public function __default()
     {
+        $this->listDomains();
+    }
+
+
+    /**
+     * accessDirector 
+     * 
+     * @access public
+     * @return void
+     */
+    public function accessDirector()
+    {
         if(!$this->user->isSysAdmin()) {
             // Redirect to appropriate page
             if($this->user->has_domain_privs($_SESSION['domain'])) {
@@ -49,12 +61,18 @@ class Framework_Module_Domains extends Framework_Auth_vpopmail
                 return;
             }
         }
-        $this->listDomains();
     }
 
 
+    /**
+     * listDomains 
+     * 
+     * @access public
+     * @return void
+     */
     public function listDomains()
     {
+        $this->accessDirector();
         // Pagintation setup
         $total = $this->user->DomainCount();
         if($this->user->Error) die ("Error: {$this->user->Error}");
