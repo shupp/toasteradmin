@@ -1349,19 +1349,18 @@ class Framework_User_vpopmail extends Framework_User {
         return $this->GetGidBit($acct_info['gidflags'], 'system_admin_privileges');
     }
     /**
-     * Has Domain Privs
+     * Is Domain Admin
      *
-     * Determin if this user have privileges on this domain
+     * Determin if this is a domain administrator for this domain
      *
      * @author Bill Shupp <hostmaster@shupp.org>
      *
      */
-    function has_domain_privs($domain, $acct_info = '') {
+    function isDomainAdmin($domain, $acct_info = '') {
         if ($acct_info == '') {
-            global $user_info;
-            $acct_info = $user_info;
+            $acct_info = $this->GetLoginUser();
         }
-        if ($this->has_sysadmin_privs()) return TRUE;
+        if ($this->isSysAdmin()) return TRUE;
         if ($this->GetGidBit($acct_info['gidflags'], 'domain_admin_privileges')) return TRUE;
         if (($acct_info['user'] == 'postmaster') && $domain == $acct_info['domain']) return TRUE;
         return FALSE;
