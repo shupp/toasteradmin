@@ -3,7 +3,8 @@
 body,td,th {
 	font-family: Geneva, Arial, Helvetica, sans-serif;
 	font-size: 11px;
-	color: #8E8E8E;
+	/* color: #8E8E8E; */
+	color: #000000;
 }
 body {
 	background-color: #ececec;
@@ -13,12 +14,14 @@ body {
 	margin-bottom: 0px;
 }
 a:link {
-	color: #8E8E8E;
+	/* color: #8E8E8E; */
+	color: #000000;
 	text-decoration: none;
 }
 a:visited {
 	text-decoration: none;
-	color: #8E8E8E;
+	/* color: #8E8E8E; */
+	color: #000000;
 }
 a:hover {
 	text-decoration: underline;
