@@ -13,7 +13,7 @@
  *
  *
  * @author      Bill Shupp <hostmaster@shupp.org>
- * @copyright   Joe Stump Bill Shupp <hostmaster@shupp.org>
+ * @copyright   Bill Shupp <hostmaster@shupp.org>
  * @package     TA_Modules
  * @version     1.0
  * @filesource
@@ -78,21 +78,27 @@ class Framework_Module_Domains extends Framework_Auth_vpopmail
         if($this->user->Error) die ("Error: {$this->user->Error}");
         $this->setData('total', $total);
         $this->setData('limit', (integer)Framework::$site->config->maxPerPage);
-        if(isset($_REQUEST['start'])) {
-            if(!ereg('[^0-9]', $_REQUEST['start'])) $start = $_REQUEST['start'] + 1;
+        if(isset($_REQUEST['start']) && !ereg('[^0-9]', $_REQUEST['start'])) {
+            if($_REQUEST['start'] == 0) {
+                $start = 1;
+            } else {
+                $start = $_REQUEST['start'];
+            }
         }
         if(!isset($start)) $start = 1;
         $this->setData('start', $start);
 
         // Build domain list
+        $this->setData = ('currentPage', ceil($this->data['start'] / $this->data['limit']));
+        $this->setData = ('totalPages', ceil($this->data['total'] / $this->data['limit']));
         $currentPage = ceil($this->data['start'] / $this->data['limit']);
-        $domain_array = $this->user->ListDomains($currentPage,$this->data['limit']);
+        $domain_array = $this->user->ListDomains($this->data['currentPage'],$this->data['limit']);
         $domains = array();
         $count = 0;
         while(list($key,$val) = each($domain_array)) {
             $domains[$count]['name'] = $key;
             $domains[$count]['edit_url'] = htmlspecialchars('./?module=Domains&event=domainMenu&domain=' . $key);
-            $domains[$count]['delete_url'] = htmlspecialchars('./?module=Domains&event=del_domain&domain=' . $key);
+            $domains[$count]['delete_url'] = htmlspecialchars('./?module=Domains&event=delDomain&domain=' . $key);
             $count++;
         }
         $this->setData('domains', $domains);
@@ -175,6 +181,49 @@ class Framework_Module_Domains extends Framework_Auth_vpopmail
         $form->applyFilter('__ALL__', 'trim');
 
         return $form;
+    }
+
+    function delDomain($domain = null)
+    {
+        // Make sure the domain was supplied
+        if($domain == null) {
+            if(empty($_REQUEST['domain']))
+                return PEAR::raiseError(_("Error: no domain supplied"));
+            $domain = $_REQUEST['domain'];
+        }
+
+        if(!$this->user->isDomainAdmin($domain)) {
+            return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $domain);
+        }
+
+        $this->setData('domain', $_REQUEST['domain']);
+        $this->setData('delete_url', htmlspecialchars("./?module=Domains&event=delDomainNow&domain=" . $domain));
+        $this->setData('cancel_url', htmlspecialchars("./?module=Domains&event=cancelDelDomain"));
+        $this->tplFile = 'domainConfirmDelete.tpl';
+
+    }
+
+    function delDomainNow($domain = null)
+    {
+        // Make sure the domain was supplied
+        if($domain == null) {
+            if(empty($_REQUEST['domain']))
+                return PEAR::raiseError(_("Error: no domain supplied"));
+            $domain = $_REQUEST['domain'];
+        }
+
+        if(!$this->user->isDomainAdmin($domain)) {
+            return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $domain);
+        }
+
+        // Delete domain
+        $this->user->DelDomain($domain);
+        if($this->user->Error) {
+            return PEAR::raiseError(_("Error: ") . $this->user->Error);
+        }
+        // $tpl->set_msg(_("Domain deleted successfully"));
+        header("Location: ./?module=Domains");
+        return;
     }
 
 }
