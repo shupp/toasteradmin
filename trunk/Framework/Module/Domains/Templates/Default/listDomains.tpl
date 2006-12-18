@@ -8,7 +8,7 @@
 <!-- box 2 -->
 <div class="boxtopDomains">
     <div class="boxtopDomainscontent">
-        <h1>Existing Domains: Page List </h1>
+        <h1>Domains: Page {$currentPage} of {$totalPages}</h1>
     {framework_pager start=$start limit=$limit total=$total} 
     </div>
 </div>
@@ -21,7 +21,7 @@
         {foreach from=$domains item=domain}
         <tr>
             <td class="domaincell">{$domain.name}</td>
-            <td class="editcell"><a href="{$domain.edit_url}">{php} echo _('edit'){/php}</a> | <a href="{$domain.delete_url}">{php} echo _('delete'){/php}</a></td>
+            <td class="editcell"><a href="{$domain.edit_url}">{php} echo _('edit domain'){/php}</a> | <a href="{$domain.delete_url}">{php} echo _('delete domain'){/php}</a></td>
         </tr>
         <tr>
             <td colspan="2" class="dividercell"></td>

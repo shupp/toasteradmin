@@ -11,10 +11,10 @@
     {/if}
 {/foreach}
 {if $nav->getNextPage() > 1}
-    <a class="next" href="{$url}{$s}start={$nav->getNextPage()}">Next &raquo;</a>
+    <a class="next" href="{$url}{$s}start={$nav->getNextPage()}">Next <img src="images/bt-nextpage.gif" border="0"></a>
 {/if}
 {if $start < $nav->getEnd()}
-    <a class="end" href="{$url}{$s}start={$nav->getEnd()}">&raquo;</a>
+    <a class="end" href="{$url}{$s}start={$nav->getEnd()}"><img src="images/bt-lastpage.gif" border="0"></a>
 {else}
     <span class="end disabled">&raquo;</span>
 {/if}
