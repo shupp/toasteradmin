@@ -12,6 +12,10 @@
 	<div id="container">
 		<div id="head"></div>
 		<div id="contentwrapper">
+        {if $logged_in_as}
+            logged in as: {$logged_in_as} &nbsp;  &nbsp;  &nbsp;  &nbsp; 
+            <a href='./?module=Logout'>logout</a>
+        {/if}
 		<div align="center">
         {include file="$modulePath/$tplFile"}
 		</div>

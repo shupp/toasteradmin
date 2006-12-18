@@ -1,4 +1,3 @@
-<a href='./?module=Logout'>Logout</a>
 <!-- box 1 -->
 <div class="boxtop"></div>
 <div class="box">
