@@ -53,7 +53,7 @@ class Framework_Module_Domains extends Framework_Auth_vpopmail
     {
         if(!$this->user->isSysAdmin()) {
             // Redirect to appropriate page
-            if($this->user->has_domain_privs($_SESSION['domain'])) {
+            if($this->user->isDomainAdmin($_SESSION['domain'])) {
                 header("Location: ./?module=Domains&event=domainMenu&domain=" . urlencode($_SESSION['domain']));
                 return;
             } else {
@@ -96,33 +96,85 @@ class Framework_Module_Domains extends Framework_Auth_vpopmail
             $count++;
         }
         $this->setData('domains', $domains);
-        $this->setData('add_domain_url', htmlspecialchars("./?module=Domains&event=add_domain"));
+        $this->setData('add_domain_url', htmlspecialchars("./?module=Domains&event=addDomain"));
         $this->tplFile = 'listDomains.tpl';
         return;
 
     }
 
-
-    function domainMenu()
+    function domainMenu($domain = null)
     {
         // Make sure the domain was supplied
-        if(!isset($_REQUEST['domain'])) {
-            PEAR::raiseError(_("Error: no domain supplied"));
+        if($domain == null) {
+            if(empty($_REQUEST['domain']))
+                return PEAR::raiseError(_("Error: no domain supplied"));
+            $domain = $_REQUEST['domain'];
+        }
+
+        if(!$this->user->isDomainAdmin($domain)) {
+            return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $domain);
+        }
+
+        if($this->user->isSysAdmin()) $this->setData('isSysAdmin', 1);
+        // Setup URLs
+        $this->setData('domain', $domain);
+        $this->setData('list_accounts_url', htmlspecialchars('./?module=Accounts&domain=' . $this->data['domain']));
+        $this->setData('list_forwards_url', htmlspecialchars('./?module=Forwards&domain=' . $this->data['domain']));
+        $this->setData('list_responders_url', htmlspecialchars('./?module=Responders&domain=' . $this->data['domain']));
+        $this->setData('list_lists_url', htmlspecialchars('./?module=Lists&domain=' . $this->data['domain']));
+        $this->tplFile = 'domainMenu.tpl';
+        return;
+    }
+
+    function addDomain()
+    {
+        if(!$this->user->isSysAdmin()) {
+            return PEAR::raiseError(_('Error: you do not have add domain privileges'));
+        }
+        // Create form
+
+        $form = $this->addDomainForm();
+        $this->setData('addDomainForm', $form->toHtml());
+        $this->tplFile = 'addDomain.tpl';
+        return;
+    }
+
+    function addDomainNow()
+    {
+        if(!$this->user->isSysAdmin()) {
+            return PEAR::raiseError(_('Error: you do not have add domain privileges'));
+        }
+
+        $form = $this->addDomainForm();
+        if(!$form->validate()) {
+            $this->setData('addDomainForm', $form->toHtml());
+            $this->tplFile = 'addDomain.tpl';
             return;
         }
 
-        if(!$this->user->isDomainAdmin($_REQUEST['domain'])) {
-            PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $_REQUEST['domain']);
-            return;
+        // Add domain
+        $this->user->AddDomain($_REQUEST['domain'], $_REQUEST['password']);
+        if($this->user->Error) {
+            return PEAR::raiseError(_("Error: ") . $this->user->Error);
         }
-        // Setup URLs
-        $this->setData('domain', $_REQUEST['domain']);
-        $this->setData('list_accounts_url', htmlspecialchars('./?module=Accounts&domain=' . $_REQUEST['domain']));
-        $this->setData('list_forwards_url', htmlspecialchars('./?module=Forwards&domain=' . $_REQUEST['domain']));
-        $this->setData('list_responders_url', htmlspecialchars('./?module=Responders&domain=' . $_REQUEST['domain']));
-        $this->setData('list_lists_url', htmlspecialchars('./?module=Lists&domain=' . $_REQUEST['domain']));
-        $this->tplFile = 'domainMenu.tpl';
+        // $tpl->set_msg(_("Domain added successfully"));
+        header("Location: ./?module=Domains&event=domainMenu&domain=" . $_REQUEST['domain']);
         return;
+    }
+
+    private function addDomainForm()
+    {
+        $form = new HTML_QuickForm('formLogin', 'post', './?module=Domains&event=addDomainNow');
+
+        $form->addElement('text', 'domain', 'Domain');
+        $form->addElement('password', 'password', 'Password');
+        $form->addElement('submit', 'submit', 'Add Domain');
+
+        $form->addRule('domain', 'Please a domain name', 'required', null, 'client');
+        $form->addRule('password', 'Please enter a postmaster password', 'required', null, 'client');
+        $form->applyFilter('__ALL__', 'trim');
+
+        return $form;
     }
 
 }
