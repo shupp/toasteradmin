@@ -18,5 +18,6 @@
 </td>
 </tr>
 </table>
+{if $isSysAdmin}<a href="./?module=Domains">Main Menu{/if}
 </div>
 <div class="boxbottom"></div>
