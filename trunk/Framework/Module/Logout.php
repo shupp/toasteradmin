@@ -29,6 +29,8 @@ class Framework_Module_Logout extends Framework_Auth_vpopmail
      */
     public function __default()
     {
+        // Unset logged_in_as so it's not displayed
+        unset($this->data['logged_in_as']);
         $form = $this->createLogoutForm();
         $this->setData('QF_Form', $form->toHtml());
     }
