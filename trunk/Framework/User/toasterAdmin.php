@@ -13,7 +13,7 @@
 
 /**
  *
- * Extensions to Vpopmaild for Bill's ToasterAdmin
+ * Extensions to Framework_User_vpopmail for Bill's ToasterAdmin
  *
  * This class extends Vpopmaild with some ToasterAdmin specific functions
  *
