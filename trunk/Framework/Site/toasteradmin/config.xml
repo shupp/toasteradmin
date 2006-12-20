@@ -6,6 +6,6 @@
     <maxPerPage>10</maxPerPage>
     <logFile>/tmp/framework.log</logFile>
     <user>
-        <userClass>vpopmail</userClass>
+        <userClass>toasterAdmin</userClass>
     </user>
 </framework>
