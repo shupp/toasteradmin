@@ -1,7 +1,7 @@
-<div class="framework_pager"{if strlen($params.id)} id="{$params.id}"{/if}>
+<div style="vertical-align: middle;">
 {if $nav->start > 1}
-    <a class="begin" href="{$url}{$s}start={$nav->getBeginning()}">&laquo;</a>
-    <a class="prev" href="{$url}{$s}start={$nav->getPrevPage()}">&laquo; Prev</a>
+    <a class="begin" href="{$url}{$s}start={$nav->getBeginning()}"><img src="images/bt-back-all.gif" border="0"></a>
+    <a class="prev" href="{$url}{$s}start={$nav->getPrevPage()}"><img src="images/bt-back1.gif" border="0"></a>
 {/if}
 {foreach key=key item=val from=$nav->getPageList()}
     {if $start == $val}
