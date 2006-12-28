@@ -53,6 +53,7 @@ abstract class Framework_Object_Web extends Framework_Object
     public function __construct()
     {
         parent::__construct();
+        Framework_User_Lang::setLang();
         $this->user = Framework_User_toasterAdmin::singleton();
         $this->session = Framework_Session::singleton();
     }
