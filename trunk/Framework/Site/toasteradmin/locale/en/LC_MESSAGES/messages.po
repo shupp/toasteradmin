@@ -1,0 +1,128 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-12-28 14:41-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Bill Shupp <hostmaster@shupp.org>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../Framework/Auth/vpopmail.php:13
+msgid "logged in as"
+msgstr ""
+
+#: ../Framework/Auth/vpopmail.php:14
+msgid "logout"
+msgstr ""
+
+#: ../Framework/Module/Logout.php:35
+msgid "Are you sure you want to logout?"
+msgstr ""
+
+#: ../Framework/Module/Logout.php:61
+msgid "Logout"
+msgstr ""
+
+#: ../Framework/Module/Domains.php:108 ../Framework/Module/Domains.php:194
+msgid "Add Domain"
+msgstr ""
+
+#: ../Framework/Module/Domains.php:109
+msgid "Domains: Page"
+msgstr ""
+
+#: ../Framework/Module/Domains.php:110
+msgid "of"
+msgstr ""
+
+#: ../Framework/Module/Domains.php:111
+msgid "edit domain"
+msgstr ""
+
+#: ../Framework/Module/Domains.php:112
+msgid "delete domain"
+msgstr ""
+
+#: ../Framework/Module/Domains.php:125 ../Framework/Module/Domains.php:208
+#: ../Framework/Module/Domains.php:228
+msgid "Error: no domain supplied"
+msgstr ""
+
+#: ../Framework/Module/Domains.php:130 ../Framework/Module/Domains.php:213
+#: ../Framework/Module/Domains.php:233
+msgid "Error: you do not have edit privileges on domain "
+msgstr ""
+
+#: ../Framework/Module/Domains.php:142
+msgid "Email Accounts"
+msgstr ""
+
+#: ../Framework/Module/Domains.php:143
+msgid "Forwards"
+msgstr ""
+
+#: ../Framework/Module/Domains.php:144
+msgid "Auto-Responders"
+msgstr ""
+
+#: ../Framework/Module/Domains.php:145
+msgid "Mailing Lists"
+msgstr ""
+
+#: ../Framework/Module/Domains.php:146 ../Framework/Module/Domains.php:161
+msgid "Main Menu"
+msgstr ""
+
+#: ../Framework/Module/Domains.php:155 ../Framework/Module/Domains.php:169
+msgid "Error: you do not have add domain privileges"
+msgstr ""
+
+#: ../Framework/Module/Domains.php:181 ../Framework/Module/Domains.php:239
+#: ../Framework/User/toasterAdmin.php:229
+msgid "Error: "
+msgstr ""
+
+#: ../Framework/Module/Domains.php:192
+msgid "Domain"
+msgstr ""
+
+#: ../Framework/Module/Domains.php:193 ../Framework/Module/Login.php:67
+msgid "Password"
+msgstr ""
+
+#: ../Framework/Module/Domains.php:196
+msgid "Please a domain name"
+msgstr ""
+
+#: ../Framework/Module/Domains.php:197
+msgid "Please enter a postmaster password"
+msgstr ""
+
+#: ../Framework/Module/Login.php:65 ../Framework/Module/Login.php:68
+msgid "Login"
+msgstr ""
+
+#: ../Framework/Module/Login.php:66
+msgid "Email"
+msgstr ""
+
+#: ../Framework/Module/Login.php:70
+msgid "Please enter your email address"
+msgstr ""
+
+#: ../Framework/Module/Login.php:71
+msgid "Please enter a valid email address"
+msgstr ""
+
+#: ../Framework/Module/Login.php:72
+msgid "Please enter your password"
+msgstr ""
