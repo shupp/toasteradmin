@@ -32,6 +32,7 @@ class Framework_Module_Logout extends Framework_Auth_vpopmail
         // Unset logged_in_as so it's not displayed
         unset($this->data['logged_in_as']);
         $form = $this->createLogoutForm();
+        $this->setData('LANG_Logout_Confirm', _('Are you sure you want to logout?'));
         $this->setData('QF_Form', $form->toHtml());
     }
 
@@ -57,7 +58,7 @@ class Framework_Module_Logout extends Framework_Auth_vpopmail
     private function createLogoutForm()
     {
         $form = new HTML_QuickForm('formLogout', 'post', $_SERVER['REQUEST_URI'] . '&event=logoutNow');
-        $form->addElement('submit', 'submit', 'Logout');
+        $form->addElement('submit', 'submit', _('Logout'));
         return $form;
     }
 

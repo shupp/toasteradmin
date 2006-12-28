@@ -1,3 +1,3 @@
-Are you sure you want to logout?
+{$LANG_Logout_Confirm}
 
 {$QF_Form}
