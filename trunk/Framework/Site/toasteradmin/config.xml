@@ -7,7 +7,7 @@
     <logFile>/tmp/framework.log</logFile>
     <user>
         <userClass>toasterAdmin</userClass>
-        <userLocaleDir>Site/toasteradmin/locale</userClass>
-        <userDefaultLocale>en</userClass>
+        <userLocaleDir>Site/toasteradmin/locale</userLocaleDir>
+        <userDefaultLocale>en</userDefaultLocale>
     </user>
 </framework>

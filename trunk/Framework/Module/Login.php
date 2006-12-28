@@ -62,14 +62,14 @@ class Framework_Module_Login extends Framework_Auth_No
     {
         $form = new HTML_QuickForm('formLogin', 'post', $_SERVER['REQUEST_URI'] . '&event=loginNow');
 
-        $form->addElement('header', 'MyHeader', 'Login');
-        $form->addElement('text', 'email', 'Email');
-        $form->addElement('password', 'password', 'Password');
-        $form->addElement('submit', 'submit', 'Login');
+        $form->addElement('header', 'MyHeader', _('Login'));
+        $form->addElement('text', 'email', _('Email'));
+        $form->addElement('password', 'password', _('Password'));
+        $form->addElement('submit', 'submit', _('Login'));
 
-        $form->addRule('email', 'Please enter your email address', 'required', null, 'client');
-        $form->addRule('email', 'Please enter a valid email address', 'email', null, 'client');
-        $form->addRule('password', 'Please enter your password', 'required', null, 'client');
+        $form->addRule('email', _('Please enter your email address'), 'required', null, 'client');
+        $form->addRule('email', _('Please enter a valid email address'), 'email', null, 'client');
+        $form->addRule('password', _('Please enter your password'), 'required', null, 'client');
         $form->applyFilter('__ALL__', 'trim');
 
         return $form;
