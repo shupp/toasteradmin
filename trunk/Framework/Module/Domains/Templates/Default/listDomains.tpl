@@ -1,14 +1,14 @@
 <!-- box 1 -->
 <div class="boxtop"></div>
 <div class="box">
-<strong><a href="{$add_domain_url}">{php} echo  _('Add Domain'){/php}</a></strong>
+<strong><a href="{$add_domain_url}">{$LANG_Add_Domain}</a></strong>
 </div>
 <div class="boxbottom"></div>
 <!-- eof box 1 -->
 <!-- box 2 -->
 <div class="boxtopDomains">
     <div class="boxtopDomainscontent">
-        <h1>Domains: Page {$currentPage} of {$totalPages}</h1>
+        <h1>{$LANG_Domains_Page} {$currentPage} {$LANG_of} {$totalPages}</h1>
     {framework_pager start=$start limit=$limit total=$total} 
     </div>
 </div>
@@ -21,7 +21,7 @@
         {foreach from=$domains item=domain}
         <tr>
             <td class="domaincell">{$domain.name}</td>
-            <td class="editcell"><a href="{$domain.edit_url}">{php} echo _('edit domain'){/php}</a> | <a href="{$domain.delete_url}">{php} echo _('delete domain'){/php}</a></td>
+            <td class="editcell"><a href="{$domain.edit_url}">{$LANG_edit_domain}</a> | <a href="{$domain.delete_url}">{$LANG_delete_domain}</a></td>
         </tr>
         <tr>
             <td colspan="2" class="dividercell"></td>

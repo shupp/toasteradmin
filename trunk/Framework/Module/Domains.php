@@ -103,7 +103,16 @@ class Framework_Module_Domains extends Framework_Auth_vpopmail
         }
         $this->setData('domains', $domains);
         $this->setData('add_domain_url', htmlspecialchars("./?module=Domains&event=addDomain"));
+
+        // Language
+        $this->setData('LANG_Add_Domain', _('Add Domain'));
+        $this->setData('LANG_Domains_Page', _('Domains: Page'));
+        $this->setData('LANG_of', _('of'));
+        $this->setData('LANG_edit_domain', _('edit domain'));
+        $this->setData('LANG_delete_domain', _('delete domain'));
+
         $this->tplFile = 'listDomains.tpl';
+
         return;
 
     }
@@ -128,6 +137,14 @@ class Framework_Module_Domains extends Framework_Auth_vpopmail
         $this->setData('list_forwards_url', htmlspecialchars('./?module=Forwards&domain=' . $this->data['domain']));
         $this->setData('list_responders_url', htmlspecialchars('./?module=Responders&domain=' . $this->data['domain']));
         $this->setData('list_lists_url', htmlspecialchars('./?module=Lists&domain=' . $this->data['domain']));
+
+        // Language
+        $this->setData('LANG_Email_Accounts', _('Email Accounts'));
+        $this->setData('LANG_Forwards', _('Forwards'));
+        $this->setData('LANG_Auto_Responders', _('Auto-Responders'));
+        $this->setData('LANG_Mailing_Lists', _('Mailing Lists'));
+        $this->setData('LANG_Main_Menu', _('Main Menu'));
+
         $this->tplFile = 'domainMenu.tpl';
         return;
     }
@@ -141,6 +158,7 @@ class Framework_Module_Domains extends Framework_Auth_vpopmail
 
         $form = $this->addDomainForm();
         $this->setData('addDomainForm', $form->toHtml());
+        $this->setData('LANG_Main_Menu', _('Main Menu'));
         $this->tplFile = 'addDomain.tpl';
         return;
     }
@@ -153,8 +171,7 @@ class Framework_Module_Domains extends Framework_Auth_vpopmail
 
         $form = $this->addDomainForm();
         if(!$form->validate()) {
-            $this->setData('addDomainForm', $form->toHtml());
-            $this->tplFile = 'addDomain.tpl';
+            $this->addDomain();
             return;
         }
 
@@ -172,12 +189,12 @@ class Framework_Module_Domains extends Framework_Auth_vpopmail
     {
         $form = new HTML_QuickForm('formLogin', 'post', './?module=Domains&event=addDomainNow');
 
-        $form->addElement('text', 'domain', 'Domain');
-        $form->addElement('password', 'password', 'Password');
-        $form->addElement('submit', 'submit', 'Add Domain');
+        $form->addElement('text', 'domain', _('Domain'));
+        $form->addElement('password', 'password', _('Password'));
+        $form->addElement('submit', 'submit', _('Add Domain'));
 
-        $form->addRule('domain', 'Please a domain name', 'required', null, 'client');
-        $form->addRule('password', 'Please enter a postmaster password', 'required', null, 'client');
+        $form->addRule('domain', _('Please a domain name'), 'required', null, 'client');
+        $form->addRule('password', _('Please enter a postmaster password'), 'required', null, 'client');
         $form->applyFilter('__ALL__', 'trim');
 
         return $form;

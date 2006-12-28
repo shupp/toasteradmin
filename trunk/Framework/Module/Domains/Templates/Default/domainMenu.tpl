@@ -10,14 +10,14 @@
 <table border="0" cellpadding="15">
 <tr><td class="border">
 <ul>
-    <li><a href="{$list_accounts_url}">{php} echo _('Email Accounts'){/php}</a>
-    <li><a href="{$list_forwards_url}">{php} echo _('Forwards'){/php}</a>
-    <li><a href="{$list_responders_url}">{php} echo _('Auto-Responders'){/php}</a>
-    <li><a href="{$list_lists_url}">{php} echo _('Mailing Lists'){/php}</a>
+    <li><a href="{$list_accounts_url}">{$LANG_Email_Accounts}</a>
+    <li><a href="{$list_forwards_url}">{$LANG_Forwards}</a>
+    <li><a href="{$list_responders_url}">{$LANG_Auto_Responders}</a>
+    <li><a href="{$list_lists_url}">{$LANG_Mailing_Lists}</a>
 </ul>
 </td>
 </tr>
 </table>
-{if $isSysAdmin}<a href="./?module=Domains">Main Menu{/if}
+{if $isSysAdmin}<a href="./?module=Domains">{$LANG_Main_Menu}{/if}
 </div>
 <div class="boxbottom"></div>
