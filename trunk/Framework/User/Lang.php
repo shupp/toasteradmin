@@ -30,13 +30,15 @@ class Framework_User_Lang extends I18Nv2_Negotiator
     public function setLanguage()
     {
         $lang = $this->getLanguageMatch();
-        $baseLocaleDir = (string)Framework::$site->config->localeBaseDir;
-        if(!file_exists($baseLocaleDir . "/$lang/LC_MESSAGES/$lang.mo"))
-            $lang = (string)Framework::$site->config->userDefaultLocale;
-
+        $baseLocaleDir = FRAMEWORK_BASE_PATH . '/' . (string)Framework::$site->config->user->userLocaleDir;
+        $messagesFile = $baseLocaleDir . '/' . $lang . '/' . 'LC_MESSAGES' . '/' . "messages.mo";
+        if(!file_exists($messagesFile)) $lang = (string)Framework::$site->config->user->userDefaultLocale;
+        $lang='es';
         putenv("LANGUAGE=$lang");
+        setlocale(LC_ALL, $lang);
         bindtextdomain('messages', $baseLocaleDir);
-        textdomain('messages');
+        // textdomain('messages');
+        // echo _('logged in as');exit;
         return;
     }
 
