@@ -336,5 +336,19 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
         if (ereg('^&', $line)) return ereg_replace('^&', '', $line);
     }
 
+    /**
+     * __destruct 
+     * 
+     * @access protected
+     * @return void
+     */
+    function __destruct() {
+        if(isset($this->Socket)) {
+            Socket_shutdown( $this->Socket, 2 );
+            Socket_close( $this->Socket );
+            unset( $this->Socket );
+        }
+    }
+
 }
 ?>
