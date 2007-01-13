@@ -73,7 +73,7 @@ class Framework_Module_Domains extends Framework_Auth_vpopmail
     public function listDomains()
     {
         $this->accessDirector();
-        // Pagintation setup
+        // Pagination setup
         $total = $this->user->DomainCount();
         if($this->user->Error) die ("Error: {$this->user->Error}");
         $this->setData('total', $total);
@@ -87,11 +87,10 @@ class Framework_Module_Domains extends Framework_Auth_vpopmail
         }
         if(!isset($start)) $start = 1;
         $this->setData('start', $start);
-
-        // Build domain list
         $this->setData('currentPage', ceil($this->data['start'] / $this->data['limit']));
         $this->setData('totalPages', ceil($this->data['total'] / $this->data['limit']));
-        $currentPage = ceil($this->data['start'] / $this->data['limit']);
+
+        // Build domain list
         $domain_array = $this->user->ListDomains($this->data['currentPage'],$this->data['limit']);
         $domains = array();
         $count = 0;
