@@ -51,13 +51,6 @@ abstract class Framework_Object_Web extends Framework_Object
      * @return      void
      */
 
-    /**
-     * msg 
-     * 
-     * @var mixed
-     * @access public
-     */
-    public $msg = null;
     public function __construct()
     {
         parent::__construct();
@@ -65,7 +58,6 @@ abstract class Framework_Object_Web extends Framework_Object
         $neg->setLanguage();
         $this->user = Framework_User_toasterAdmin::singleton();
         $this->session = Framework_Session::singleton();
-        $this->msg = new Framework_User_messages;
     }
 }
 

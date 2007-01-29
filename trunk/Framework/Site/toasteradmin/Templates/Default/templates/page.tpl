@@ -17,6 +17,7 @@
             <a href='./?module=Logout'>{$LANG_logout}</a>
         {/if}
 		<div align="center">
+        {if $message}{$message}{/if}
         {include file="$modulePath/$tplFile"}
 		</div>
 		</div>
