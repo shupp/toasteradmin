@@ -13,7 +13,6 @@
 		<div id="head"></div>
 		<div id="contentwrapper">
         {if $logged_in_as}
-        <div id="boxnobg">
         <center>
         <table width="514" border="0">
             <tr>
@@ -26,7 +25,6 @@
             </tr>
         </table>
         </center>
-        </div>
         {/if}
 		<div align="center">
         {if $message}{$message}{/if}
