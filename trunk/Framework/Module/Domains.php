@@ -212,6 +212,10 @@ class Framework_Module_Domains extends Framework_Auth_vpopmail
             return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $domain);
         }
 
+        $this->setData('LANG_Are_you_sure_you_want_to_delete_this_domain', _("Are you sure you want to delete this domain?"));
+        $this->setData('LANG_cancel', _("cancel"));
+        $this->setData('LANG_delete', _("delete"));
+
         $this->setData('domain', $_REQUEST['domain']);
         $this->setData('delete_url', htmlspecialchars("./?module=Domains&event=delDomainNow&domain=" . $domain));
         $this->setData('cancel_url', htmlspecialchars("./?module=Domains&event=cancelDelDomain"));
@@ -237,8 +241,14 @@ class Framework_Module_Domains extends Framework_Auth_vpopmail
         if($this->user->Error) {
             return PEAR::raiseError(_("Error: ") . $this->user->Error);
         }
-        // $tpl->set_msg(_("Domain deleted successfully"));
-        header("Location: ./?module=Domains");
+        $this->setData('message', _("Domain deleted successfully"));
+        $this->listDomains();
+        return;
+    }
+
+    function cancelDelDomain() {
+        $this->setData('message', _("Domain deletion canceled"));
+        $this->listDomains();
         return;
     }
 
