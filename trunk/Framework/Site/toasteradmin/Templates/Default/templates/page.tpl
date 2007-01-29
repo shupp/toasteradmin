@@ -13,8 +13,20 @@
 		<div id="head"></div>
 		<div id="contentwrapper">
         {if $logged_in_as}
-            {$LANG_logged_in_as} {$logged_in_as} &nbsp;  &nbsp;  &nbsp;  &nbsp; 
+        <div id="boxnobg">
+        <center>
+        <table width="514" border="0">
+            <tr>
+                <td align="left">
+            {$LANG_logged_in_as} {$logged_in_as}
+                </td>
+                <td align="right">
             <a href='./?module=Logout'>{$LANG_logout}</a>
+                </td>
+            </tr>
+        </table>
+        </center>
+        </div>
         {/if}
 		<div align="center">
         {if $message}{$message}{/if}
