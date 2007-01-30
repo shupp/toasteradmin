@@ -109,6 +109,7 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
      * @author Bill Shupp <hostmaster@shupp.org>
      *
      */
+
     function isDomainAdmin($domain, $acct_info = '') {
         if ($acct_info == '') {
             $acct_info = $this->GetLoginUser();
@@ -118,19 +119,21 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
         if (($acct_info['user'] == 'postmaster') && $domain == $acct_info['domain']) return TRUE;
         return FALSE;
     }
+
     /**
-     * Has User Privs
+     * Is User Admin
      *
      * Determin if this user have privileges on this account
      *
      * @author Bill Shupp <hostmaster@shupp.org>
      *
      */
-    function has_user_privs($account, $domain) {
-        if ($this->has_domain_privs($domain)) return TRUE;
+    function isUserAdmin($account, $domain) {
+        if ($this->isDomainAdmin($domain)) return TRUE;
         if (($_SESSION['user'] == $account) && $domain == $_SESSION['domain']) return TRUE;
         return FALSE;
     }
+
     /**
      * Get Quota
      *
@@ -156,54 +159,58 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
      * saving of messages, as well as vacation messages.
      *
      * @author Bill Shupp <hostmaster@shupp.org>
-     *
+     * @param mixed $contents 
+     * @param mixed $account_info 
+     * @access public
+     * @return void
      */
-    function parse_home_dotqmail($contents, $account_info = '') {
-        global $tpl, $autorespond;
-        if ($account_info == '') {
-            global $uesr_info;
-            $account_info = $user_info;
-        }
+    function parse_home_dotqmail($contents, $account_info) {
+        $autorespond = (string)Framework::$site->config->autorespond;
         $is_standard = FALSE;
         $is_deleted = FALSE;
         $is_forwarded = FALSE;
         // Set default template settings
-        $tpl->assign('routing_standard_checked', '');
-        $tpl->assign('routing_deleted_checked', '');
-        $tpl->assign('routing_forwarded_checked', '');
-        $tpl->assign('forward', '');
-        $tpl->assign('save_a_copy_checked', '');
-        $tpl->assign('vacation_checked', '');
-        $tpl->assign('vacation_subject', '');
-        $tpl->assign('vacation_body', '');
+        $defaults['comment'] = $account_info['comment'];
+        $defaults['forward'] = '';
+        $defaults['save_a_copy_checked'] = '';
+        $defaults['vacation_checked'] = '';
+        $defaults['vacation_subject'] = '';
+        $defaults['vacation_body'] = '';
         if (empty($contents)) $is_standard = TRUE;
         if ((is_array($contents) && count($contents) == 1 && $contents[0] == '# delete')) $is_deleted = TRUE;
         if ($is_standard) {
-            $tpl->assign('routing_standard_checked', ' checked');
+            $defaults['routing'] = 'routing_standard';
         } else if ($is_deleted) {
-            $tpl->assign('routing_deleted_checked', ' checked');
+            $defaults['routing'] = 'routing_deleted';
         } else {
             // now let's parse it
             while (list($key, $val) = each($contents)) {
                 if ($val == $account_info['user_dir'].'/Maildir/' || $val == './Maildir/') {
-                    $tpl->assign('save_a_copy_checked', ' checked');
+                    $defaults['save_a_copy_checked'] = ' checked';
                     continue;
                 }
                 if (ereg($autorespond, $val)) {
-                    $tpl->assign('vacation_checked', ' checked');
-                    $this->get_vacation($val);
+                    $defaults['vacation_checked'] = ' checked';
+                    $vacation_array = $this->get_vacation($val);
+                    while(list($vacKey, $vacVal) = each($vacation_array)) {
+                        $defaults[$vacKey] = $vacVal;
+                    }
                     continue;
-                } else if (checkEmailFormat(ereg_replace('^&', '', $val))) {
-                    $is_forwarded = TRUE;
-                    $tpl->assign('routing_forwarded_checked', ' checked');
-                    $tpl->assign('forward', ereg_replace('^&', '', $val));
+                } else {
+                    $result = Mail_RFC822::parseAddressList(ereg_replace('^&', '', $val), '');
+                    if (!$result->isError()) {
+                        $is_forwarded = TRUE;
+                        $defaults['routing'] = 'routing_forwarded';
+                        $defaults['forward'] = ereg_replace('^&', '', $val);
+                    }
                 }
             }
             // See if default routing select applies
             if (!$is_standard && !$is_deleted && !$is_forwarded) {
-                $tpl->assign('routing_standard_checked', ' checked');
+                $defaults['routing'] = 'routing_standard';
             }
         }
+        return $defaults;
     }
     /**
      * Get Vacaation Message Contents
@@ -211,12 +218,13 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
      * Parse use .qmail line contents to get message subject and meessage body
      *
      * @author Bill Shupp <hostmaster@shupp.org>
-     *
+     * @param string $line 
+     * @param mixed $user_info 
+     * @access public
+     * @return void
      */
-    function get_vacation($line = '') {
-        global $tpl;
+    function get_vacation($line = '', $user_info) {
         if ($line == '') {
-            global $user_info;
             $path = $user_info['user_dir'].'/vacation/message';
         } else {
             $line = ereg_replace('^[|][ ]*', '', $line);
@@ -245,12 +253,9 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
                 
             }
         }
-        $tpl->assign('vacation_subject', $subject);
-        $tpl->assign('vacation_body', $body);
-        $tpl->assign('vacation_checked', ' checked');
-        // Example:
-        // | /usr/local/bin/autorespond 86400 3 /home/vpopmail/domains/shupp.org/test/vacation/message /home/vpopmail/domains/shupp.org/test/vacation
-        
+        return array(   'vacation_subject' => $subject,
+                        'vacation_body' => $body,
+                        'vacation_checked' => ' checked');
     }
     /**
      * setup_vacation

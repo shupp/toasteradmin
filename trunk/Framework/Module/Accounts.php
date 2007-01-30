@@ -95,7 +95,7 @@ class Framework_Module_Accounts extends Framework_Auth_vpopmail
             $accounts[$count]['account'] = $key;
             $accounts[$count]['comment'] = $val['comment'];
             $accounts[$count]['quota'] = $this->user->get_quota($val['quota']);
-            $accounts[$count]['edit_url'] = htmlspecialchars("./?module=Accounts&domain={$this->domain}&account=$key&event=modify");
+            $accounts[$count]['edit_url'] = htmlspecialchars("./?module=Accounts&domain={$this->domain}&account=$key&event=modifyAccount");
             $accounts[$count]['delete_url'] = htmlspecialchars("./?module=Accounts&domain={$this->domain}&account=$key&event=delete");
             $count++;
         }
@@ -131,8 +131,8 @@ class Framework_Module_Accounts extends Framework_Auth_vpopmail
         $form = $this->addAccountForm();
         $renderer =& new HTML_QuickForm_Renderer_Array();
         $form->accept($renderer);
-        // print_r($form->toArray());exit;
-        $this->setData('form', $form->toArray());
+        $this->setData('form', 
+            HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
         $this->tplFile = 'addAccount.tpl';
         return;
     }
@@ -152,7 +152,8 @@ class Framework_Module_Accounts extends Framework_Auth_vpopmail
         if(!$form->validate()) {
             $renderer =& new HTML_QuickForm_Renderer_Array();
             $form->accept($renderer);
-            $this->setData('form', $form->toArray());
+            $this->setData('form', 
+                HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
             $this->tplFile = 'addAccount.tpl';
             return;
         }
@@ -163,7 +164,8 @@ class Framework_Module_Accounts extends Framework_Auth_vpopmail
             $this->setData('message', _("Error: ") . $this->user->Error);
             $renderer =& new HTML_QuickForm_Renderer_Array();
             $form->accept($renderer);
-            $this->setData('form', $form->toArray());
+            $this->setData('form', 
+                HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
             $this->tplFile = 'addAccount.tpl';
             return;
         }
@@ -238,180 +240,190 @@ class Framework_Module_Accounts extends Framework_Auth_vpopmail
         return;
     }
 
+    function modifyAccount() {
 
+        // Make sure account was supplied
+        if(!isset($_REQUEST['account'])) {
+            return PEAR::raiseError(_("Error: no account supplied"));
+        }
+        $account = $_REQUEST['account'];
 
-/*
+        // Check privs
+        if(!$this->user->isUserAdmin($account, $this->domain)) {
+            return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $this->domain);
+        }
 
-} else if($_REQUEST['event'] == 'modify') {
-
-    // Make sure account was supplied
-    if(!isset($_REQUEST['account'])) {
-        $tpl->set_msg_err(_('Error: no account supplied'));
-        $tpl->wrap_exit();
-    }
-    $account = $_REQUEST['account'];
-
-    // Check privs
-    if(!$this->user->has_user_privs($account, {$this->domain})) {
-        $tpl->set_msg_err(_('Error: you do not have edit privileges on domain ') . {$this->domain});
-        $tpl->wrap_exit();
-    }
-
-    // See what user_info to use
-    if($_REQUEST['account'] == $_SESSION['user'] && {$this->domain} == $_SESSION['domain']) {
-        $account_info = $user_info;
-    } else {
-        $account_info = $this->user->UserInfo({$this->domain}, $_REQUEST['account']);
+        // See what user_info to use
+        $account_info = $this->user->UserInfo($this->domain, $_REQUEST['account']);
         if($this->user->Error) {
-            $tpl->set_msg_err(_("Error: ") . $this->user->Error);
-            $tpl->wrap_exit('back.tpl');
+            return PEAR::raiseError(_('Error: ') . $this->user->Error);
         }
+
+        // Get .qmail info if it exists
+        $dot_qmail = $this->user->ReadFile($this->domain, $_REQUEST['account'], '.qmail');
+        if($this->user->Error && $this->user->Error != 'command failed - -ERR XXX No such file or directory') {
+            return PEAR::raiseError(_('Error: ') . $this->user->Error);
+        }
+        $defaults = $this->user->parse_home_dotqmail($dot_qmail, $account_info);
+        $form = $this->modifyAccountForm($account, $defaults);
+        $renderer =& new HTML_QuickForm_Renderer_Array();
+        $form->accept($renderer);
+        $this->setData('form', 
+            HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
+        // print_r($this->data['form']);exit;
+        $this->tplFile = 'modifyAccount.tpl';
+        return;
+
     }
 
-    // Get .qmail info if it exists
-    $dot_qmail = $this->user->ReadFile({$this->domain}, $_REQUEST['account'], '.qmail');
-    if($this->user->Error && $this->user->Error != 'command failed - -ERR XXX No such file or directory') {
-        $tpl->set_msg_err(_("Error: ") . $this->user->Error);
-        $tpl->wrap_exit('back.tpl');
+
+    function modifyAccountForm($account, $defaults) {
+
+        // Language stuff
+        $this->setData('LANG_Modify_Account', _("Modify Account"));
+        $this->setData('LANG_Domain_Menu', _("Domain Menu"));
+        if($this->user->isDomainAdmin($this->domain)) {
+            $this->setData('isDomainAdmin', 1);
+            $this->setData('LANG_Main_Menu', _("Main Menu"));
+        }
+        $this->setData('account', $account);
+
+        $form = new HTML_QuickForm('formModifyAccount', 'post', "./?module=Accounts&event=modifyAccountNow&domain={$this->domain}&account=$account");
+
+        $form->setDefaults($defaults);
+
+        $form->addElement('text', 'comment', _("Real Name/Comment"));
+        $form->addElement('password', 'password', _("Password"));
+        $form->addElement('password', 'password2', _("Re-Type Password"));
+        $form->addElement('radio', 'routing', 'Mail Routing', _('Standard (No Forwarding)'), 'routing_standard');
+        $form->addElement('radio', 'routing', '', _('All Mail Deleted'), 'routing_deleted');
+        $form->addElement('radio', 'routing', '', _('Forward to:'), 'routing_forwarded');
+        $form->addElement('text', 'forward');
+        $form->addElement('checkbox', 'save_a_copy', _('Save A Copy'));
+
+        $form->addElement('checkbox', 'vacation', _('Send a Vacation Auto-Response'));
+        $form->addElement('text', 'vacation_subject', _('Vacation Subject:'));
+        $form->addElement('textarea', 'vacation_body', _('Vacation Message:'), 'rows="10" cols="40"');
+        $form->addElement('submit', 'submit', _('Modify Account'));
+
+        $form->addRule(array('password', 'password2'), _('The passwords do not match'), 'compare', null, 'client');
+        $form->addRule('routing', _('Please select a mail routing type'), 'required', null, 'client');
+        $form->addRule('forward', _('"Forward to" must be a valid email address'), 'email', null, 'client');
+
+        return $form;
     }
-    $this->user->parse_home_dotqmail($dot_qmail, $account_info);
-    
 
-    // Set template data
-    $this->setData('account', $_REQUEST['account']);
-    $this->setData('comment', $account_info['comment']);
 
-    $tpl->wrap_exit('modify_account.tpl');
+    function modifyAccountNow() {
 
-} else if($_REQUEST['event'] == 'modify_now') {
+        // Make sure account was supplied
+        if(!isset($_REQUEST['account'])) {
+            return PEAR::raiseError(_("Error: no account supplied"));
+        }
+        $account = $_REQUEST['account'];
 
-    // Make sure account was supplied
-    if(!isset($_REQUEST['account'])) {
-        $tpl->set_msg_err(_('Error: no account supplied'));
-        $tpl->wrap_exit();
-    }
-    $account = $_REQUEST['account'];
+        // Check privs
+        if(!$this->user->isUserAdmin($account, $this->domain)) {
+            return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $this->domain);
+        }
 
-    // Check privs
-    if(!$this->user->has_user_privs($account, {$this->domain})) {
-        $tpl->set_msg_err(_('Error: you do not have edit privileges on domain ') . {$this->domain});
-        $tpl->wrap_exit();
-    }
-
-    // See what user_info to use
-    if($_REQUEST['account'] == $_SESSION['user'] && {$this->domain} == $_SESSION['domain']) {
-        $account_info = $user_info;
-    } else {
-        $account_info = $this->user->UserInfo({$this->domain}, $_REQUEST['account']);
+        // See what user_info to use
+        $account_info = $this->user->UserInfo($this->domain, $_REQUEST['account']);
         if($this->user->Error) {
-            $tpl->set_msg_err(_("Error: ") . $this->user->Error);
-            $tpl->wrap_exit('back.tpl');
+            return PEAR::raiseError(_('Error: ') . $this->user->Error);
         }
-    }
 
-    // Detect password changing
-    $password_changing = 0;
-    if(!empty($_REQUEST['password1']) || !empty($_REQUEST['password2'])) {
-        if($_REQUEST['password1'] != $_REQUEST['password2']) {
-            $tpl->set_msg_err(_('Error: passwords to not match'));
-            $tpl->wrap_exit('back.tpl');
+        // Get .qmail info if it exists
+        $dot_qmail = $this->user->ReadFile($this->domain, $_REQUEST['account'], '.qmail');
+        if($this->user->Error && $this->user->Error != 'command failed - -ERR XXX No such file or directory') {
+            return PEAR::raiseError(_('Error: ') . $this->user->Error);
         }
-        $password_changing = 1;
-    }
+        $defaults = $this->user->parse_home_dotqmail($dot_qmail, $account_info);
+        $form = $this->modifyAccountForm($account, $defaults);
+        if(!$form->validate()) {
+            $this->setData('message', _("Error Modifying Account"));
+            $renderer =& new HTML_QuickForm_Renderer_Array();
+            $form->accept($renderer);
+            $this->setData('form', 
+                HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
+            $this->tplFile = 'modifyAccount.tpl';
+            return;
+        }
 
-    // Get routing
-    if(!isset($_REQUEST['routing'])) {
-        $tpl->set_msg_err(_('Error: message routing is not set'));
-        $tpl->wrap_exit('back.tpl');
-    }
-
-    $routing = '';
-    $save_a_copy = 0;
-    if($_REQUEST['routing'] == 'routing_standard') {
-        $routing = 'standard';
-    } else if($_REQUEST['routing'] == 'routing_deleted') {
-        $routing = 'deleted';
-    } else if($_REQUEST['routing'] == 'routing_forwarded') {
-        if(empty($_REQUEST['forward'])) {
-            $tpl->set_msg_err(_('Error: you must supply a forward address'));
-            $tpl->wrap_exit('back.tpl');
-        } else {
-            $forward = $_REQUEST['forward'];
-            if(!checkEmailFormat($forward)) {
-                $forward = $forward . '@' . {$this->domain};
+        $routing = '';
+        $save_a_copy = 0;
+        if($_REQUEST['routing'] == 'routing_standard') {
+            $routing = 'standard';
+        } else if($_REQUEST['routing'] == 'routing_deleted') {
+            $routing = 'deleted';
+        } else if($_REQUEST['routing'] == 'routing_forwarded') {
+            if(empty($_REQUEST['forward'])) {
+                return PEAR::raiseError(_('Error: you must supply a forward address'));
+            } else {
+                $forward = $_REQUEST['forward'];
             }
+            $routing = 'forwarded';
+            if(isset($_REQUEST['save_a_copy'])) $save_a_copy = 1;
+        } else {
+            return PEAR::raiseError(_('Error: unsupported routing selection'));
         }
-        $routing = 'forwarded';
-        if(isset($_REQUEST['save_a_copy'])) $save_a_copy = 1;
-    } else {
-        $tpl->set_msg_err(_('Error: unsupported routing selection'));
-        $tpl->wrap_exit('back.tpl');
-    }
 
-    // Check for vacation
-    $vacation = 0;
-    if(isset($_REQUEST['vacation'])) {
-        $vacation = 1;
-        $vacation_subject = $_REQUEST['vacation_subject'];
-        $vacation_body = $_REQUEST['vacation_body'];
-    }
+        // Check for vacation
+        $vacation = 0;
+        if(isset($_REQUEST['vacation'])) {
+            $vacation = 1;
+            $vacation_subject = $_REQUEST['vacation_subject'];
+            $vacation_body = $_REQUEST['vacation_body'];
+        }
 
-    // Build .qmail contents
-    $dot_qmail_contents = '';
-    if($routing == 'deleted') {
-        $dot_qmail_contents = "# delete";
-    } else if($routing == 'forwarded') {
-        $dot_qmail_contents = "&$forward";
-        if($save_a_copy = 1) $dot_qmail_contents .= "\n./Maildir/";
-    }
+        // Build .qmail contents
+        $dot_qmail_contents = '';
+        if($routing == 'deleted') {
+            $dot_qmail_contents = "# delete";
+        } else if($routing == 'forwarded') {
+            $dot_qmail_contents = "&$forward";
+            if($save_a_copy = 1) $dot_qmail_contents .= "\n./Maildir/";
+        }
 
-    if($vacation == 1) {
-        if(strlen($dot_qmail_contents) > 0) $dot_qmail_contents .= "\n";
-        $vacation_dir = $account_info['user_dir'] . '/vacation';
-        $dot_qmail_contents .= "| $autorespond 86400 3 $vacation_dir/message $vacation_dir";
-        // Example:
-        // | /usr/local/bin/autorespond 86400 3 /home/vpopmail/domains/shupp.org/test/vacation/message /home/vpopmail/domains/shupp.org/test/vacation
-    }
-
-    $dot_qmail_file = $account_info['user_dir'] . '/.qmail';
-    if(strlen($dot_qmail_contents) > 0) {
-        $contents = explode("\n", $dot_qmail_contents);
-        // Delete existing file
-        $this->user->RmFile({$this->domain}, $account_info['name'], $dot_qmail_file);
-        // Write .qmail file
-        $this->user->WriteFile(explode("\n", $dot_qmail_contents), '', '', $dot_qmail_file);
-
-        // Add vacation files
         if($vacation == 1) {
-            $vcontents = "From: " . $account_info['name'] . "@{$this->domain}\n";
-            $vcontents .= "Subject: $vacation_subject\n\n";
-            $vcontents .= $vacation_body;
-            $contents = explode("\n", $vcontents);
-            $vdir = 'vacation';
-            $message = 'vacation/message';
-            // Delete existing file
-            $this->user->RmDir({$this->domain}, $account_info['name'], $vdir);
-            // Make vacation directory
-            $this->user->MkDir({$this->domain}, $account_info['name'], $vdir);
-            // Write vacation message
-            $this->user->WriteFile($contents, {$this->domain}, $account_info['name'], $message);
+            if(strlen($dot_qmail_contents) > 0) $dot_qmail_contents .= "\n";
+            $vacation_dir = $account_info['user_dir'] . '/vacation';
+            $dot_qmail_contents .= "| $autorespond 86400 3 $vacation_dir/message $vacation_dir";
+            // Example:
+            // | /usr/local/bin/autorespond 86400 3 /home/vpopmail/domains/shupp.org/test/vacation/message /home/vpopmail/domains/shupp.org/test/vacation
         }
-    } else {
-        $this->user->RmDir({$this->domain}, $account_info['name'], 'vacation');
-        $this->user->RmFile('', '', $dot_qmail_file);
+
+        $dot_qmail_file = $account_info['user_dir'] . '/.qmail';
+        if(strlen($dot_qmail_contents) > 0) {
+            $contents = explode("\n", $dot_qmail_contents);
+            // Delete existing file
+            $this->user->RmFile($this->domain, $account_info['name'], $dot_qmail_file);
+            // Write .qmail file
+            $this->user->WriteFile(explode("\n", $dot_qmail_contents), '', '', $dot_qmail_file);
+
+            // Add vacation files
+            if($vacation == 1) {
+                $vcontents = "From: " . $account_info['name'] . "@{$this->domain}\n";
+                $vcontents .= "Subject: $vacation_subject\n\n";
+                $vcontents .= $vacation_body;
+                $contents = explode("\n", $vcontents);
+                $vdir = 'vacation';
+                $message = 'vacation/message';
+                // Delete existing file
+                $this->user->RmDir($this->domain, $account_info['name'], $vdir);
+                // Make vacation directory
+                $this->user->MkDir($this->domain, $account_info['name'], $vdir);
+                // Write vacation message
+                $this->user->WriteFile($contents, $this->domain, $account_info['name'], $message);
+            }
+        } else {
+            $this->user->RmDir($this->domain, $account_info['name'], 'vacation');
+            $this->user->RmFile('', '', $dot_qmail_file);
+        }
+
+        $this->setData('message', _('Account Modified Successfully'));
+        $this->modifyAccount();
     }
-
-    $url = $base_url . "?module={$_REQUEST['module']}&domain={$this->domain}&account={$_REQUEST['account']}&event=modify";
-    $tpl->set_msg(_('Account Modified Successfully'));
-    header("Location: $url");
-    exit;
-
-} else {
-    $tpl->set_msg_err(_("Error: unknown event"));
-    $tpl->wrap_exit();
-}
-
-*/
 
 }
 
