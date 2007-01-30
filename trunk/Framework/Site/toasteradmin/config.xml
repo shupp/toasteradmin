@@ -4,6 +4,7 @@
     <vpopmaildPort>89</vpopmaildPort>
     <mcryptKey>My Secret Key</mcryptKey>
     <maxPerPage>10</maxPerPage>
+    <autorespond>/usr/local/bin/autorespond</autorespond>
     <logFile>/tmp/framework.log</logFile>
     <user>
         <userClass>toasterAdmin</userClass>
