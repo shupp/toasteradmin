@@ -321,6 +321,7 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
      */
     function GetAliasContents($file, $domain) {
         $array = $this->ReadFile($domain, '', $file);
+        if($this->Error) die ($this->Error);
         $count = 0;
         $string = '';
         while (list($key, $val) = each($array)) {
