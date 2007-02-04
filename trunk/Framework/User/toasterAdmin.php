@@ -197,8 +197,7 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
                     }
                     continue;
                 } else {
-                    $result = Mail_RFC822::parseAddressList(ereg_replace('^&', '', $val), '');
-                    if (!$result->isError()) {
+                    if ($this->validEmailAddress(ereg_replace('^&', '', $val))) {
                         $is_forwarded = TRUE;
                         $defaults['routing'] = 'routing_forwarded';
                         $defaults['forward'] = ereg_replace('^&', '', $val);
@@ -330,6 +329,22 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
             $count++;
         }
         return $string;
+    }
+
+    /**
+     * validEmailAddress 
+     * 
+     * Simple wrapper for Mail_RFC822::parseAddressList() that returns
+     * true or false
+     * 
+     * @param mixed $email 
+     * @access public
+     * @return void
+     */
+    function validEmailAddress($email) {
+        $result = Mail_RFC822::parseAddressList($email, '');
+        if(PEAR::isError($result)) return false;
+        return true;
     }
     /**
      * display_forward_line
