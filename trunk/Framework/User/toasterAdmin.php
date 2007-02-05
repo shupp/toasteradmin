@@ -341,7 +341,7 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
      * @access public
      * @return void
      */
-    function validEmailAddress($email) {
+    public static function validEmailAddress($email) {
         $result = Mail_RFC822::parseAddressList($email, '');
         if(PEAR::isError($result)) return false;
         return true;
