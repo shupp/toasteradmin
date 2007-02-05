@@ -13,7 +13,7 @@ rm -rf doc
 phpdoc \
     -s off \
     -ti 'ToasterAdmin Documentation' \
-    -dn 'Framework' \
+    -dn 'ToasterAdmin' \
     -t ./doc \
     -f ./README,$FILES \
     -ric README \
