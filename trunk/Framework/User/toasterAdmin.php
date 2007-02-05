@@ -2,9 +2,7 @@
 /**
  * Framework_User_toasterAdmin 
  * 
- * @uses Framework
- * @uses _User_vpopmail
- * @package Framework
+ * @package ToasterAdmin
  * @copyright 2005-2006 Bill Shupp
  * @author Bill Shupp <hostmaster@shupp.org> 
  * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
@@ -17,7 +15,7 @@
  * This class extends Vpopmaild with some ToasterAdmin specific functions
  *
  * @author Bill Shupp <hostmaster@shupp.org>
- * @package Framework
+ * @package ToasterAdmin
  * @version 1.0
  *
  */

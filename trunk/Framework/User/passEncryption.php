@@ -2,10 +2,7 @@
 /**
  * Framework_User_passEncryption 
  * 
- * @uses Framework
- * @uses _User
- * @package 
- * @version $id$
+ * @package ToasterAdmin
  * @copyright 2006 Bill Shupp
  * @author Bill Shupp <hostmaster@shupp.org> 
  * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
@@ -14,10 +11,7 @@
 /**
  * Framework_User_passEncryption 
  * 
- * @uses Framework
- * @uses _User
- * @package 
- * @version $id$
+ * @package ToasterAdmin
  * @copyright 2006 Bill Shupp
  * @author Bill Shupp <hostmaster@shupp.org> 
  * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}

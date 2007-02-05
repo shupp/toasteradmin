@@ -3,7 +3,7 @@
  * Framework_User_Lang 
  * 
  * @uses I18Nv2_Negotiator
- * @package Framework
+ * @package ToasterAdmin
  * @copyright 2005-2006 Bill Shupp
  * @author Bill Shupp <hostmaster@shupp.org> 
  * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
@@ -12,7 +12,7 @@
  * Framework_User_Lang 
  * 
  * @uses I18Nv2_Negotiator
- * @package Framework
+ * @package ToasterAdmin
  * @copyright 2005-2006 Bill Shupp
  * @author Bill Shupp <hostmaster@shupp.org> 
  * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}

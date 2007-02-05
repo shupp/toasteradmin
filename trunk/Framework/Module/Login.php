@@ -7,7 +7,7 @@
  *
  * @author      Bill Shupp <hostmaster@shupp.org>
  * @copyright   Bill Shupp <hostmaster@shupp.org>
- * @package     Framework
+ * @package     ToasterAdmin
  * @subpackage  Module
  * @filesource
  */
@@ -16,7 +16,7 @@
  * Framework_Module_Login
  *
  * @author      Bill Shupp <hostmaster@shupp.org>
- * @package     Framework
+ * @package     ToasterAdmin
  * @subpackage  Module
  */
 class Framework_Module_Login extends Framework_Auth_No

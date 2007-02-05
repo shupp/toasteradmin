@@ -1,12 +1,18 @@
 <?php
 /**
+ * Framework_User_vpopmail 
+ * 
+ * @package ToasterAdmin
+ */
+/**
  *
- * vpopmaild.php (vpopmaild.pobj)
+ * vpopmaild.php (originally vpopmaild.pobj)
  *
  * This class makes vpopmaild functions available.  Requires sockets.
  *
  * @author Rick Widmer
- * @package Framework
+ * @author Bill Shupp
+ * @package ToasterAdmin
  * @version 1.0
  *
  */

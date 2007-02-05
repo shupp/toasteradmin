@@ -8,12 +8,20 @@
  * succeeds
  *
  * @author Bill Shupp <hostmaster@shupp.org>
- * @package Framework
+ * @package ToasterAdmin
  * @version 1.0
  *
  */
 
 
+/**
+ * Framework_Module_Accounts 
+ * 
+ * @package ToasterAdmin
+ * @copyright 2005-2006 Bill Shupp
+ * @author Bill Shupp <hostmaster@shupp.org> 
+ * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ */
 class Framework_Module_Accounts extends Framework_Auth_vpopmail
 {
 
