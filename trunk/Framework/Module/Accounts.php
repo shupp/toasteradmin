@@ -8,7 +8,7 @@
  * succeeds
  *
  * @author Bill Shupp <hostmaster@shupp.org>
- * @package TA_Modules
+ * @package Framework
  * @version 1.0
  *
  */

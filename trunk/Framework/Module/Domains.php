@@ -8,13 +8,13 @@
  * This module is for viewing and editing vpopmail domains
  *
  * @author Bill Shupp <hostmaster@shupp.org>
- * @package TA_Modules
+ * @package Framework
  * @version 1.0
  *
  *
  * @author      Bill Shupp <hostmaster@shupp.org>
  * @copyright   Bill Shupp <hostmaster@shupp.org>
- * @package     TA_Modules
+ * @package     Framework
  * @version     1.0
  * @filesource
  */
@@ -25,7 +25,7 @@
  * This module is for viewing and editing vpopmail domains
  *
  * @author Bill Shupp <hostmaster@shupp.org>
- * @package TA_Modules
+ * @package Framework
  * @version 1.0
  *
  */

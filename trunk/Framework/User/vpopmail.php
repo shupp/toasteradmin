@@ -6,7 +6,7 @@
  * This class makes vpopmaild functions available.  Requires sockets.
  *
  * @author Rick Widmer
- * @package Vpopmaild
+ * @package Framework
  * @version 1.0
  *
  */
