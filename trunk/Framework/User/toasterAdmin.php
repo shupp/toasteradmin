@@ -89,7 +89,6 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
      * This class extends Vpopmaild with some ToasterAdmin specific functions
      *
      * @author Bill Shupp <hostmaster@shupp.org>
-     * @package Framework
      * @version 1.0
      *
      */
