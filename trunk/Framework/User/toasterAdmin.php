@@ -359,9 +359,7 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
      */
     function __destruct() {
         if(isset($this->Socket)) {
-            Socket_shutdown( $this->Socket, 2 );
-            Socket_close( $this->Socket );
-            unset( $this->Socket );
+            $this->Quit();
         }
     }
 
