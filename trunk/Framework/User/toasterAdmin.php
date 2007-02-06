@@ -292,7 +292,7 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
         $item_count = 1;
         while (list($key, $val) = each($array)) {
             if ($page_count == $page) {
-                $new_array[$count] = $val;
+                $new_array[$key] = $val;
             }
             if ($item_count == $max_per_page) {
                 $page_count++;
@@ -304,25 +304,40 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
         }
         return $new_array;
     }
-    /**
-     * GetAliasContents
-     *
-     * @param mixed $file
-     * @param mixed $domain
-     * @access public
-     * @return void
-     */
-    function GetAliasContents($file, $domain) {
-        $array = $this->ReadFile($domain, '', $file);
-        if($this->Error) return PEAR::raiseError($this->Error);
+    function GetAliasContents($contentsArray) {
         $count = 0;
         $string = '';
-        while (list($key, $val) = each($array)) {
+        while (list($key, $val) = each($contentsArray)) {
             if ($count > 0) $string.= ', ';
             $string.= ereg_replace('^&', '', $val);
             $count++;
         }
         return $string;
+    }
+
+    function aliasesToArray($aliasArray) {
+        // generate unique list of aliases
+        $aliasList = array();
+        while(list($key, $val) = each($aliasArray)) {
+            $alias = ereg_replace('(^[^ ]+) .*$', '\1', $val);
+            if(!in_array($alias, $aliasList)) 
+                array_push($aliasList, $alias);
+        }
+        // Now create content arrays
+        $contentArray = array();
+        reset($aliasList);
+        while(list($key, $val) = each($aliasList)) {
+            reset($aliasArray);
+            $count = 0;
+            while(list($lkey, $lval) = each($aliasArray)) {
+                if(ereg("^$val ", $lval)) {
+                    $aliasLine = ereg_replace('^[^ ]+ (.*$)', '\1', $lval);
+                    $contentArray[$val][$count] = $aliasLine;
+                    $count++;
+                }
+            }
+        }
+        return $contentArray;
     }
 
     /**

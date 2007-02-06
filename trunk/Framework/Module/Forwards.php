@@ -73,7 +73,9 @@ class Framework_Module_Forwards extends Framework_Auth_vpopmail
         // Pagintation setup
         $full_alias_array = $this->user->ListAlias($this->domain);
         if($this->user->Error) return PEAR::raiseError(_("Error: ") . $this->user->Error);
-        $total = count($full_alias_array);
+        // Format the valias outpt from vpopmaild
+        $aliasesParsed = $this->user->aliasesToArray($full_alias_array);
+        $total = count($aliasesParsed);
 
         $this->setData('total', $total);
         $this->setData('limit', (integer)Framework::$site->config->maxPerPage);
@@ -90,7 +92,7 @@ class Framework_Module_Forwards extends Framework_Auth_vpopmail
         $this->setData('totalPages', ceil($this->data['total'] / $this->data['limit']));
 
         // List Accounts
-        $alias_array = $this->user->ListAliases($full_alias_array, $this->data['currentPage'], $this->data['limi']);
+        $alias_array = $this->user->ListAliases($aliasesParsed, $this->data['currentPage'], $this->data['limit']);
         if($this->user->Error) return PEAR::raiseError(_("Error: ") . $this->user->Error);
     
         if(count($alias_array) == 0) {
@@ -101,10 +103,11 @@ class Framework_Module_Forwards extends Framework_Auth_vpopmail
         $aliases = array();
         $count = 0;
         while(list($key,$val) = each($alias_array)) {
-            $aliases[$count]['name'] = ereg_replace('^.qmail-', '', $val);
-            $aliases[$count]['contents'] = $this->user->GetAliasContents($val, $this->domain);
-            $aliases[$count]['edit_url'] = htmlspecialchars("$base_url?module=Forwards&domain={$this->domain}&forward=$val&event=modifyForward");
-            $aliases[$count]['delete_url'] = htmlspecialchars("$base_url?module=Forwards&domain={$this->domain}&forward=$val&event=deleteForward");
+            $forwardName = ereg_replace('@.*$', '', $key);
+            $aliases[$count]['name'] = $forwardName;
+            $aliases[$count]['contents'] = $this->user->GetAliasContents($val);
+            $aliases[$count]['edit_url'] = htmlspecialchars("$base_url?module=Forwards&domain={$this->domain}&forward=$forwardName&event=modifyForward");
+            $aliases[$count]['delete_url'] = htmlspecialchars("$base_url?module=Forwards&domain={$this->domain}&forward=$forwardName&event=deleteForward");
             $count++;
         }
         $this->setData('forwards', $aliases);
@@ -259,7 +262,6 @@ class Framework_Module_Forwards extends Framework_Auth_vpopmail
     
         // Get forward info if it exists
         $contents = $this->user->ReadFile($this->domain, '', ".qmail-$forward");
-        // if($this->user->Error && $this->user->Error != 'command failed - -ERR XXX No such file or directory') 
         if($this->user->Error) return PEAR::raiseError(_("Error: ") . $this->user->Error);
     
         // Set template data
