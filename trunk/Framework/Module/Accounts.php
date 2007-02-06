@@ -269,7 +269,7 @@ class Framework_Module_Accounts extends Framework_Auth_vpopmail
 
         // Get .qmail info if it exists
         $dot_qmail = $this->user->ReadFile($this->domain, $_REQUEST['account'], '.qmail');
-        if($this->user->Error && $this->user->Error != 'command failed - -ERR XXX No such file or directory') {
+        if($this->user->Error && $this->user->Error != 'command failed - -ERR 2102 No such file or directory') {
             return PEAR::raiseError(_('Error: ') . $this->user->Error);
         }
         $defaults = $this->user->parse_home_dotqmail($dot_qmail, $account_info);
@@ -343,7 +343,7 @@ class Framework_Module_Accounts extends Framework_Auth_vpopmail
 
         // Get .qmail info if it exists
         $dot_qmail = $this->user->ReadFile($this->domain, $_REQUEST['account'], '.qmail');
-        if($this->user->Error && $this->user->Error != 'command failed - -ERR XXX No such file or directory') {
+        if($this->user->Error && $this->user->Error != 'command failed - -ERR 2102 No such file or directory') {
             return PEAR::raiseError(_('Error: ') . $this->user->Error);
         }
         $defaults = $this->user->parse_home_dotqmail($dot_qmail, $account_info);
