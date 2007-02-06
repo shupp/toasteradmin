@@ -7,7 +7,7 @@
  * 
  * @author      Joe Stump <joe@joestump.net>
  * @copyright   Joe Stump <joe@joestump.net>
- * @package     Framework
+ * @package     ToasterAdmin
  * @filesource
  */
 
@@ -21,7 +21,7 @@
  * 
  * @author      Joe Stump <joe@joestump.net>
  * @copyright   Joe Stump <joe@joestump.net>
- * @package     Framework
+ * @package     ToasterAdmin
  * @filesource
  */
 class Framework_Site_toasteradmin extends Framework_Site_Common

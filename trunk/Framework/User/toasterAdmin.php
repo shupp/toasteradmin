@@ -62,9 +62,8 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
 
     function authenticate($Email, $Password)
     {
-        $Compact = true;
-        $Compact = ($Compact) ? ' compact' : '';
-        $out = "login $Email $Password $Compact";
+        $LoginType = 'clogin';
+        $out = "$LoginType $Email $Password";
         if ($this->ShowCmd) echo "Login string: $out\n";
         $this->SockWrite($out);
         $in = $this->SockRead();
