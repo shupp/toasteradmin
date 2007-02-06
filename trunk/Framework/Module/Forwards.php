@@ -198,7 +198,7 @@ class Framework_Module_Forwards extends Framework_Auth_vpopmail
         if($type == 'new') {
             if(!$this->user->Error) {
                 return PEAR::raiseError("Forward Exists");
-            } else if($this->user->Error != 'command failed - -ERR XXX No such file or directory') {
+            } else if($this->user->Error != 'command failed - -ERR 2102 No such file or directory') {
                 return PEAR::raiseError(_("Error: ") . $this->user->Error);
             }
         } else {
