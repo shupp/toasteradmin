@@ -262,9 +262,13 @@ class Framework_Module_Accounts extends Framework_Auth_vpopmail
         }
 
         // See what user_info to use
-        $account_info = $this->user->UserInfo($this->domain, $_REQUEST['account']);
-        if($this->user->Error) {
-            return PEAR::raiseError(_('Error: ') . $this->user->Error);
+        if($this->user->isDomainAdmin($this->domain)) {
+            $account_info = $this->user->UserInfo($this->domain, $_REQUEST['account']);
+            if($this->user->Error) {
+                return PEAR::raiseError(_('Error: ') . $this->user->Error);
+            }
+        } else {
+            $account_info = $this->user->LoginUser;
         }
 
         // Get .qmail info if it exists
