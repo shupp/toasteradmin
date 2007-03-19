@@ -52,7 +52,7 @@ class Framework_Module_Domains extends Framework_Auth_vpopmail
                 header("Location: ./?module=Domains&event=domainMenu&domain=" . urlencode($_SESSION['domain']));
                 return;
             } else {
-                header("Location: ./?module=Accounts&domain=" . urlencode($_SESSION['domain']) . '&account=' . urlencode($_SESSION['user']) . '&event=modify');
+                header("Location: ./?module=Accounts&domain=" . urlencode($_SESSION['domain']) . '&account=' . urlencode($_SESSION['user']) . '&event=modifyAccount');
                 return;
             }
         }
