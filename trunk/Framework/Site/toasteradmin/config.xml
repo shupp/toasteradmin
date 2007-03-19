@@ -9,6 +9,5 @@
     <user>
         <userClass>toasterAdmin</userClass>
         <userLocaleDir>Framework/Site/toasteradmin/locale</userLocaleDir>
-        <userDefaultLocale>en</userDefaultLocale>
     </user>
 </framework>
