@@ -366,6 +366,60 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
         if (ereg('^&', $line)) return ereg_replace('^&', '', $line);
     }
 
+
+    /**
+     * listAutoresponders 
+     * 
+     * Build an array of autoresponders based on the output of ListAlias()
+     * 
+     * @param mixed $domain 
+     * @access public
+     * @return void
+     */
+    function listAutoresponders($domain) {
+        $out_array = array();
+
+        $raw_output = $this->ListAlias($domain);
+        $raw_array = $this->aliasesToArray($raw_output);
+        foreach ($raw_array as $parentkey => $parentval) {
+            foreach ($parentval as $key => $val) {
+                if(ereg('[|].*autorespond', $val)) {
+                    $out_array[$parentkey] = $parentval;
+                    break;
+                }
+            }
+        }
+        return $out_array;
+    }
+
+    /**
+     * paginateArray 
+     * 
+     * A simple function to paginate an array.  Could probably be better.
+     * 
+     * @param mixed $array 
+     * @param mixed $page 
+     * @param mixed $limit 
+     * @access public
+     * @return array
+     */
+    function paginateArray($array, $page, $limit) {
+        $page_count = 1;
+        $limit_count = 1;
+        $out_array = array();
+        while((list($key, $val) = each($array)) && $page_count <= $page) {
+            if($page_count == $page) {
+                $out_array[$key] = $val;
+            }
+            $limit_count++;
+            if($limit_count > $limit) {
+                $limit_count = 1;
+                $page_count++;
+            }
+        }
+        return $out_array;
+    }
+
     /**
      * __destruct 
      * 
