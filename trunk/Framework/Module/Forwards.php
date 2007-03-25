@@ -74,7 +74,7 @@ class Framework_Module_Forwards extends Framework_Auth_vpopmail
         $full_alias_array = $this->user->ListAlias($this->domain);
         if($this->user->Error) return PEAR::raiseError(_("Error: ") . $this->user->Error);
         // Format the valias outpt from vpopmaild
-        $aliasesParsed = $this->user->aliasesToArray($full_alias_array);
+        $aliasesParsed = $this->user->parseAliases($full_alias_array, 'forwards');
         $total = count($aliasesParsed);
 
         $this->setData('total', $total);

@@ -56,7 +56,8 @@ class Framework_Module_Responders extends Framework_Auth_vpopmail
 
         $this->checkPrivileges();
 
-        $autoresponders_raw = $this->user->listAutoResponders($this->domain);
+        $full_alias_array = $this->user->ListAlias($this->domain);
+        $autoresponders_raw = $this->user->parseAliases($full_alias_array, 'responders');
 
         // Pagintation setup
         $total = count($autoresponders_raw);

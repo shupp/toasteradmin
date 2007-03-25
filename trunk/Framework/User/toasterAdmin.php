@@ -315,6 +315,16 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
         return $string;
     }
 
+    /**
+     * aliasesToArray 
+     * 
+     * take raw ListAlias output, and format into 
+     * associative arrays
+     * 
+     * @param mixed $aliasArray 
+     * @access public
+     * @return void
+     */
     function aliasesToArray($aliasArray) {
         // generate unique list of aliases
         $aliasList = array();
@@ -368,26 +378,28 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
 
 
     /**
-     * listAutoresponders 
+     * parseAliases 
      * 
-     * Build an array of autoresponders based on the output of ListAlias()
+     * Return correct type of aliases - forwards or responders
      * 
-     * @param mixed $domain 
+     * @param mixed $in_array 
+     * @param mixed $type 
      * @access public
      * @return void
      */
-    function listAutoresponders($domain) {
+    function parseAliases($in_array, $type) {
         $out_array = array();
-
-        $raw_output = $this->ListAlias($domain);
-        $raw_array = $this->aliasesToArray($raw_output);
+        $raw_array = $this->aliasesToArray($in_array);
         foreach ($raw_array as $parentkey => $parentval) {
+            $is_type = 'forwards';
             foreach ($parentval as $key => $val) {
                 if(ereg('[|].*autorespond', $val)) {
-                    $out_array[$parentkey] = $parentval;
+                    $is_type = 'responders';
                     break;
                 }
             }
+            if($type == $is_type)
+                $out_array[$parentkey] = $parentval;
         }
         return $out_array;
     }
