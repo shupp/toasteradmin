@@ -49,14 +49,14 @@ class Framework_Module_Responders extends Framework_Auth_vpopmail
      * @return void
      */
     function __default() {
-        $this->listAutoResponders();
+        $this->listResponders();
     }
 
-    function listAutoResponders() {
+    function listResponders() {
 
         $this->checkPrivileges();
 
-        $autoresponders_raw = $this->user->listAutoresponders($this->domain);
+        $autoresponders_raw = $this->user->listAutoResponders($this->domain);
 
         // Pagintation setup
         $total = count($autoresponders_raw);
@@ -81,12 +81,12 @@ class Framework_Module_Responders extends Framework_Auth_vpopmail
         $count = 0;
         while(list($key,$val) = each($autoresponders_paginated)) {
             $autoresponders[$count]['autoresponder'] = $key;
-            $autoresponders[$count]['edit_url'] = htmlspecialchars("./?module=Responders&domain={$this->domain}&autoresponder=$key&event=modify");
-            $autoresponders[$count]['delete_url'] = htmlspecialchars("./?module=Responders&domain={$this->domain}&autoresponder=$key&event=delete");
+            $autoresponders[$count]['edit_url'] = htmlspecialchars("./?module=Responders&domain={$this->domain}&autoresponder=$key&event=modifyResponder");
+            $autoresponders[$count]['delete_url'] = htmlspecialchars("./?module=Responders&domain={$this->domain}&autoresponder=$key&event=deleteResponder");
             $count++;
         }
         $this->setData('autoresponders', $autoresponders);
-        $this->setData('add_url', htmlspecialchars("./?module=Responders&event=add&domain={$this->domain}"));
+        $this->setData('add_url', htmlspecialchars("./?module=Responders&event=addResponder&domain={$this->domain}"));
 
         // Language
         $this->setData('LANG_AutoResponders_in_domain', _('Auto-Responders in domain'));
