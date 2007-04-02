@@ -30,6 +30,8 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
     function __construct() {
  
         $this->session = & Framework_Session::singleton();
+        // Define VPOPMAIL_ROBOT_PROGRAM
+        define('VPOPMAIL_ROBOT_PROGRAM', (string)Framework::$site->config->autorespond);
  
         if (!function_exists('Socket_create')) { #  No Sockets
             die("VPopMaild.pobj requires you ./configure php with enable-Sockets. ");
