@@ -124,11 +124,8 @@ class Framework_Module_Responders extends Framework_Auth_vpopmail
 
     static function sameDomain ($name, $value) {
         $emailArray = explode('@', $value);
-        if($emailArray[1] == $this->domain) {
-            return true;
-        } else {
-            return false;
-        }
+        if($emailArray[1] == $this->domain) return true;
+        return false;
     }
 
     function addResponderNow() {
@@ -144,6 +141,13 @@ class Framework_Module_Responders extends Framework_Auth_vpopmail
         }
 
         $emailArray = explode('@', $_REQUEST['account']);
+
+        $result = $this->user->RobotSet($this->domain, $emailArray[0], $_POST['subject'], $_POST['body'], $_POST['copy']);
+        print_r("result: ". $result);exit;
+        exit;
+
+
+
         $this->user->AddUser($this->domain, $emailArray[0], $_REQUEST['password'], $_REQUEST['comment']);
         if($this->user->Error) {
             $this->setData('message', _("Error: ") . $this->user->Error);
