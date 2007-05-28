@@ -82,8 +82,8 @@ class Framework_Module_Responders extends Framework_Auth_vpopmail
         $count = 0;
         while(list($key,$val) = each($autoresponders_paginated)) {
             $autoresponders[$count]['autoresponder'] = $key;
-            $autoresponders[$count]['edit_url'] = htmlspecialchars("./?module=Responders&domain={$this->domain}&autoresponder=$key&event=modifyResponder");
-            $autoresponders[$count]['delete_url'] = htmlspecialchars("./?module=Responders&domain={$this->domain}&autoresponder=$key&event=deleteResponder");
+            $autoresponders[$count]['edit_url'] = htmlspecialchars("./?module=Responders&domain={$this->domain}&responder=$key&event=modifyResponder");
+            $autoresponders[$count]['delete_url'] = htmlspecialchars("./?module=Responders&domain={$this->domain}&responder=$key&event=deleteResponder");
             $count++;
         }
         $this->setData('autoresponders', $autoresponders);
@@ -106,12 +106,12 @@ class Framework_Module_Responders extends Framework_Auth_vpopmail
     }
 
     /**
-     * add 
+     * addResponder
      * 
      * @access public
      * @return void
      */
-    function add() {
+    function addResponder() {
 
         $form = $this->addForm();
         $renderer =& new HTML_QuickForm_Renderer_Array();
@@ -131,7 +131,7 @@ class Framework_Module_Responders extends Framework_Auth_vpopmail
         }
     }
 
-    function addNow() {
+    function addResponderNow() {
 
         $form = $this->addForm();
         if(!$form->validate()) {
@@ -139,7 +139,7 @@ class Framework_Module_Responders extends Framework_Auth_vpopmail
             $form->accept($renderer);
             $this->setData('form', 
                 HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
-            $this->tplFile = 'add.tpl';
+            $this->tplFile = 'addResponder.tpl';
             return;
         }
 
@@ -164,7 +164,7 @@ class Framework_Module_Responders extends Framework_Auth_vpopmail
 
         $this->setData('LANG_Add_AutoResponder_to_domain', _("Add Auto-Responder to domain "));
         $this->setData('LANG_Domain_Menu', _("Domain Menu"));
-        $form = new HTML_QuickForm('formAddAccount', 'post', "./?module=Responders&event=add&domain={$this->domain}");
+        $form = new HTML_QuickForm('formAddAccount', 'post', "./?module=Responders&event=addResponderNow&domain={$this->domain}");
 
         $form->setDefaults(array('autoresponder' => '@' . $this->domain));
 
@@ -227,32 +227,24 @@ class Framework_Module_Responders extends Framework_Auth_vpopmail
         return;
     }
 
-    function modifyAccount() {
+    function modifyResponder() {
 
         // Make sure account was supplied
-        if(!isset($_REQUEST['account'])) {
-            return PEAR::raiseError(_("Error: no account supplied"));
+        if(!isset($_REQUEST['responder'])) {
+            return PEAR::raiseError(_("Error: no Auto-Responder supplied"));
         }
-        $account = $_REQUEST['account'];
+        $respondername = $_REQUEST['responder'];
 
         // Check privs
         if(!$this->user->isUserAdmin($account, $this->domain)) {
             return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $this->domain);
         }
 
-        // See what user_info to use
-        if($this->user->isDomainAdmin($this->domain)) {
-            $account_info = $this->user->UserInfo($this->domain, $_REQUEST['account']);
-            if($this->user->Error) {
-                return PEAR::raiseError(_('Error: ') . $this->user->Error);
-            }
-        } else {
-            $account_info = $this->user->LoginUser;
-        }
+        $array = explode('@', $respondername);
+        $responder = $this->user->RobotGet($this->domain,$array[0]);
+        print_r($responder);exit;
 
-        // Get .qmail info if it exists
-        $dot_qmail = $this->user->ReadFile($this->domain, $_REQUEST['account'], '.qmail');
-        if($this->user->Error && $this->user->Error != 'command failed - -ERR 2102 No such file or directory') {
+        if($this->user->Error) {
             return PEAR::raiseError(_('Error: ') . $this->user->Error);
         }
         $defaults = $this->user->parse_home_dotqmail($dot_qmail, $account_info);
