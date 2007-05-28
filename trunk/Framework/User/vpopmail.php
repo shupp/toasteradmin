@@ -16,7 +16,7 @@
  * @version 1.0
  *
  */
-class Framework_User_vpopmail extends Framework_User_passEncryption {
+class Framework_User_vpopmail extends Framework_User {
     /**
      * Socket 
      * 

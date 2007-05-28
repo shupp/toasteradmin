@@ -43,7 +43,7 @@ class Framework_Module_Login extends Framework_Auth_No
                 $this->session->user = $emailArray[0];
                 $this->session->domain = $emailArray[1];
                 $this->session->email = $_POST['email'];
-                $this->session->password = $this->user->encryptPass($_POST['password'], 
+                $this->session->password = Framework::User::passEncryption::encryptPass($_POST['password'], 
                     (string)Framework::$site->config->mcryptKey);
                 header("Location: ./index.php?module=Domains");
             } else {
