@@ -20,7 +20,7 @@ ini_set('include_path', FRAMEWORK_BASE_PATH . PATH_SEPARATOR . ini_get('include_
 
 require_once('Framework.php');
 
-$result = Framework::start('toasteradmin');
+$result = Framework::start('Default');
 
 if (PEAR::isError($result)) {
     die($result->getMessage());

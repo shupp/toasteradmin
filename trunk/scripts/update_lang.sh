@@ -1,6 +1,6 @@
 #!/bin/sh
 
-LCDIR='../Framework/Site/toasteradmin/locale/en/LC_MESSAGES'
+LCDIR='../Framework/Site/Default/locale/en/LC_MESSAGES'
 MFILE="$LCDIR/messages.po"
 
 TEMPFILE="/tmp/gettext_files.$$"

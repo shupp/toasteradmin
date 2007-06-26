@@ -8,6 +8,6 @@
     <logFile>/tmp/framework.log</logFile>
     <user>
         <userClass>toasterAdmin</userClass>
-        <userLocaleDir>Framework/Site/toasteradmin/locale</userLocaleDir>
+        <userLocaleDir>Framework/Site/Default/locale</userLocaleDir>
     </user>
 </framework>
