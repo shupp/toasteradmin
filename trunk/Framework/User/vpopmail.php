@@ -18,297 +18,214 @@
  */
 class Framework_User_vpopmail extends Framework_User {
     /**
+     * address 
+     * 
+     * Address of vpopmaild host
+     * 
+     * @var mixed
+     * @access public
+     */
+    public $address = 'localhost';
+    /**
+     * port 
+     * 
+     * port of vpopmaild host (deaults to 89)
+     * 
+     * @var mixed
+     * @access public
+     */
+    public $port = 89;
+    /**
      * Socket 
      * 
-     * @var mixed
-     * @access public
-     */
-    public $Socket = null;
-    /**
-     * Error 
+     * Actual socket from Net_Socket
      * 
      * @var mixed
      * @access public
      */
-    public $Error = null;
+    public $socket = null;
+    /**
+     * debug 
+     * 
+     * @var mixed
+     * @access public
+     */
+    public $debug = false;
     /**
      * LoginUser 
      * 
      * @var mixed
      * @access public
      */
-    public $LoginUser = null;
+    public $loginUser = null;
     /**
-     * Compact 
-     * 
-     * @var mixed
-     * @access public
-     */
-    public $Compact = null;
-    /**
-     * ShowXmit 
-     * 
-     * @var mixed
-     * @access public
-     */
-    public $ShowXmit = false;
-    /**
-     * ShowRecv 
-     * 
-     * @var mixed
-     * @access public
-     */
-    public $ShowRecv = false;
-    /**
-     * ShowData 
-     * 
-     * @var mixed
-     * @access public
-     */
-    public $ShowData = false;
-    /**
-     * ShowCmd 
-     * 
-     * @var mixed
-     * @access public
-     */
-    public $ShowCmd = false;
-    /**
-     * GidFlagValues 
+     * gidFlagValues 
      * 
      * @var array
      * @access public
      */
-    public $GidFlagValues = array(
-        'no_password_change' => 0x01, 
-        'no_pop' => 0x02, 
-        'no_webmail' => 0x04, 
-        'no_imap' => 0x08, 
-        'bounce_mail' => 0x10, 
-        'no_relay' => 0x20, 
-        'no_dialup' => 0x40, 
-        'user_flag_0' => 0x080, 
-        'user_flag_1' => 0x100, 
-        'user_flag_2' => 0x200, 
-        'user_flag_3' => 0x400, 
-        'no_smtp' => 0x800, 
-        'domain_admin_privileges' => 0x1000, 
-        'override_domain_limits' => 0x2000, 
-        'no_spamassassin' => 0x4000, 
-        'delete_spam' => 0x8000, 
-        'system_admin_privileges' => 0x10000, 
-        'system_expert_privileges' => 0x20000);
+    public $gidFlagValues = array(
+        'no_password_change'        => 0x01, 
+        'no_pop'                    => 0x02, 
+        'no_webmail'                => 0x04, 
+        'no_imap'                   => 0x08, 
+        'bounce_mail'               => 0x10, 
+        'no_relay'                  => 0x20, 
+        'no_dialup'                 => 0x40, 
+        'user_flag_0'               => 0x080, 
+        'user_flag_1'               => 0x100, 
+        'user_flag_2'               => 0x200, 
+        'user_flag_3'               => 0x400, 
+        'no_smtp'                   => 0x800, 
+        'domain_admin_privileges'   => 0x1000, 
+        'override_domain_limits'    => 0x2000, 
+        'no_spamassassin'           => 0x4000, 
+        'delete_spam'               => 0x8000, 
+        'system_admin_privileges'   => 0x10000, 
+        'no_maildrop'               => 0x40000);
 
-
-
-    ################################################################
-    #
-    #  f u n c t i o n      S t a t u s O k
-    #
-    function StatusOk($data) {
-        if (ereg('^[+]OK', $data)) return TRUE;
-        return FALSE;
-    }
-    ################################################################
-    #
-    #  f u n c t i o n      S t a t u s O k M o r e
-    #
-    function StatusOkMore($data) {
-        if (ereg('^[+]OK[+]$', $data)) return TRUE;
-        return FALSE;
-    }
-    ################################################################
-    #
-    #  f u n c t i o n      S t a t u s O k No More
-    #
-    function StatusOkNoMore($data) {
-        if (ereg('^[+]OK$', $data)) return TRUE;
-        return FALSE;
-    }
-    ################################################################
-    #
-    #  f u n c t i o n      S t a t u s E r r
-    #
-    function StatusErr($data) {
-        if (ereg('^[-]ERR ', $data)) return TRUE;
-        return FALSE;
-    }
-    ################################################################
-    #
-    #  f u n c t i o n      D o t O n l y
-    #
-    function DotOnly($data) {
-        if (ereg('^[.]$', $data)) return TRUE;
-        return FALSE;
-    }
-    ################################################################
-    #
-    #  f u n c t i o n       G e t G i d B i t
-    #
-    function GetGidBit($Bitmap, $Bit, $Flip = false) {
-        $this->Error = '';
-        #echo "<BR>GetGidBit - Bitmap: $Bitmap  Bit: $Bit Flip: $Flip<BR>\n";
-        #echo "<PRE>GidFlags: ";print_r($this->GidFlagValues);echo"</PRE>\n";
-        if (!isset($this->GidFlagValues[$Bit])) {
-            echo "Error - unknown GID Bit value specified. $Bit<BR>\n";
-            $this->Error = 'Unknown GID Bit value specified. $Bit';
-            return -1;
+    function  __construct() {
+        #parent::__construct();
+        // Manual log stuff, since we're skipping Framework_User::__construct()
+        if ($this->debug && is_null($this->log)) {
+            $logFile = (string)Framework::$site->config->logFile;
+            $this->log = Log::factory('file', $logFile);
         }
-        $BitValue = $this->GidFlagValues[$Bit];
-        #echo "BitValue: $BitValue<BR>\n";
-        if ($Flip) {
-            $Return = ($Bitmap&$BitValue) ? false : true;
+
+        $this->address = gethostbyname((string)Framework::$site->config->vpopmaildHost);
+        $this->port = (string)Framework::$site->config->vpopmaildPort;
+        $this->socket = new Net_Socket();
+        $result = $this->socket->connect($this->address, $this->port);
+        if(PEAR::isError($result)) return $result;
+    }
+
+    function recordio($data) {
+        if($this->debug)
+            $this->log->log($data);
+    }
+
+    // Status/Return messages
+    function statusOk($data) {
+        if (ereg('^[+]OK', $data)) return true;
+        return false;
+    }
+    function statusOkMore($data) {
+        if (ereg('^[+]OK[+]$', $data)) return true;
+        return false;
+    }
+    function statusOkNoMore($data) {
+        if (ereg('^[+]OK$', $data)) return true;
+        return false;
+    }
+    function statusErr($data) {
+        if (ereg('^[-]ERR ', $data)) return true;
+        return false;
+    }
+    function dotOnly($data) {
+        if (ereg('^[.]$', $data)) return true;
+        return false;
+    }
+
+
+    function getGidBit($bitmap, $bit, $flip = false) {
+        if (!isset($this->gidFlagValues[$bit])) {
+            return PEAR::raiseError("Error - unknown GID Bit value specified. $bit");
+        }
+        $bitValue = $this->gidFlagValues[$bit];
+        if ($flip) return ($bitmap&$bitValue) ? false : true;
+        return ($bitmap&$bitValue) ? true : false;
+    }
+    function setGidBit(&$bitmap, $bit, $value, $flip = false) {
+        if (!isset($this->gidFlagValues[$bit])) 
+            return PEAR::raiseError("Unknown GID Bit value specified. $bit");
+        $bitValue = $this->gidFlagValues[$bit];
+        if ($flip) {
+            $value = ('t' == $value{0}) ? 0 : $bitValue;
         } else {
-            $Return = ($Bitmap&$BitValue) ? true : false;
+            $value = ('t' == $value{0}) ? $bitValue : 0;
         }
-        #echo "Returning: $Return<BR>\n";
-        return ($Return);
+        $bitmap = (int)$value|(~(int)$bitValue&(int)$bitmap);
     }
-    ################################################################
-    #
-    #  f u n c t i o n       S e t G i d B i t
-    #
-    function SetGidBit(&$Bitmap, $Bit, $Value, $Flip = false) {
-        $this->Error = '';
-        #echo "SetGidBit - Bitmap: $Bitmap  Bit: $Bit Value: $Value<BR>\n";
-        if (!isset($this->GidFlagValues[$Bit])) {
-            #   echo "Unknown GID bit value specified. $Bit<BR>\n";
-            $this->Error = "Unknown GID Bit value specified. $Bit";
-            return -1;
+    function getIPMap($ip) {
+        if ($status = $this->SockWrite("get_ip_map $ip")) {
+            return PEAR::raiseError("Error - write to socket failed! $status");
         }
-        $BitValue = $this->GidFlagValues[$Bit];
-        #echo "BitValue: $BitValue<BR>\n";
-        if ($Flip) {
-            $Value = ('t' == $Value{0}) ? 0 : $BitValue;
-        } else {
-            $Value = ('t' == $Value{0}) ? $BitValue : 0;
+        $status = $this->SockRead();
+        if ($this->statusErr($status)) {
+            return PEAR::raiseError("command failed - $Status");
         }
-        #echo "Value: $Value<BR>\n";
-        $Bitmap = (int)$Value|(~(int)$BitValue&(int)$Bitmap);
-        #echo "Bitmap After: $Bitmap<HR><BR>\n";
-        
-    }
-    ################################################################
-    #
-    #  f u n c t i o n      G e t I P M a p
-    #
-    function GetIPMap($IP) {
-        $this->Error = '';
-        if ($Status = $this->SockWrite("get_ip_map $IP")) {
-            $this->Error = "Error - write to Socket failed! $Status";
-            return;
-        }
-        $Status = $this->SockRead();
-        if ($this->StatusErr($Status)) {
-            $this->Error = "command failed - $Status";
-            return;
-        }
-        $Lists = array();
+        $lists = array();
         $in = $this->SockRead();
-        while (!$this->StatusErr($in) AND !$this->StatusOk($in) AND !$this->DotOnly($in)) {
-            $Lists[] = $in;
+        while (!$this->statusErr($in) && !$this->statusOk($in) && !$this->dotOnly($in)) {
+            $lists[] = $in;
             $in = $this->SockRead();
         }
-        $Exploded = explode(" ", $Lists[0]);
-        #echo "Exploded: "; print_r( $Exploded );
-        return $Exploded[1];
+        $exploded = explode(" ", $lists[0]);
+        return $exploded[1];
     }
-    ################################################################
-    #
-    #  f u n c t i o n      A d d I P M a p
-    #
-    function AddIPMap($Domain, $IP) {
-        $this->Error = '';
-        if ($Status = $this->SockWrite("add_ip_map $IP $Domain")) {
-            $this->Error = "Error - write to Socket failed! $Status";
-            return;
+    function addIPMap($domain, $ip) {
+        if ($Status = $this->SockWrite("add_ip_map $ip $Domain")) {
+            return PEAR::raiseError("Error - write to Socket failed! $status");
         }
-        $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
-            $this->Error = "command failed - $Status";
-            return true;
+        $status = $this->SockRead();
+        if (!$this->statusOk($status)) {
+            return PEAR::raiseError($this->Error = "command failed - $Status");
         }
         return false;
     }
-    ################################################################
-    #
-    #  f u n c t i o n      D e l I P M a p
-    #
-    function DelIPMap($Domain, $IP) {
-        $this->Error = '';
-        if ($Status = $this->SockWrite("del_ip_map $IP $Domain")) {
-            $this->Error = "Error - write to Socket failed! $Status";
-            return;
+    function delIPMap($domain, $ip) {
+        if ($status = $this->SockWrite("del_ip_map $ip $domain")) {
+            return PEAR::raiseError("Error - write to Socket failed! $status");
         }
-        $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
-            $this->Error = "command failed - $Status";
-            return true;
+        $status = $this->SockRead();
+        if (!$this->statusOk($Status)) {
+            return PEAR::raiseError("command failed - $status");
         }
         return false;
     }
-    ################################################################
-    #
-    #  f u n c t i o n      S h o w I P M a p
-    #
-    function ShowIPMap() {
-        $this->Error = '';
-        if ($Status = $this->SockWrite("show_ip_map")) {
-            $this->Error = "Error - write to Socket failed! $Status";
-            return;
+    function showIPMap() {
+        if ($status = $this->SockWrite("show_ip_map")) {
+            return PEAR::raiseError("Error - write to Socket failed! $Status");
         }
-        $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
-            $this->Error = "command failed - $Status";
-            return;
+        $status = $this->SockRead();
+        if (!$this->statusOk($status)) {
+            return PEAR::raiseError("command failed - $Status");
         }
-        $Lists = array();
+        $lists = array();
         $in = $this->SockRead();
-        while (!$this->DotOnly($in) AND !$this->StatusOk($in) AND !$this->StatusError($in)) {
-            list($IP, $Domain) = explode(' ', $in);
-            if (!empty($Lists[$IP])) {
-                $Lists[$IP].= ", ".$Domain;
+        while (!$this->dotOnly($in) && !$this->statusOk($in) && !$this->statusError($in)) {
+            list($ip, $domain) = explode(' ', $in);
+            if (!empty($lists[$ip])) {
+                $lists[$ip].= ", ".$domain;
             } else { #  Not duplicate
-                $Lists[$IP] = $Domain;
+                $lists[$ip] = $domain;
             }
             $in = $this->SockRead();
         }
-        ksort($Lists);
-        return $Lists;
+        ksort($lists);
+        return $lists;
     }
     ################################################################
     #
     #  f u n c t i o n      S o c k W r i t e
     #
-    function SockWrite($Data) {
-        if ($this->ShowXmit) {
-            echo "SockWrite sending: $Data\n";
-        }
-        $Data.= "\n";
-        $DataLen = strlen($Data);
-        $SendLen = Socket_write($this->Socket, $Data);
-        if ($this->ShowXmit > 1) {
-            echo "SockWrite result - Data Len: $DataLen  SendLen: $SendLen\n";
-        }
-        if ($DataLen != $SendLen) {
-            return "Wrong length sent";
-        }
+    function SockWrite($data) {
+        $this->recordio("SockWrite sending: $data");
+        $result = $this->socket->writeLine($data);
+        if(PEAR::isError($result)) return $result;
         return false;
     }
     ################################################################
     #
     #  f u n c t i o n      S o c k R e a d
     #
-    function SockRead($MaxLen = 2048) {
+    function SockRead() {
         $in = '';
         while ('' == $in) {
-            $in = trim(Socket_read($this->Socket, $MaxLen, PHP_NORMAL_READ));
-            if ($this->ShowRecv > 1) {
-                echo "SockRead Read: $in\n";
-            }
-        }
-        if ($this->ShowRecv) {
-            echo "SockRead Returned: $in\n";
+            $in = $this->socket->readLine();
+            if(PEAR::isError($in)) return $in;
+            $in = trim($in);
+            $this->recordio("SockRead Read: $in");
         }
         return $in;
     }
@@ -320,7 +237,7 @@ class Framework_User_vpopmail extends Framework_User {
         $in = '';
         $in = trim(Socket_read($this->Socket, $MaxLen, PHP_NORMAL_READ));
         if ($this->ShowRecv) {
-            echo "SockRead Returned: $in\n";
+            echo "SockRead Returned: $in";
         }
         return $in;
     }
@@ -486,13 +403,13 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return;
         }
         $Lists = array();
         $in = $this->SockRead();
-        while (!$this->DotOnly($in) AND !$this->StatusOk($in) AND !$this->StatusErr($in)) {
+        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
             $Lists[] = $in;
             $in = $this->SockRead();
         }
@@ -511,13 +428,13 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return;
         }
         $Alii = array();
         $in = $this->SockRead();
-        while (!$this->DotOnly($in) AND !$this->StatusOk($in) AND !$this->StatusErr($in)) {
+        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
             $Alii[] = $in;
             $in = $this->SockRead();
         }
@@ -538,7 +455,7 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return true;
         }
@@ -570,7 +487,7 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return true;
         }
@@ -592,7 +509,7 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return true;
         }
@@ -615,7 +532,7 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return true;
         }
@@ -670,7 +587,7 @@ class Framework_User_vpopmail extends Framework_User {
         #   print_r( $Warnings );
         #   }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return true;
         }
@@ -691,7 +608,7 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return true;
         }
@@ -750,7 +667,7 @@ class Framework_User_vpopmail extends Framework_User {
         #   print_r( $Warnings );
         #   }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return true;
         }
@@ -770,7 +687,7 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return true;
         }
@@ -787,7 +704,7 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return true;
         }
@@ -804,7 +721,7 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return true;
         }
@@ -821,7 +738,7 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status\n";
             return;
         }
@@ -839,11 +756,11 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return true;
         }
-        while (!$this->DotOnly($in) AND !$this->StatusOk($in) AND !$this->StatusErr($in)) {
+        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
             #   echo "read: $in<BR>\n";
             list(, $Count) = explode(' ', $in, 2);
             $in = $this->SockRead();
@@ -862,7 +779,7 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return true;
         }
@@ -879,7 +796,7 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return true;
         }
@@ -896,7 +813,7 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return;
         }
@@ -914,7 +831,7 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return;
         }
@@ -932,7 +849,7 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return;
         }
@@ -948,18 +865,17 @@ class Framework_User_vpopmail extends Framework_User {
         $BasePath = "$Domain";
         if (!empty($User)) $BasePath = "$User@$BasePath";
         if (!empty($Path)) $BasePath.= "/".$Path;
-        if ($Status = $this->SockWrite("read_file $BasePath")) {
-            $this->Error = "Error - write to Socket failed! $Status";
-            return;
-        }
+        // if ($Status = $this->SockWrite("read_file $BasePath")) {
+        $Status = $this->SockWrite("read_file $BasePath");
+        if(PEAR::isError($Status)) return $Status;
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return;
         }
         $FileContents = array();
         $in = $this->SockRead();
-        while (!$this->DotOnly($in) AND !$this->StatusOk($in) AND !$this->StatusErr($in)) {
+        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
             $FileContents[] = $in;
             $in = $this->RawSockRead();
         }
@@ -981,13 +897,13 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status";
             return;
         }
         $DirectoryContents = array();
         $in = $this->SockRead();
-        while (!$this->DotOnly($in) AND !$this->StatusOk($in) AND !$this->StatusErr($in)) {
+        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
             list($DirName, $Type) = explode(' ', $in);
             $DirectoryContents[$DirName] = $Type;
             $in = $this->SockRead();
@@ -1006,7 +922,7 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status\n";
             return;
         }
@@ -1024,7 +940,7 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $Status\n";
             return;
         }
@@ -1033,7 +949,7 @@ class Framework_User_vpopmail extends Framework_User {
         $List = array();
         if ($this->ShowData) echo "<<--  Start collecting user data  -->>";
         $in = $this->SockRead();
-        while (!$this->DotOnly($in) AND !$this->StatusOk($in) AND !$this->StatusErr($in) AND $I < 10) {
+        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in) AND $I < 10) {
             list($Name, $Value) = explode(' ', $in, 2);
             #   echo "Name: $Name  Value: $Value\n";
             if ('name' == $Name) { #  Have name
@@ -1086,14 +1002,14 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $in";
             return;
         }
         $Domains = array();
         $List = array();
         $in = $this->SockRead();
-        while (!$this->DotOnly($in) AND !$this->StatusOk($in) AND !$this->StatusErr($in)) {
+        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
             #   echo "read: $in<BR>\n";
             list($Parent, $Domain) = explode(' ', $in, 2);
             $Domains[$Domain] = $Parent;
@@ -1112,14 +1028,14 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $in";
             return;
         }
         $Domains = array();
         $List = array();
         $in = $this->SockRead();
-        while (!$this->DotOnly($in) AND !$this->StatusOk($in) AND !$this->StatusErr($in)) {
+        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
             #   echo "read: $in<BR>\n";
             list(, $Count) = explode(' ', $in, 2);
             $in = $this->SockRead();
@@ -1137,12 +1053,12 @@ class Framework_User_vpopmail extends Framework_User {
             return;
         }
         $Status = $this->SockRead();
-        if (!$this->StatusOk($Status)) {
+        if (!$this->statusOk($Status)) {
             $this->Error = "command failed - $in";
             return;
         }
         $in = $this->SockRead();
-        while (!$this->DotOnly($in) AND !$this->StatusOk($in) AND !$this->StatusErr($in)) {
+        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
             #   echo "read: $in<BR>\n";
             list(, $Count) = explode(' ', $in, 2);
             $in = $this->SockRead();
@@ -1187,7 +1103,7 @@ class Framework_User_vpopmail extends Framework_User {
         if ($this->ShowRecv) echo "<<--  Start ReadUserInfo  -->>\n";
         $UserArray = array();
         $in = $this->SockRead();
-        while (!$this->DotOnly($in) AND !$this->StatusOk($in) AND !$this->StatusErr($in)) {
+        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
             if ('' != $in) {
                 unset($Value);
                 list($Name, $Value) = explode(' ', $in, 2);
@@ -1211,7 +1127,7 @@ class Framework_User_vpopmail extends Framework_User {
         if ($this->ShowRecv) echo "<<--  Start ReadUserInfo  -->>\n";
         $UserArray = array();
         $in = $this->SockRead();
-        while (!$this->DotOnly($in) AND !$this->StatusOk($in) AND !$this->StatusErr($in)) {
+        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
             if ('' != $in) {
                 unset($Value);
                 list($Name, $Value) = explode(' ', $in, 2);
@@ -1235,7 +1151,7 @@ class Framework_User_vpopmail extends Framework_User {
         if ($this->ShowRecv) echo "<<--  Start ReadDomainInfo  -->>\n";
         $UserArray = array();
         $in = $this->SockRead();
-        while (!$this->DotOnly($in) AND !$this->StatusOk($in) AND !$this->StatusErr($in)) {
+        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
             if ('' != $in) {
                 unset($Value);
                 list($Name, $Value) = explode(' ', $in, 2);
