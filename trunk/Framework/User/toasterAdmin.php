@@ -29,36 +29,11 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
      */
     function __construct() {
  
+        parent::__construct();
         $this->session = & Framework_Session::singleton();
         // Define VPOPMAIL_ROBOT_PROGRAM
         define('VPOPMAIL_ROBOT_PROGRAM', (string)Framework::$site->config->autorespond);
- 
-        if (!function_exists('Socket_create')) { #  No Sockets
-            die("VPopMaild.pobj requires you ./configure php with enable-Sockets. ");
-        }
-        $address = gethostbyname((string)Framework::$site->config->vpopmaildHost);
-        $port = (integer)Framework::$site->config->vpopmaildPort;
-        $this->Socket = Socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-        if ($this->Socket < 0) {
-            $this->Error = "Socket_create() failed - reason: ".Socket_strError($this->Socket);
-            return;
-        }
-        $result = Socket_connect($this->Socket, $address, $port);
-        if (!$result) {
-            $ErrorCode = Socket_last_Error();
-            print_r(socket_strerror($ErrorCode));exit;
-            $this->Error = "Socket_connect() failed - reason: ($Result) ".Socket_strError($ErrorCode) ."\n"."Is the daemon running?";
-            return;
-        }
         $in = $this->SockRead();
-        #  Read the first response after connect...
-        if (!$this->StatusOk($in)) {
-            $this->Error = "Error send at initial connect - $in";
-            Socket_shutdown($this->Socket, 2);
-            Socket_close($this->Socket);
-            unset($this->Socket);
-            return;
-        }
     }
 
 
@@ -69,6 +44,7 @@ class Framework_User_toasterAdmin extends Framework_User_vpopmail {
         if ($this->ShowCmd) echo "Login string: $out\n";
         $this->SockWrite($out);
         $in = $this->SockRead();
+        if(PEAR::isError($in)) return $in;
         if (!$this->StatusOk($in)) {
             $this->Error = "Login failed - $in";
             Socket_shutdown($this->Socket, 2);
