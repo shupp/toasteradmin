@@ -47,12 +47,13 @@ class Framework_Module_Domains extends Framework_Auth_Vpopmail
     public function accessDirector()
     {
         if(!$this->user->isSysAdmin()) {
+            $domain = $this->session->__get('domain');
             // Redirect to appropriate page
-            if($this->user->isDomainAdmin($_SESSION['domain'])) {
-                header("Location: ./?module=Domains&event=domainMenu&domain=" . urlencode($_SESSION['domain']));
+            if($this->user->isDomainAdmin($domain)) {
+                header("Location: ./?module=Domains&event=domainMenu&domain=" . urlencode($domain));
                 return;
             } else {
-                header("Location: ./?module=Accounts&domain=" . urlencode($_SESSION['domain']) . '&account=' . urlencode($_SESSION['user']) . '&event=modifyAccount');
+                header("Location: ./?module=Accounts&domain=" . urlencode($domain) . '&account=' . urlencode($this->session->__get('user')) . '&event=modifyAccount');
                 return;
             }
         }
