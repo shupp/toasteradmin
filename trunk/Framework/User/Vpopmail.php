@@ -52,7 +52,7 @@ class Framework_User_Vpopmail extends Framework_User {
      */
     public $debug = false;
     /**
-     * LoginUser 
+     * loginUser 
      * 
      * @var mixed
      * @access public
@@ -283,7 +283,7 @@ class Framework_User_Vpopmail extends Framework_User {
         }
         $RobotDir = strtoupper($User);
         $DotQmailName = ".qmail-$User";
-        $RobotPath = $this->LoginUser['vpopmail_dir']."/domains/$Domain/$RobotDir";
+        $RobotPath = $this->loginUser['vpopmail_dir']."/domains/$Domain/$RobotDir";
         $DeleteDirFailed = false;
         $DeleteDotQmailFileFailed = false;
         $this->RmDir($RobotPath);
@@ -319,7 +319,7 @@ class Framework_User_Vpopmail extends Framework_User {
         $this->Error = '';
         $RobotDir = strtoupper($User);
         $DotQmailName = ".qmail-$User";
-        $RobotPath = $this->LoginUser['vpopmail_dir']."/domains/$Domain/$RobotDir";
+        $RobotPath = $this->loginUser['vpopmail_dir']."/domains/$Domain/$RobotDir";
         $MessagePath = "$RobotPath/message";
         $Program = VPOPMAIL_ROBOT_PROGRAM;
         #  Build the dot qmail file
@@ -1071,7 +1071,7 @@ class Framework_User_Vpopmail extends Framework_User {
     #
     function GetLoginUser() {
         $this->Error = '';
-        return $this->LoginUser;
+        return $this->loginUser;
     }
     ################################################################
     #

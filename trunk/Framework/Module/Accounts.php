@@ -47,7 +47,6 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
         $this->domain = $_REQUEST['domain'];
         $this->setData('domain', $this->domain);
         $this->setData('domain_url', htmlspecialchars('./?module=Domains&event=domainMenu&domain=' . $this->domain));
-
     }
 
     /**
@@ -268,7 +267,7 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
                 return PEAR::raiseError(_('Error: ') . $this->user->Error);
             }
         } else {
-            $account_info = $this->user->LoginUser;
+            $account_info = $this->user->loginUser;
         }
 
         // Get .qmail info if it exists
