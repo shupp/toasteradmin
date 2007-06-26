@@ -52,6 +52,8 @@ class Framework_User_toasterAdmin extends Framework_User_Vpopmail {
             return false;
         }
         $this->LoginUser = $this->ReadUserInfo();
+        $email_array = explode('@', $Email);
+        $this->loginUser['domain'] = $email_array[1];
         return true;
     }
 
@@ -100,9 +102,10 @@ class Framework_User_toasterAdmin extends Framework_User_Vpopmail {
      *
      */
     function isUserAdmin($account, $domain) {
-        if ($this->isDomainAdmin($domain)) return TRUE;
-        if (($_SESSION['user'] == $account) && $domain == $_SESSION['domain']) return TRUE;
-        return FALSE;
+        if ($this->isDomainAdmin($domain)) return true;
+        if (($this->loginUser['name'] == $account) && ($this->loginUser['domain'] == $domain))
+            return true;
+        return false;
     }
 
     /**
