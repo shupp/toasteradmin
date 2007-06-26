@@ -21,6 +21,16 @@ class Framework_User_Lang extends I18Nv2_Negotiator
 {
 
     /**
+     * __construct 
+     * 
+     * @access public
+     * @return void
+     */
+    public function __construct() {
+        parent::__construct();
+        $this->setLanguage();
+    }
+    /**
      * setLanguage 
      * 
      * @static

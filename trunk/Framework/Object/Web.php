@@ -55,7 +55,6 @@ abstract class Framework_Object_Web extends Framework_Object
     {
         parent::__construct();
         $neg =& new Framework_User_Lang;
-        $neg->setLanguage();
         $this->user = Framework_User_toasterAdmin::singleton();
         $this->session = Framework_Session::singleton();
     }
