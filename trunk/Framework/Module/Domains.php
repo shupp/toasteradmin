@@ -24,7 +24,7 @@
  * @version 1.0
  *
  */
-class Framework_Module_Domains extends Framework_Auth_vpopmail
+class Framework_Module_Domains extends Framework_Auth_Vpopmail
 {
     /**
      * __default

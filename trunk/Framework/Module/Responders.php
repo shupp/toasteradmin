@@ -1,6 +1,6 @@
 <?php
 
-class Framework_Module_Responders extends Framework_Auth_vpopmail
+class Framework_Module_Responders extends Framework_Auth_Vpopmail
 {
 
     /**

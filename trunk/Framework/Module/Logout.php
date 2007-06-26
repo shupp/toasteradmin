@@ -16,7 +16,7 @@
  * @author      Bill Shupp <hostmaster@shupp.org>
  * @package     ToasterAdmin
  */
-class Framework_Module_Logout extends Framework_Auth_vpopmail
+class Framework_Module_Logout extends Framework_Auth_Vpopmail
 {
     /**
      * __default

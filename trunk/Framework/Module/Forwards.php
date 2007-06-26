@@ -21,7 +21,7 @@
  * @author Bill Shupp <hostmaster@shupp.org> 
  * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
  */
-class Framework_Module_Forwards extends Framework_Auth_vpopmail
+class Framework_Module_Forwards extends Framework_Auth_Vpopmail
 {
 
     /**
