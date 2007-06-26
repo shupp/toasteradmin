@@ -51,7 +51,7 @@ class Framework_User_toasterAdmin extends Framework_User_Vpopmail {
             unset($this->Socket);
             return false;
         }
-        $this->LoginUser = $this->ReadUserInfo();
+        $this->loginUser = $this->ReadUserInfo();
         $email_array = explode('@', $Email);
         $this->loginUser['domain'] = $email_array[1];
         return true;
