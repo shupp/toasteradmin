@@ -19,7 +19,7 @@
  * @version 1.0
  *
  */
-class Framework_User_toasterAdmin extends Framework_User_vpopmail {
+class Framework_User_toasterAdmin extends Framework_User_Vpopmail {
 
     /**
      * __construct 

@@ -1,12 +1,12 @@
 <?php
 /**
- * Framework_User_vpopmail 
+ * Framework_User_Vpopmail 
  * 
  * @package ToasterAdmin
  */
 /**
  *
- * vpopmaild.php (originally vpopmaild.pobj)
+ * Vpopmail.php (originally vpopmaild.pobj)
  *
  * This class makes vpopmaild functions available.  Requires sockets.
  *
@@ -16,7 +16,7 @@
  * @version 1.0
  *
  */
-class Framework_User_vpopmail extends Framework_User {
+class Framework_User_Vpopmail extends Framework_User {
     /**
      * address 
      * 
