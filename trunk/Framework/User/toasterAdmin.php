@@ -30,7 +30,6 @@ class Framework_User_toasterAdmin extends Framework_User_Vpopmail {
     function __construct() {
  
         parent::__construct();
-        $this->session = & Framework_Session::singleton();
         // Define VPOPMAIL_ROBOT_PROGRAM
         define('VPOPMAIL_ROBOT_PROGRAM', (string)Framework::$site->config->autorespond);
         $in = $this->SockRead();
