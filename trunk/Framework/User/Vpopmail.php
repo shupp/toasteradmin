@@ -210,7 +210,7 @@ class Framework_User_Vpopmail extends Framework_User {
     #  f u n c t i o n      S o c k W r i t e
     #
     function SockWrite($data) {
-        $this->recordio("SockWrite sending: $data");
+        $this->recordio("SockWrite Send: $data");
         $result = $this->socket->writeLine($data);
         if(PEAR::isError($result)) return $result;
         return false;
@@ -1084,16 +1084,9 @@ class Framework_User_Vpopmail extends Framework_User {
             return $this->Error."\n";
         }
     }
-    ################################################################
-    #
-    #  f u n c t i o n      Q u i t
-    #
-    function Quit() {
-        $out = "quit\n";
-        Socket_write($this->Socket, $out);
-        Socket_shutdown($this->Socket, 2);
-        Socket_close($this->Socket);
-        unset($this->Socket);
+    function quit() {
+        $this->sockWrite("quit\n");
+        $this->socket->disconnect();
     }
     ################################################################
     #
@@ -1173,6 +1166,19 @@ class Framework_User_Vpopmail extends Framework_User {
         }
         if ($this->ShowRecv) echo "<<--  Finish ReadUserInfo  -->>\n";
         return $UserArray;
+    }
+
+    /**
+     * __destruct 
+     * 
+     * @access protected
+     * @return void
+     */
+    function __destruct() {
+        if($this->socket instanceof Net_Socket) {
+            $this->quit();
+            $this->socket->disconnect();
+        }
     }
 
 }

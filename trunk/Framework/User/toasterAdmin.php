@@ -410,17 +410,5 @@ class Framework_User_toasterAdmin extends Framework_User_Vpopmail {
         return $out_array;
     }
 
-    /**
-     * __destruct 
-     * 
-     * @access protected
-     * @return void
-     */
-    function __destruct() {
-        if(isset($this->Socket)) {
-            $this->Quit();
-        }
-    }
-
 }
 ?>
