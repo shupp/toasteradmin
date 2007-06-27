@@ -20,7 +20,7 @@
             {$LANG_logged_in_as} {$logged_in_as}
                 </td>
                 <td align="right">
-            <a href='./?module=Logout'>{$LANG_logout}</a>
+            <a href='./?module=Login&event=logoutNow'>{$LANG_logout}</a>
                 </td>
             </tr>
         </table>
