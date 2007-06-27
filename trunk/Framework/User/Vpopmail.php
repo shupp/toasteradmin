@@ -47,6 +47,8 @@ class Framework_User_Vpopmail extends Framework_User {
     /**
      * debug 
      * 
+     * Set to 1 to enable logging
+     * 
      * @var mixed
      * @access public
      */
@@ -58,6 +60,20 @@ class Framework_User_Vpopmail extends Framework_User {
      * @access public
      */
     public $loginUser = null;
+    /**
+     * log 
+     * 
+     * @var mixed
+     * @access public
+     */
+    public $log = null;
+    /**
+     * logFile
+     * 
+     * @var mixed
+     * @access public
+     */
+    public $logFile = '/tmp/vpopmaild.log';
     /**
      * gidFlagValues 
      * 
@@ -85,15 +101,10 @@ class Framework_User_Vpopmail extends Framework_User {
         'no_maildrop'               => 0x40000);
 
     function  __construct() {
-        // Manual log stuff, since we're skipping Framework_User::__construct()
-        $this->debug = (int)Framework::$site->config->debug;
         if ($this->debug > 0 && is_null($this->log)) {
-            $logFile = (string)Framework::$site->config->logFile;
-            $this->log = Log::factory('file', $logFile);
+            $this->log = Log::factory('file', $this->logFile);
+            if(is_null($this->log)) return PEAR::raiseError("Error creating Log object");
         }
-
-        $this->address = gethostbyname((string)Framework::$site->config->vpopmaildHost);
-        $this->port = (string)Framework::$site->config->vpopmaildPort;
         $this->socket = new Net_Socket();
         $result = $this->socket->connect($this->address, $this->port, null, 30);
         if(PEAR::isError($result)) return $result;

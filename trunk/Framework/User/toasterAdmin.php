@@ -28,9 +28,14 @@ class Framework_User_toasterAdmin extends Framework_User_Vpopmail {
      * @return void
      */
     function __construct() {
-        parent::__construct();
+        // Manual log stuff, since we're skipping Framework_User::__construct()
+        $this->debug = (int)Framework::$site->config->debug;
+        $this->address = gethostbyname((string)Framework::$site->config->vpopmaildHost);
+        $this->port = (string)Framework::$site->config->vpopmaildPort;
+        $this->logFile = (string)Framework::$site->config->logFile;
         // Define VPOPMAIL_ROBOT_PROGRAM
         define('VPOPMAIL_ROBOT_PROGRAM', (string)Framework::$site->config->autorespond);
+        parent::__construct();
         $in = $this->SockRead();
     }
 
