@@ -75,7 +75,8 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
 
     function listAccounts() {
 
-        $this->checkPrivileges();
+        $privs = $this->checkPrivileges();
+        if(PEAR::isError($privs)) return privs;
 
         // Pagintation setup
         $total = $this->user->UserCount($this->domain);
@@ -123,6 +124,9 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
      */
     function addAccount() {
 
+        $privs = $this->checkPrivileges();
+        if(PEAR::isError($privs)) return privs;
+
         $form = $this->addAccountForm();
         $renderer =& new HTML_QuickForm_Renderer_Array();
         $form->accept($renderer);
@@ -142,6 +146,9 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
     }
 
     function addAccountNow() {
+
+        $privs = $this->checkPrivileges();
+        if(PEAR::isError($privs)) return privs;
 
         $form = $this->addAccountForm();
         if(!$form->validate()) {
@@ -170,7 +177,7 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
         return;
     }
 
-    function addAccountForm() {
+    private function addAccountForm() {
 
         $this->setData('LANG_Add_Account_to_domain', _("Add Account to domain"));
         $this->setData('LANG_Domain_Menu', _("Domain Menu"));
@@ -195,6 +202,9 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
 
     function delete() {
 
+        $privs = $this->checkPrivileges();
+        if(PEAR::isError($privs)) return privs;
+
         if(!isset($_REQUEST['account'])) {
             return PEAR::raiseError(_("Error: no account supplied"));
         }
@@ -210,6 +220,9 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
     }
 
     function deleteNow() {
+
+        $privs = $this->checkPrivileges();
+        if(PEAR::isError($privs)) return privs;
 
         if(!isset($_REQUEST['account'])) {
             return PEAR::raiseError(_("Error: no account supplied"));
@@ -230,6 +243,10 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
     }
 
     function cancelDelete() {
+
+        $privs = $this->checkPrivileges();
+        if(PEAR::isError($privs)) return privs;
+
         $this->setData('message', _("Delete Canceled"));
         $this->listAccounts();
         return;
@@ -250,10 +267,8 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
 
         // See what user_info to use
         if($this->user->isDomainAdmin($this->domain)) {
-            $account_info = $this->user->UserInfo($this->domain, $_REQUEST['account']);
-            if($this->user->Error) {
-                return PEAR::raiseError(_('Error: ') . $this->user->Error);
-            }
+            $account_info = $this->user->userInfo($this->domain, $_REQUEST['account']);
+            if(PEAR::isError($account_info)) return $account_info;
         } else {
             $account_info = $this->user->loginUser;
         }
@@ -276,7 +291,7 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
     }
 
 
-    function modifyAccountForm($account, $defaults) {
+    private function modifyAccountForm($account, $defaults) {
 
         // Language stuff
         $this->setData('LANG_Modify_Account', _("Modify Account"));
