@@ -2,6 +2,7 @@
 <framework>
     <vpopmaildHost>home.shupp.org</vpopmaildHost>
     <vpopmaildPort>89</vpopmaildPort>
+    <debug>0</debug>
     <mcryptKey>My Secret Key</mcryptKey>
     <maxPerPage>10</maxPerPage>
     <autorespond>/usr/bin/autorespond</autorespond>

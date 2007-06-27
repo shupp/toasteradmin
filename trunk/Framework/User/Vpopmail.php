@@ -50,7 +50,7 @@ class Framework_User_Vpopmail extends Framework_User {
      * @var mixed
      * @access public
      */
-    public $debug = false;
+    public $debug = 0;
     /**
      * loginUser 
      * 
@@ -85,9 +85,9 @@ class Framework_User_Vpopmail extends Framework_User {
         'no_maildrop'               => 0x40000);
 
     function  __construct() {
-        #parent::__construct();
         // Manual log stuff, since we're skipping Framework_User::__construct()
-        if ($this->debug && is_null($this->log)) {
+        $this->debug = (int)Framework::$site->config->debug;
+        if ($this->debug > 0 && is_null($this->log)) {
             $logFile = (string)Framework::$site->config->logFile;
             $this->log = Log::factory('file', $logFile);
         }
@@ -95,12 +95,12 @@ class Framework_User_Vpopmail extends Framework_User {
         $this->address = gethostbyname((string)Framework::$site->config->vpopmaildHost);
         $this->port = (string)Framework::$site->config->vpopmaildPort;
         $this->socket = new Net_Socket();
-        $result = $this->socket->connect($this->address, $this->port);
+        $result = $this->socket->connect($this->address, $this->port, null, 30);
         if(PEAR::isError($result)) return $result;
     }
 
     function recordio($data) {
-        if($this->debug)
+        if($this->debug > 0)
             $this->log->log($data);
     }
 
