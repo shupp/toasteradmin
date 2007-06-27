@@ -28,7 +28,6 @@ class Framework_User_toasterAdmin extends Framework_User_Vpopmail {
      * @return void
      */
     function __construct() {
- 
         parent::__construct();
         // Define VPOPMAIL_ROBOT_PROGRAM
         define('VPOPMAIL_ROBOT_PROGRAM', (string)Framework::$site->config->autorespond);
@@ -65,9 +64,9 @@ class Framework_User_toasterAdmin extends Framework_User_Vpopmail {
      */
     function isSysAdmin($acct_info = '') {
         if ($acct_info == '') {
-            $acct_info = $this->GetLoginUser();
+            $acct_info = $this->getLoginUser();
         }
-        return $this->GetGidBit($acct_info['gidflags'], 'system_admin_privileges');
+        return $this->getGidBit($acct_info['gidflags'], 'system_admin_privileges');
     }
     /**
      * Is Domain Admin
@@ -80,12 +79,12 @@ class Framework_User_toasterAdmin extends Framework_User_Vpopmail {
 
     function isDomainAdmin($domain, $acct_info = '') {
         if ($acct_info == '') {
-            $acct_info = $this->GetLoginUser();
+            $acct_info = $this->getLoginUser();
         }
-        if ($this->isSysAdmin()) return TRUE;
-        if ($this->GetGidBit($acct_info['gidflags'], 'domain_admin_privileges')) return TRUE;
-        if (($acct_info['user'] == 'postmaster') && $domain == $acct_info['domain']) return TRUE;
-        return FALSE;
+        if ($this->isSysAdmin()) return true;
+        if ($this->getGidBit($acct_info['gidflags'], 'domain_admin_privileges')) return true;
+        if (($acct_info['user'] == 'postmaster') && $domain == $acct_info['domain']) return true;
+        return false;
     }
 
     /**
@@ -135,9 +134,9 @@ class Framework_User_toasterAdmin extends Framework_User_Vpopmail {
      */
     function parse_home_dotqmail($contents, $account_info) {
         $autorespond = (string)Framework::$site->config->autorespond;
-        $is_standard = FALSE;
-        $is_deleted = FALSE;
-        $is_forwarded = FALSE;
+        $is_standard = false;
+        $is_deleted = false;
+        $is_forwarded = false;
         // Set default template settings
         $defaults['comment'] = $account_info['comment'];
         $defaults['forward'] = '';
@@ -145,8 +144,8 @@ class Framework_User_toasterAdmin extends Framework_User_Vpopmail {
         $defaults['vacation_checked'] = '';
         $defaults['vacation_subject'] = '';
         $defaults['vacation_body'] = '';
-        if (empty($contents)) $is_standard = TRUE;
-        if ((is_array($contents) && count($contents) == 1 && $contents[0] == '# delete')) $is_deleted = TRUE;
+        if (empty($contents)) $is_standard = true;
+        if ((is_array($contents) && count($contents) == 1 && $contents[0] == '# delete')) $is_deleted = true;
         if ($is_standard) {
             $defaults['routing'] = 'routing_standard';
         } else if ($is_deleted) {
@@ -167,7 +166,7 @@ class Framework_User_toasterAdmin extends Framework_User_Vpopmail {
                     continue;
                 } else {
                     if ($this->validEmailAddress(ereg_replace('^&', '', $val))) {
-                        $is_forwarded = TRUE;
+                        $is_forwarded = true;
                         $defaults['routing'] = 'routing_forwarded';
                         $defaults['forward'] = ereg_replace('^&', '', $val);
                     }
