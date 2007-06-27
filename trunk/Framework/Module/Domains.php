@@ -71,20 +71,8 @@ class Framework_Module_Domains extends Framework_Auth_Vpopmail
         $this->accessDirector();
         // Pagination setup
         $total = $this->user->DomainCount();
-        if($this->user->Error) die ("Error: {$this->user->Error}");
-        $this->setData('total', $total);
-        $this->setData('limit', (integer)Framework::$site->config->maxPerPage);
-        if(isset($_REQUEST['start']) && !ereg('[^0-9]', $_REQUEST['start'])) {
-            if($_REQUEST['start'] == 0) {
-                $start = 1;
-            } else {
-                $start = $_REQUEST['start'];
-            }
-        }
-        if(!isset($start)) $start = 1;
-        $this->setData('start', $start);
-        $this->setData('currentPage', ceil($this->data['start'] / $this->data['limit']));
-        $this->setData('totalPages', ceil($this->data['total'] / $this->data['limit']));
+        if(PEAR::isError($total)) return PEAR::raiseError($total);
+        $this->paginate($total);
 
         // Build domain list
         $domain_array = $this->user->ListDomains($this->data['currentPage'],$this->data['limit']);

@@ -79,20 +79,8 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
 
         // Pagintation setup
         $total = $this->user->UserCount($this->domain);
-        if($this->user->Error) die ("Error: {$this->user->Error}");
-        $this->setData('total', $total);
-        $this->setData('limit', (integer)Framework::$site->config->maxPerPage);
-        if(isset($_REQUEST['start']) && !ereg('[^0-9]', $_REQUEST['start'])) {
-            if($_REQUEST['start'] == 0) {
-                $start = 1;
-            } else {
-                $start = $_REQUEST['start'];
-            }
-        }
-        if(!isset($start)) $start = 1;
-        $this->setData('start', $start);
-        $this->setData('currentPage', ceil($this->data['start'] / $this->data['limit']));
-        $this->setData('totalPages', ceil($this->data['total'] / $this->data['limit']));
+        if(PEAR::isError($total)) return $total;
+        $this->paginate($total);
 
         // List Accounts
         $account_array = $this->user->ListUsers($this->data['domain'], $this->data['currentPage'], $this->data['limit']);
