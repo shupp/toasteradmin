@@ -5,7 +5,6 @@
  * Accounts Module
  *
  * This module is for viewing and editing vpopmail accounts
- * succeeds
  *
  * @author Bill Shupp <hostmaster@shupp.org>
  * @package ToasterAdmin
