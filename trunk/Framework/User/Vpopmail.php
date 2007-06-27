@@ -299,7 +299,7 @@ class Framework_User_Vpopmail extends Framework_User {
         if ($DeleteDirFailed) {
             $ErrorMessage.= 'Directory ';
         }
-        if ($DeleteDirFailed AND $DeleteDotQmailFileFailed) {
+        if ($DeleteDirFailed && $DeleteDotQmailFileFailed) {
             $ErrorMessage.= "and ";
         }
         if ($DeleteDotQmailFileFailed) {
@@ -409,7 +409,7 @@ class Framework_User_Vpopmail extends Framework_User {
         }
         $Lists = array();
         $in = $this->SockRead();
-        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
+        while (!$this->dotOnly($in) && !$this->statusOk($in) && !$this->statusErr($in)) {
             $Lists[] = $in;
             $in = $this->SockRead();
         }
@@ -434,7 +434,7 @@ class Framework_User_Vpopmail extends Framework_User {
         }
         $Alii = array();
         $in = $this->SockRead();
-        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
+        while (!$this->dotOnly($in) && !$this->statusOk($in) && !$this->statusErr($in)) {
             $Alii[] = $in;
             $in = $this->SockRead();
         }
@@ -574,7 +574,7 @@ class Framework_User_Vpopmail extends Framework_User {
         #$in = $this->SockRead();
         #$Warnings = array();
         #
-        #while( '.' != $in{0} AND '+' != $in{0} AND '-' != $in{0} ) {
+        #while( '.' != $in{0} && '+' != $in{0} && '-' != $in{0} ) {
         #   if( '' != $in ) {
         #      $Warnings[] = $in;
         #      }
@@ -654,7 +654,7 @@ class Framework_User_Vpopmail extends Framework_User {
         #$in = $this->SockRead();
         #$Warnings = array();
         #
-        #while( '.' != $in{0} AND '+' != $in{0} AND '-' != $in{0} ) {
+        #while( '.' != $in{0} && '+' != $in{0} && '-' != $in{0} ) {
         #   if( '' != $in ) {
         #      $Warnings[] = $in;
         #      }
@@ -760,7 +760,7 @@ class Framework_User_Vpopmail extends Framework_User {
             $this->Error = "command failed - $Status";
             return true;
         }
-        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
+        while (!$this->dotOnly($in) && !$this->statusOk($in) && !$this->statusErr($in)) {
             #   echo "read: $in<BR>\n";
             list(, $Count) = explode(' ', $in, 2);
             $in = $this->SockRead();
@@ -875,7 +875,7 @@ class Framework_User_Vpopmail extends Framework_User {
         }
         $FileContents = array();
         $in = $this->SockRead();
-        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
+        while (!$this->dotOnly($in) && !$this->statusOk($in) && !$this->statusErr($in)) {
             $FileContents[] = $in;
             $in = $this->RawSockRead();
         }
@@ -903,7 +903,7 @@ class Framework_User_Vpopmail extends Framework_User {
         }
         $DirectoryContents = array();
         $in = $this->SockRead();
-        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
+        while (!$this->dotOnly($in) && !$this->statusOk($in) && !$this->statusErr($in)) {
             list($DirName, $Type) = explode(' ', $in);
             $DirectoryContents[$DirName] = $Type;
             $in = $this->SockRead();
@@ -911,23 +911,14 @@ class Framework_User_Vpopmail extends Framework_User {
         ksort($DirectoryContents);
         return $DirectoryContents;
     }
-    ################################################################
-    #
-    #  f u n c t i o n      U s e r I n f o
-    #
-    function UserInfo($Domain, $User) {
-        $this->Error = '';
-        if ($Status = $this->SockWrite("user_info $User@$Domain")) {
-            $this->Error = "Error - write to Socket failed! $Status\n";
-            return;
-        }
-        $Status = $this->SockRead();
-        if (!$this->statusOk($Status)) {
-            $this->Error = "command failed - $Status\n";
-            return;
-        }
-        $UserInfo = $this->ReadUserInfo();
-        return $UserInfo;
+    function userInfo($domain, $user) {
+        $status = $this->SockWrite("user_info $user@$domain");
+        if(PEAR::isError($status)) return $status;
+        $status = $this->SockRead();
+        if(PEAR::isError($status)) return $status;
+        if (!$this->statusOk($status)) return PEAR::raiseError("command failed - $status");
+        $userInfo = $this->ReadUserInfo();
+        return $userInfo;
     }
     ################################################################
     #
@@ -949,7 +940,7 @@ class Framework_User_Vpopmail extends Framework_User {
         $List = array();
         if ($this->ShowData) echo "<<--  Start collecting user data  -->>";
         $in = $this->SockRead();
-        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in) AND $I < 10) {
+        while (!$this->dotOnly($in) && !$this->statusOk($in) && !$this->statusErr($in) && $I < 10) {
             list($Name, $Value) = explode(' ', $in, 2);
             #   echo "Name: $Name  Value: $Value\n";
             if ('name' == $Name) { #  Have name
@@ -1009,7 +1000,7 @@ class Framework_User_Vpopmail extends Framework_User {
         $Domains = array();
         $List = array();
         $in = $this->SockRead();
-        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
+        while (!$this->dotOnly($in) && !$this->statusOk($in) && !$this->statusErr($in)) {
             #   echo "read: $in<BR>\n";
             list($Parent, $Domain) = explode(' ', $in, 2);
             $Domains[$Domain] = $Parent;
@@ -1047,7 +1038,7 @@ class Framework_User_Vpopmail extends Framework_User {
             return;
         }
         $in = $this->SockRead();
-        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
+        while (!$this->dotOnly($in) && !$this->statusOk($in) && !$this->statusErr($in)) {
             #   echo "read: $in<BR>\n";
             list(, $Count) = explode(' ', $in, 2);
             $in = $this->SockRead();
@@ -1085,7 +1076,7 @@ class Framework_User_Vpopmail extends Framework_User {
         if ($this->ShowRecv) echo "<<--  Start ReadUserInfo  -->>\n";
         $UserArray = array();
         $in = $this->SockRead();
-        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
+        while (!$this->dotOnly($in) && !$this->statusOk($in) && !$this->statusErr($in)) {
             if ('' != $in) {
                 unset($Value);
                 list($Name, $Value) = explode(' ', $in, 2);
@@ -1109,7 +1100,7 @@ class Framework_User_Vpopmail extends Framework_User {
         if ($this->ShowRecv) echo "<<--  Start ReadUserInfo  -->>\n";
         $UserArray = array();
         $in = $this->SockRead();
-        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
+        while (!$this->dotOnly($in) && !$this->statusOk($in) && !$this->statusErr($in)) {
             if ('' != $in) {
                 unset($Value);
                 list($Name, $Value) = explode(' ', $in, 2);
@@ -1133,7 +1124,7 @@ class Framework_User_Vpopmail extends Framework_User {
         if ($this->ShowRecv) echo "<<--  Start ReadDomainInfo  -->>\n";
         $UserArray = array();
         $in = $this->SockRead();
-        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
+        while (!$this->dotOnly($in) && !$this->statusOk($in) && !$this->statusErr($in)) {
             if ('' != $in) {
                 unset($Value);
                 list($Name, $Value) = explode(' ', $in, 2);
