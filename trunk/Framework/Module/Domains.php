@@ -159,13 +159,10 @@ class Framework_Module_Domains extends Framework_Auth_Vpopmail
         }
 
         // Add domain
-        $this->user->AddDomain($_REQUEST['domain'], $_REQUEST['password']);
-        if($this->user->Error) {
-            return PEAR::raiseError(_("Error: ") . $this->user->Error);
-        }
-        // $tpl->set_msg(_("Domain added successfully"));
-        header("Location: ./?module=Domains&event=domainMenu&domain=" . $_REQUEST['domain']);
-        return;
+        $result = $this->user->AddDomain($_REQUEST['domain'], $_REQUEST['password']);
+        if(PEAR::isError($result)) return $result;
+        $this->setData('message', _("Domain added successfully"));
+        return $this->domainMenu();
     }
 
     private function addDomainForm()
@@ -221,19 +218,15 @@ class Framework_Module_Domains extends Framework_Auth_Vpopmail
         }
 
         // Delete domain
-        $this->user->DelDomain($domain);
-        if($this->user->Error) {
-            return PEAR::raiseError(_("Error: ") . $this->user->Error);
-        }
+        $result = $this->user->DelDomain($domain);
+        if(PEAR::isError($result)) return $result;
         $this->setData('message', _("Domain deleted successfully"));
-        $this->listDomains();
-        return;
+        return $this->listDomains();
     }
 
     function cancelDelDomain() {
         $this->setData('message', _("Domain deletion canceled"));
-        $this->listDomains();
-        return;
+        return $this->listDomains();
     }
 
 }
