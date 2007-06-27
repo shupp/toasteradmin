@@ -40,16 +40,11 @@ class Framework_User_toasterAdmin extends Framework_User_Vpopmail {
     {
         $LoginType = 'clogin';
         $out = "$LoginType $Email $Password";
-        if ($this->ShowCmd) echo "Login string: $out\n";
         $this->SockWrite($out);
         $in = $this->SockRead();
         if(PEAR::isError($in)) return $in;
         if (!$this->StatusOk($in)) {
-            $this->Error = "Login failed - $in";
-            Socket_shutdown($this->Socket, 2);
-            Socket_close($this->Socket);
-            unset($this->Socket);
-            return false;
+            return PEAR::raiseError("Login failed - $in");
         }
         $this->loginUser = $this->ReadUserInfo();
         $email_array = explode('@', $Email);

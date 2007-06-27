@@ -37,8 +37,8 @@ class Framework_Module_Login extends Framework_Auth_No
     {
         $form = $this->createLoginForm();
         if ($form->validate()) {
-            $this->user->authenticate($_POST['email'], $_POST['password']);
-            if(!$this->user->Error) {
+            $result = $this->user->authenticate($_POST['email'], $_POST['password']);
+            if(!PEAR::isError($result)) {
                 $emailArray = explode('@', $_POST['email']);
                 $this->session->user = $emailArray[0];
                 $this->session->domain = $emailArray[1];
@@ -47,7 +47,7 @@ class Framework_Module_Login extends Framework_Auth_No
                     (string)Framework::$site->config->mcryptKey);
                 header("Location: ./index.php?module=Domains");
             } else {
-                $this->setData('loginError', $this->user->Error);
+                $this->setData('loginError', $result->getMessage());
                 $this->setData('QF_Form', $form->toHtml());
                 $this->session->email = null;
                 $this->session->password = null;

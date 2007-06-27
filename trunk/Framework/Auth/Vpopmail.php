@@ -8,7 +8,7 @@ abstract class Framework_Auth_Vpopmail extends Framework_Auth
     {
         $encryptedPass = $this->session->__get('password');
         $plainPass =  Framework_User_passEncryption::decryptPass($encryptedPass, (string)Framework::$site->config->mcryptKey);
-        if($this->user->authenticate($this->session->__get('email'), $plainPass)) {
+        if(!PEAR::isError($this->user->authenticate($this->session->__get('email'), $plainPass))) {
             $this->setData('logged_in_as', $this->session->__get('email'));
             $this->setData('LANG_logged_in_as', _('logged in as'));
             $this->setData('LANG_logout', _('logout'));
