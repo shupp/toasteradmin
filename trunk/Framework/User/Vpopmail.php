@@ -1017,30 +1017,19 @@ class Framework_User_Vpopmail extends Framework_User {
         }
         return $Domains;
     }
-    ################################################################
-    #
-    #  f u n c t i o n      D o m a i n C o u n t
-    #
-    function DomainCount() {
-        $this->Error = '';
-        if ($Status = $this->SockWrite("domain_count")) {
-            $this->Error = "Error - write to Socket failed! $Status";
-            return;
-        }
-        $Status = $this->SockRead();
-        if (!$this->statusOk($Status)) {
-            $this->Error = "command failed - $in";
-            return;
-        }
-        $Domains = array();
-        $List = array();
+    function domainCount() {
+        $status = $this->SockWrite("domain_count");
+        if(PEAR::isError($status)) return $status;
+        $status = $this->SockRead();
+        if(PEAR::isError($status)) return $status;
+        if (!$this->statusOk($status)) 
+            return PEAR::raiseError("command failed - $status");
         $in = $this->SockRead();
-        while (!$this->dotOnly($in) AND !$this->statusOk($in) AND !$this->statusErr($in)) {
-            #   echo "read: $in<BR>\n";
-            list(, $Count) = explode(' ', $in, 2);
+        while (!$this->dotOnly($in) && !$this->statusOk($in) && !$this->statusErr($in)) {
+            list(, $count) = explode(' ', $in, 2);
             $in = $this->SockRead();
         }
-        return $Count;
+        return $count;
     }
     ################################################################
     #

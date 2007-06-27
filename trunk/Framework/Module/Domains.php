@@ -70,7 +70,7 @@ class Framework_Module_Domains extends Framework_Auth_Vpopmail
     {
         $this->accessDirector();
         // Pagination setup
-        $total = $this->user->DomainCount();
+        $total = $this->user->domainCount();
         if(PEAR::isError($total)) return PEAR::raiseError($total);
         $this->paginate($total);
 
