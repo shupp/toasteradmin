@@ -1,8 +1,11 @@
 <?xml version="1.0" ?>
 <framework>
+    <!-- set to 1 to send debug info to logFile -->
+    <debug>0</debug>
     <vpopmaildHost>home.shupp.org</vpopmaildHost>
     <vpopmaildPort>89</vpopmaildPort>
-    <debug>0</debug>
+    <!-- inactivity timeout - in seconds -->
+    <inactiveTimeout>300</inactiveTimeout>
     <mcryptKey>My Secret Key</mcryptKey>
     <maxPerPage>10</maxPerPage>
     <autorespond>/usr/bin/autorespond</autorespond>

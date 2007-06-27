@@ -40,17 +40,18 @@ class Framework_Module_Login extends Framework_Auth_No
             $result = $this->user->authenticate($_POST['email'], $_POST['password']);
             if(!PEAR::isError($result)) {
                 $emailArray = explode('@', $_POST['email']);
-                $this->session->user = $emailArray[0];
-                $this->session->domain = $emailArray[1];
-                $this->session->email = $_POST['email'];
-                $this->session->password = Framework_User_passEncryption::encryptPass($_POST['password'], 
-                    (string)Framework::$site->config->mcryptKey);
+                $this->session->__set('user', $emailArray[0]);
+                $this->session->__set('domain', $emailArray[1]);
+                $this->session->__set('email', $_POST['email']);
+                $this->session->__set('password', Framework_User_passEncryption::encryptPass($_POST['password'], 
+                    (string)Framework::$site->config->mcryptKey));
+                $this->session->__set('lastActionTime', time());
                 header("Location: ./index.php?module=Domains");
             } else {
                 $this->setData('loginError', $result->getMessage());
                 $this->setData('QF_Form', $form->toHtml());
-                $this->session->email = null;
-                $this->session->password = null;
+                $this->session->__set('email', null);
+                $this->session->__set('password',  null);
                 return;
             }
         } else {
@@ -73,6 +74,18 @@ class Framework_Module_Login extends Framework_Auth_No
         $form->applyFilter('__ALL__', 'trim');
 
         return $form;
+    }
+
+    function logoutNow() {
+        $this->session->destroy();
+        $this->setData('message', _('Logged out successfully'));
+        return $this->__default();
+    }
+
+    function logoutInactive() {
+        $this->session->destroy();
+        $this->setData('message', _('You have been logged out automatically for inactivity'));
+        return $this->__default();
     }
 
 }
