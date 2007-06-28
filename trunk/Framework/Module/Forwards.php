@@ -40,9 +40,8 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
     function __construct() {
         parent::__construct();
         // Make sure doamin was supplied
-        if(!isset($_REQUEST['domain'])) {
-            die (_("Error: no domain supplied"));
-        }
+        if(!isset($_REQUEST['domain'])) 
+            throw new Framework_Exception(_("Error: no domain supplied"));
         $this->domain = $_REQUEST['domain'];
         $this->setData('domain', $this->domain);
         $this->setData('domain_url', htmlspecialchars('./?module=Domains&event=domainMenu&domain=' . $this->domain));

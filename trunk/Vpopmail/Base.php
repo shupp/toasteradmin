@@ -117,11 +117,11 @@ class Vpopmail_Base  extends Framework_User {
     function  __construct() {
         if ($this->debug > 0 && is_null($this->log)) {
             $this->log = Log::factory('file', $this->logFile);
-            if(is_null($this->log)) return PEAR::raiseError("Error creating Log object");
+            if(is_null($this->log)) throw new Framework_Exception("Error creating Log object");
         }
         $this->socket = new Net_Socket();
         $result = $this->socket->connect($this->address, $this->port, null, 30);
-        if(PEAR::isError($result)) return $result;
+        if(PEAR::isError($result)) throw new Framework_Exception($result->getMessage());
     }
 
     /**
