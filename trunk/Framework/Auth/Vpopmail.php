@@ -10,8 +10,7 @@ abstract class Framework_Auth_Vpopmail extends Framework_Auth
         $time = time();
         $lastActionTime = $this->session->__get('lastActionTime');
         $timeLimit = (int)Framework::$site->config->inactiveTimeout;
-        if($this->user->debug == 1);
-            $this->log->log("timeout info: time: $time, lastActionTime: $lastActionTime, timeLimit: $timeLimit");
+        $this->user->recordio("timeout info: time: $time, lastActionTime: $lastActionTime, timeLimit: $timeLimit");
         if(($time - $lastActionTime) > $timeLimit) {
             header('Location: ./?module=Login&event=logoutInactive');
             return false;
