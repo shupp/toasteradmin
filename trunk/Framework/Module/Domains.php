@@ -75,7 +75,7 @@ class Framework_Module_Domains extends Framework_Auth_Vpopmail
         $this->paginate($total);
 
         // Build domain list
-        $domain_array = $this->user->ListDomains($this->data['currentPage'],$this->data['limit']);
+        $domain_array = $this->user->listDomains($this->data['currentPage'],$this->data['limit']);
         $domains = array();
         $count = 0;
         while(list($key,$val) = each($domain_array)) {

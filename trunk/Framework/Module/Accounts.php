@@ -78,12 +78,12 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
         if(PEAR::isError($privs)) return privs;
 
         // Pagintation setup
-        $total = $this->user->UserCount($this->domain);
+        $total = $this->user->userCount($this->domain);
         if(PEAR::isError($total)) return $total;
         $this->paginate($total);
 
         // List Accounts
-        $account_array = $this->user->ListUsers($this->data['domain'], $this->data['currentPage'], $this->data['limit']);
+        $account_array = $this->user->listUsers($this->data['domain'], $this->data['currentPage'], $this->data['limit']);
         $accounts = array();
         $count = 0;
         while(list($key,$val) = each($account_array)) {

@@ -19,7 +19,7 @@
  * @version 1.0
  *
  */
-class Framework_User_toasterAdmin extends Framework_User_Vpopmail {
+class Framework_User_toasterAdmin extends Vpopmail_Main {
 
     /**
      * __construct 
@@ -36,21 +36,22 @@ class Framework_User_toasterAdmin extends Framework_User_Vpopmail {
         // Define VPOPMAIL_ROBOT_PROGRAM
         define('VPOPMAIL_ROBOT_PROGRAM', (string)Framework::$site->config->autorespond);
         parent::__construct();
-        $in = $this->SockRead();
+        $in = $this->sockRead();
     }
 
 
-    function authenticate($Email, $Password)
+    function authenticate($email, $password)
     {
-        $LoginType = 'clogin';
-        $out = "$LoginType $Email $Password";
-        $this->SockWrite($out);
+        $out = "clogin $email $password";
+        $return = $this->sockWrite($out);
+        if(PEAR::isError($return)) return $return;
         $in = $this->SockRead();
         if(PEAR::isError($in)) return $in;
         if (!$this->StatusOk($in)) {
-            return PEAR::raiseError("Login failed - $in");
+            return PEAR::raiseError("Login failed - " . $in);
         }
-        $this->loginUser = $this->ReadUserInfo();
+        $this->loginUser = $this->readUserInfo();
+        if(PEAR::isError($this->loginUser)) return $this->loginUser;
         $email_array = explode('@', $Email);
         $this->loginUser['domain'] = $email_array[1];
         return true;
