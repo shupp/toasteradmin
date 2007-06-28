@@ -19,6 +19,15 @@
  */
 class Vpopmail_Main extends Vpopmail_Base {
 
+    /**
+     * getGidBit 
+     * 
+     * @param mixed $bitmap 
+     * @param mixed $bit 
+     * @param mixed $flip 
+     * @access public
+     * @return mixed
+     */
     function getGidBit($bitmap, $bit, $flip = false) {
         if (!isset($this->gidFlagValues[$bit])) {
             return PEAR::raiseError("Error - unknown GID Bit value specified. $bit");
@@ -27,6 +36,17 @@ class Vpopmail_Main extends Vpopmail_Base {
         if ($flip) return ($bitmap&$bitValue) ? false : true;
         return ($bitmap&$bitValue) ? true : false;
     }
+
+    /**
+     * setGidBit 
+     * 
+     * @param mixed $bitmap 
+     * @param mixed $bit 
+     * @param mixed $value 
+     * @param mixed $flip 
+     * @access public
+     * @return mixed
+     */
     function setGidBit(&$bitmap, $bit, $value, $flip = false) {
         if (!isset($this->gidFlagValues[$bit])) 
             return PEAR::raiseError("Unknown GID Bit value specified. $bit");
@@ -38,6 +58,14 @@ class Vpopmail_Main extends Vpopmail_Base {
         }
         $bitmap = (int)$value|(~(int)$bitValue&(int)$bitmap);
     }
+
+    /**
+     * getIPMap 
+     * 
+     * @param mixed $ip 
+     * @access public
+     * @return mixed
+     */
     function getIPMap($ip) {
         if ($status = $this->SockWrite("get_ip_map $ip")) {
             return PEAR::raiseError("Error - write to socket failed! $status");
@@ -55,36 +83,57 @@ class Vpopmail_Main extends Vpopmail_Base {
         $exploded = explode(" ", $lists[0]);
         return $exploded[1];
     }
+
+    /**
+     * addIPMap 
+     * 
+     * @param mixed $domain 
+     * @param mixed $ip 
+     * @access public
+     * @return mixed
+     */
     function addIPMap($domain, $ip) {
-        if ($Status = $this->SockWrite("add_ip_map $ip $Domain")) {
-            return PEAR::raiseError("Error - write to Socket failed! $status");
-        }
-        $status = $this->SockRead();
-        if (!$this->statusOk($status)) {
-            return PEAR::raiseError($this->Error = "command failed - $Status");
-        }
-        return false;
-    }
-    function delIPMap($domain, $ip) {
-        if ($status = $this->SockWrite("del_ip_map $ip $domain")) {
-            return PEAR::raiseError("Error - write to Socket failed! $status");
-        }
-        $status = $this->SockRead();
-        if (!$this->statusOk($Status)) {
-            return PEAR::raiseError("command failed - $status");
-        }
-        return false;
-    }
-    function showIPMap() {
-        if ($status = $this->SockWrite("show_ip_map")) {
-            return PEAR::raiseError("Error - write to Socket failed! $Status");
-        }
-        $status = $this->SockRead();
+        $status = $this->sockWrite("add_ip_map $ip $domain");
+        if(PEAR::isError($status)) return $status;
+        $status = $this->sockRead();
+        if(PEAR::isError($status)) return $status;
         if (!$this->statusOk($status)) {
             return PEAR::raiseError("command failed - $Status");
         }
+        return false;
+    }
+    /**
+     * delIPMap 
+     * 
+     * @param mixed $domain 
+     * @param mixed $ip 
+     * @access public
+     * @return mixed
+     */
+    function delIPMap($domain, $ip) {
+        $status = $this->sockWrite("del_ip_map $ip $domain");
+        if(PEAR::isError($status)) return $status;
+        $status = $this->sockRead();
+        if (!$this->statusOk($status)) 
+            return PEAR::raiseError("command failed - $status");
+        return false;
+    }
+    /**
+     * showIPMap 
+     * 
+     * @access public
+     * @return mixed
+     */
+    function showIPMap() {
+        $status = $this->sockWrite("show_ip_map");
+        if(PEAR::isError($status)) return $status;
+        $status = $this->sockRead();
+        if(PEAR::isError($status)) return $status;
+        if (!$this->statusOk($status)) 
+            return PEAR::raiseError("command failed - $status");
         $lists = array();
-        $in = $this->SockRead();
+        $in = $this->sockRead();
+        if(PEAR::isError($in)) return $in;
         while (!$this->dotOnly($in) && !$this->statusOk($in) && !$this->statusError($in)) {
             list($ip, $domain) = explode(' ', $in);
             if (!empty($lists[$ip])) {
@@ -92,40 +141,44 @@ class Vpopmail_Main extends Vpopmail_Base {
             } else { #  Not duplicate
                 $lists[$ip] = $domain;
             }
-            $in = $this->SockRead();
+            $in = $this->sockRead();
+            if(PEAR::isError($in)) return $in;
         }
         ksort($lists);
         return $lists;
     }
 
-    ################################################################
-    #
-    #  f u n c t i o n       D o t Q m a i l S p l i t
-    #
-    function DotQmailSplit($FileContents) {
-        $Result = array('Comment' => array(), 'Program' => array(), 'Delivery' => array(), 'Forward' => array(),);
-        if (!is_array($FileContents)) {
-            return $Result;
+    /**
+     * dotQmailSplit 
+     * 
+     * @param mixed $fileContents 
+     * @access public
+     * @return array
+     */
+    function dotQmailSplit($fileContents) {
+        $result = array('Comment' => array(), 'Program' => array(), 'Delivery' => array(), 'Forward' => array(),);
+        if (!is_array($fileContents)) {
+            return $result;
         }
-        reset($FileContents);
-        while (list(, $Line) = each($FileContents)) {
-            switch ($Line{0}) {
+        reset($fileContents);
+        while (list(, $line) = each($fileContents)) {
+            switch ($line{0}) {
                 case '#':
-                    $Result['Comment'][] = $Line;
+                    $result['Comment'][] = $line;
                 break;
                 case '|':
-                    $Result['Program'][] = $Line;
+                    $result['Program'][] = $line;
                 break;
                 case '/':
-                    $Result['Delivery'][] = $Line;
+                    $result['Delivery'][] = $line;
                 break;
                 case '&':
                 default:
-                    $Result['Forward'][] = $Line;
+                    $result['Forward'][] = $line;
                 break;
             }
-        } #   while each $FileContents
-        return $Result;
+        }
+        return $result;
     }
     ################################################################
     #
