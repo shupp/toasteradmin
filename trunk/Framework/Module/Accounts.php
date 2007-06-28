@@ -89,7 +89,7 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
         while(list($key,$val) = each($account_array)) {
             $accounts[$count]['account'] = $key;
             $accounts[$count]['comment'] = $val['comment'];
-            $accounts[$count]['quota'] = $this->user->get_quota($val['quota']);
+            $accounts[$count]['quota'] = $this->user->getQuota($val['quota']);
             $accounts[$count]['edit_url'] = htmlspecialchars("./?module=Accounts&domain={$this->domain}&account=$key&event=modifyAccount");
             $accounts[$count]['delete_url'] = htmlspecialchars("./?module=Accounts&domain={$this->domain}&account=$key&event=delete");
             $count++;

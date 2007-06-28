@@ -109,14 +109,13 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
     }
 
     /**
-     * Get Quota
-     *
-     * Make Quota Human Readable
-     *
-     * @author Bill Shupp <hostmaster@shupp.org>
-     *
+     * getQuota 
+     * 
+     * @param mixed $quota 
+     * @access public
+     * @return string
      */
-    function get_quota($quota) {
+    function getQuota($quota) {
         if (ereg('S$', $quota)) {
             $quota = ereg_replace('S$', '', $quota);
             $quota = $quota/1024;
