@@ -141,7 +141,6 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
      * @return array $defaults
      */
     function parseHomeDotqmail($contents, $account_info) {
-        $autorespond = (string)Framework::$site->config->autorespond;
         $is_standard = false;
         $is_deleted = false;
         $is_forwarded = false;
@@ -165,9 +164,9 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
                     $defaults['save_a_copy_checked'] = ' checked';
                     continue;
                 }
-                if (ereg($autorespond, $val)) {
+                if (ereg(VPOPMAIL_ROBOT_PROGRAM, $val)) {
                     $defaults['vacation_checked'] = ' checked';
-                    $vacation_array = $this->getVacation($val);
+                    $vacation_array = $this->getVacation($val, $account_info);
                     while(list($vacKey, $vacVal) = each($vacation_array)) {
                         $defaults[$vacKey] = $vacVal;
                     }
@@ -382,7 +381,7 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
         foreach ($raw_array as $parentkey => $parentval) {
             $is_type = 'forwards';
             foreach ($parentval as $key => $val) {
-                if(ereg('[|].*autorespond', $val)) {
+                if(ereg('[|].*' . VPOPMAIL_ROBOT__PROGRAM, $val)) {
                     $is_type = 'responders';
                     break;
                 }

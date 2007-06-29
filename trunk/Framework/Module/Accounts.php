@@ -272,9 +272,9 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
         }
 
         // Get .qmail info if it exists
-        $dot_qmail = $this->user->ReadFile($this->domain, $_REQUEST['account'], '.qmail');
-        if($this->user->Error && $this->user->Error != 'command failed - -ERR 2102 No such file or directory') {
-            return PEAR::raiseError(_('Error: ') . $this->user->Error);
+        $dot_qmail = $this->user->readFile($this->domain, $_REQUEST['account'], '.qmail');
+        if(PEAR::isError($dot_qmail) && $dot_qmail->getMessage() != '-ERR 2102 No such file or directory') {
+            return $dot_qmail;
         }
         $defaults = $this->user->parseHomeDotqmail($dot_qmail, $account_info);
         $form = $this->modifyAccountForm($account, $defaults);
@@ -282,7 +282,6 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
         $form->accept($renderer);
         $this->setData('form', 
             HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
-        // print_r($this->data['form']);exit;
         $this->tplFile = 'modifyAccount.tpl';
         return;
 
@@ -340,9 +339,9 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
         }
 
         // See what user_info to use
-        $account_info = $this->user->UserInfo($this->domain, $_REQUEST['account']);
-        if($this->user->Error) {
-            return PEAR::raiseError(_('Error: ') . $this->user->Error);
+        $account_info = $this->user->userInfo($this->domain, $_REQUEST['account']);
+        if(PEAR::isError($account_info)) {
+            return $account_info;
         }
 
         // Get .qmail info if it exists
