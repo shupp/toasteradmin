@@ -114,7 +114,8 @@ class Vpopmail_Base  extends Framework_User {
      * @access protected
      * @return void
      */
-    function  __construct() {
+    protected function  __construct()
+    {
         if ($this->debug > 0 && is_null($this->log)) {
             $this->log = Log::factory('file', $this->logFile);
             if(is_null($this->log)) throw new Framework_Exception("Error creating Log object");
@@ -133,7 +134,8 @@ class Vpopmail_Base  extends Framework_User {
      * @access public
      * @return void
      */
-    function recordio($data) {
+    public function recordio($data)
+    {
         if($this->debug > 0)
             $this->log->log($data);
     }
@@ -147,7 +149,8 @@ class Vpopmail_Base  extends Framework_User {
      * @access public
      * @return bool
      */
-    function statusOk($data) {
+    public function statusOk($data)
+    {
         if (ereg('^[+]OK', $data)) return true;
         return false;
     }
@@ -162,7 +165,8 @@ class Vpopmail_Base  extends Framework_User {
      * @access public
      * @return bool
      */
-    function statusOkMore($data) {
+    public function statusOkMore($data)
+    {
         if (ereg('^[+]OK[+]$', $data)) return true;
         return false;
     }
@@ -176,7 +180,8 @@ class Vpopmail_Base  extends Framework_User {
      * @access public
      * @return bool
      */
-    function statusOkNoMore($data) {
+    public function statusOkNoMore($data)
+    {
         if (ereg('^[+]OK$', $data)) return true;
         return false;
     }
@@ -190,7 +195,8 @@ class Vpopmail_Base  extends Framework_User {
      * @access public
      * @return bool
      */
-    function statusErr($data) {
+    public function statusErr($data)
+    {
         if (ereg('^[-]ERR ', $data)) return true;
         return false;
     }
@@ -204,7 +210,8 @@ class Vpopmail_Base  extends Framework_User {
      * @access public
      * @return bool
      */
-    function dotOnly($data) {
+    public function dotOnly($data)
+    {
         if (ereg('^[.]$', $data)) return true;
         return false;
     }
@@ -218,7 +225,8 @@ class Vpopmail_Base  extends Framework_User {
      * @access public
      * @return mixed
      */
-    function sockWrite($data) {
+    public function sockWrite($data)
+    {
         $this->recordio("sockWrite send: $data");
         $result = $this->socket->writeLine($data);
         if(PEAR::isError($result)) return $result;
@@ -233,7 +241,8 @@ class Vpopmail_Base  extends Framework_User {
      * @access public
      * @return mixed
      */
-    function sockRead() {
+    public function sockRead()
+    {
         $in = '';
         while ('' == $in) {
             $in = $this->socket->readLine();
@@ -251,7 +260,8 @@ class Vpopmail_Base  extends Framework_User {
      * @access public
      * @return mixed
      */
-    function rawSockRead($maxLen = 2048) {
+    public function rawSockRead($maxLen = 2048)
+    {
         $in = $this->socket->read($maxLen);
         if(PEAR::isError($in)) return $in;
         $this->recordio("rawSockRead Read: $in");
@@ -263,10 +273,11 @@ class Vpopmail_Base  extends Framework_User {
      * 
      * send quit command to vpopmaild
      * 
-     * @access public
+     * @access protected
      * @return void
      */
-    function quit() {
+    protected function quit()
+    {
         $this->sockWrite("quit\n");
     }
 
@@ -278,7 +289,8 @@ class Vpopmail_Base  extends Framework_User {
      * @access protected
      * @return void
      */
-    function __destruct() {
+    protected function __destruct()
+    {
         if($this->socket instanceof Net_Socket) {
             $this->quit();
             $this->socket->disconnect();
