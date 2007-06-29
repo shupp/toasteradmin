@@ -1,13 +1,24 @@
 #!/bin/sh
 #cd /Users/shupp/web/mailtool || exit 99
 
-DOCSDIR='./doc'
+DOCSDIR="./doc"
+PEARDIR='/usr/share/php'
 
-FILES="./htdocs/index.php"
-for i in `find Framework/ -name *.php | grep -v templates_c ` ; do 
+#setup links
+cp $PEARDIR/Framework.php .
+cp -rp $PEARDIR/Framework PEAR-Framework
+
+FILES="./htdocs/index.php./Framework.php"
+for i in `find ./Framework/ -name "*.php" | grep -v templates_c ` ; do 
     FILES="$FILES,$i"
 done
-for i in `find HTML/ -name *.php | grep -v templates_c ` ; do 
+for i in `find ./HTML/ -name "*.php"` ; do 
+    FILES="$FILES,$i"
+done
+for i in `find ./Vpopmail/ -name "*.php"` ; do 
+    FILES="$FILES,$i"
+done
+for i in `find ./PEAR-Framework/ -name "*.php"` ; do 
     FILES="$FILES,$i"
 done
 
@@ -23,6 +34,10 @@ phpdoc \
 mv $DOCSDIR $DOCSDIR.old
 mv $DOCSDIR.tmp $DOCSDIR
 rm -rf $DOCSDIR.old
+
+rm Framework.php
+rm -r PEAR-Framework
+
     #-o HTML:frames:DOM/phphtmllib,HTML:Smarty:default,HTML:frames:DOM/earthli,HTML:Smarty:PHP,HTML:Smarty:HandS,HTML:frames:phpedit,HTML:frames:DOM/l0l33t,HTML:frames:DOM/default,HTML:frames:earthli \
 
 #HTML:frames:phpedit
