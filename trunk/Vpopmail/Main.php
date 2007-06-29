@@ -494,8 +494,8 @@ class Vpopmail_Main extends Vpopmail_Base {
         if(PEAR::isError($status)) return $status;
         $status = $this->sockRead();
         if(PEAR::isError($status)) return $status;
-        if (!$this->statusOk($Status))
-            return PEAR::raiseError("command failed - $status");
+        if (!$this->statusOk($status))
+            return PEAR::raiseError($status);
         return true;
     }
 
@@ -522,7 +522,7 @@ class Vpopmail_Main extends Vpopmail_Base {
         $in = $this->sockRead();
         while (!$this->dotOnly($in) && !$this->statusOk($in) && !$this->statusErr($in)) {
             $fileContents[] = $in;
-            $in = $this->rawSockRead();
+            $in = $this->sockRead();
             if(PEAR::isError($status)) return $status;
         }
         return $fileContents;
@@ -568,11 +568,7 @@ class Vpopmail_Main extends Vpopmail_Base {
      */
     public function rmDir($domain, $user = '', $path = '')
     {
-        $basePath = $domain;
-        if (!empty($user)) $basePath = "$user@$basePath";
-        if (!empty($Path)) $basePath.= "/".$path;
-        $basePath.= '/';
-        $basePath = ereg_replace('//', '/', $basePath);
+        $basePath = $this->formatBasePath($domain, $user, $path);
         $status = $this->sockWrite("rm_dir $basePath");
         if(PEAR::isError($status)) return $status;
         $Status = $this->sockRead();

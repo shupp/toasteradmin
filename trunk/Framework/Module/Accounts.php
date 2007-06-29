@@ -346,9 +346,9 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
         }
 
         // Get .qmail info if it exists
-        $dot_qmail = $this->user->ReadFile($this->domain, $_REQUEST['account'], '.qmail');
-        if($this->user->Error && $this->user->Error != 'command failed - -ERR 2102 No such file or directory') {
-            return PEAR::raiseError(_('Error: ') . $this->user->Error);
+        $dot_qmail = $this->user->readFile($this->domain, $_REQUEST['account'], '.qmail');
+        if (PEAR::isError($dot_qmail) && $dot_qmail->getMessage() != '-ERR 2102 No such file or directory') {
+            return $dot_qmail;
         }
         $defaults = $this->user->parseHomeDotqmail($dot_qmail, $account_info);
         $form = $this->modifyAccountForm($account, $defaults);
@@ -370,14 +370,16 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
             $routing = 'deleted';
         } else if($_REQUEST['routing'] == 'routing_forwarded') {
             if(empty($_REQUEST['forward'])) {
-                return PEAR::raiseError(_('Error: you must supply a forward address'));
+                $this->setData('message', _('Error: you must supply a forward address'));
+                return $this->modifyAccount();
             } else {
                 $forward = $_REQUEST['forward'];
             }
             $routing = 'forwarded';
             if(isset($_REQUEST['save_a_copy'])) $save_a_copy = 1;
         } else {
-            return PEAR::raiseError(_('Error: unsupported routing selection'));
+                $this->setData('message', _('Error: unsupported routing selection'));
+                return $this->modifyAccount();
         }
 
         // Check for vacation
@@ -400,18 +402,19 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
         if($vacation == 1) {
             if(strlen($dot_qmail_contents) > 0) $dot_qmail_contents .= "\n";
             $vacation_dir = $account_info['user_dir'] . '/vacation';
-            $dot_qmail_contents .= "| $autorespond 86400 3 $vacation_dir/message $vacation_dir";
-            // Example:
-            // | /usr/local/bin/autorespond 86400 3 /home/vpopmail/domains/shupp.org/test/vacation/message /home/vpopmail/domains/shupp.org/test/vacation
+            $dot_qmail_contents .= '| ' . VPOPMAIL_ROBOT_PROGRAM;
+            $dot_qmail_contents .= ' ' . VPOPMAIL_ROBOT_TIME;
+            $dot_qmail_contents .= ' ' . VPOPMAIL_ROBOT_NUMBER;
+            $dot_qmail_contents .= "$vacation_dir/message $vacation_dir";
         }
 
-        $dot_qmail_file = $account_info['user_dir'] . '/.qmail';
+        $dot_qmail_file = '.qmail';
         if(strlen($dot_qmail_contents) > 0) {
             $contents = explode("\n", $dot_qmail_contents);
             // Delete existing file
-            $this->user->RmFile($this->domain, $account_info['name'], $dot_qmail_file);
+            $this->user->rmFile($this->domain, $account_info['name'], $dot_qmail_file);
             // Write .qmail file
-            $this->user->WriteFile(explode("\n", $dot_qmail_contents), '', '', $dot_qmail_file);
+            $result = $this->user->writeFile($contents, $this->domain, $account_info['name'], $dot_qmail_file);
 
             // Add vacation files
             if($vacation == 1) {
@@ -422,19 +425,19 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
                 $vdir = 'vacation';
                 $message = 'vacation/message';
                 // Delete existing file
-                $this->user->RmDir($this->domain, $account_info['name'], $vdir);
+                $this->user->rmDir($this->domain, $account_info['name'], $vdir);
                 // Make vacation directory
-                $this->user->MkDir($this->domain, $account_info['name'], $vdir);
+                $this->user->mkDir($this->domain, $account_info['name'], $vdir);
                 // Write vacation message
-                $this->user->WriteFile($contents, $this->domain, $account_info['name'], $message);
+                $this->user->writeFile($contents, $this->domain, $account_info['name'], $message);
             }
         } else {
-            $this->user->RmDir($this->domain, $account_info['name'], 'vacation');
-            $this->user->RmFile('', '', $dot_qmail_file);
+            $this->user->rmDir($this->domain, $account_info['name'], 'vacation');
+            $this->user->rmFile('', '', $dot_qmail_file);
         }
 
         $this->setData('message', _('Account Modified Successfully'));
-        $this->modifyAccount();
+        return $this->modifyAccount();
     }
 
 }
