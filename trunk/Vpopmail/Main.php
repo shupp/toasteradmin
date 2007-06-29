@@ -221,7 +221,7 @@ class Vpopmail_Main extends Vpopmail_Base {
                 unset($value);
                 list($name, $value) = explode(' ', $in, 2);
                 $value = trim($value);
-                $userArray[$name] = $value;
+                $infoArray[$name] = $value;
             }
             $in = $this->sockRead();
             if(PEAR::isError($in)) return $in;

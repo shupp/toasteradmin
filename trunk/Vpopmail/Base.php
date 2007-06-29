@@ -111,10 +111,10 @@ class Vpopmail_Base  extends Framework_User {
      * 
      * Turn on logger if debug is 1.  Create socket.
      * 
-     * @access protected
+     * @access public
      * @return void
      */
-    protected function  __construct()
+    public function  __construct()
     {
         if ($this->debug > 0 && is_null($this->log)) {
             $this->log = Log::factory('file', $this->logFile);
@@ -286,10 +286,10 @@ class Vpopmail_Base  extends Framework_User {
      * 
      * Close socket, logger
      * 
-     * @access protected
+     * @access public
      * @return void
      */
-    protected function __destruct()
+    public function __destruct()
     {
         if($this->socket instanceof Net_Socket) {
             $this->quit();
