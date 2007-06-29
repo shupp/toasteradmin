@@ -160,7 +160,10 @@ class Framework_Module_Domains extends Framework_Auth_Vpopmail
 
         // Add domain
         $result = $this->user->AddDomain($_REQUEST['domain'], $_REQUEST['password']);
-        if(PEAR::isError($result)) return $result;
+        if(PEAR::isError($result)) {
+            $this->setData('message', _("Error: ") . $result->getMessage());
+            return $this->addDomain();
+        }
         $this->setData('message', _("Domain added successfully"));
         return $this->domainMenu();
     }

@@ -772,7 +772,7 @@ class Vpopmail_Main extends Vpopmail_Base {
         if(PEAR::isError($status)) return $status;
         $status = $this->sockRead();
         if(PEAR::isError($status)) return $status;
-        if (!$this->statusOk($Status))
+        if (!$this->statusOk($status))
             return PEAR::raiseError($status);
         return true;
     }
