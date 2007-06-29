@@ -884,9 +884,6 @@ class Vpopmail_Main extends Vpopmail_Base {
         }
         return $count;
     }
-    function getLoginUser() {
-        return $this->loginUser;
-    }
     ################################################################
     #
     #  f u n c t i o n      E r r o r M e s s a g e
@@ -983,6 +980,27 @@ class Vpopmail_Main extends Vpopmail_Base {
         return $UserArray;
     }
 
+    /**
+     * clogin 
+     * 
+     * @param mixed $email 
+     * @param mixed $password 
+     * @access public
+     * @return mixed true on success, PEAR_Error on failure
+     */
+    public function clogin($email, $password) {
+        $out = "clogin $email $password";
+        $return = $this->sockWrite($out);
+        if(PEAR::isError($return)) return $return;
+        $in = $this->SockRead();
+        if(PEAR::isError($in)) return $in;
+        if (!$this->StatusOk($in)) {
+            return PEAR::raiseError("Login failed - " . $in);
+        }
+        $this->loginUser = $this->readUserInfo();
+        if(PEAR::isError($this->loginUser)) return $this->loginUser;
+        return true;
+    }
 }
 
 

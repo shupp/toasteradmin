@@ -38,22 +38,22 @@ class Framework_Module_Login extends Framework_Auth_No
         $form = $this->createLoginForm();
         if ($form->validate()) {
             $result = $this->user->authenticate($_POST['email'], $_POST['password']);
-            if(!PEAR::isError($result)) {
-                $emailArray = explode('@', $_POST['email']);
-                $this->session->__set('user', $emailArray[0]);
-                $this->session->__set('domain', $emailArray[1]);
-                $this->session->__set('email', $_POST['email']);
-                $this->session->__set('password', Framework_User_passEncryption::encryptPass($_POST['password'], 
-                    (string)Framework::$site->config->mcryptKey));
-                $this->session->__set('lastActionTime', time());
-                header("Location: ./index.php?module=Domains");
-            } else {
+            if(PEAR::isError($result)) {
                 $this->setData('loginError', $result->getMessage());
                 $this->setData('QF_Form', $form->toHtml());
                 $this->session->__set('email', null);
                 $this->session->__set('password',  null);
                 return;
             }
+            $emailArray = explode('@', $_POST['email']);
+            $this->session->__set('user', $emailArray[0]);
+            $this->session->__set('domain', $emailArray[1]);
+            $this->session->__set('email', $_POST['email']);
+            $this->session->__set('password', Framework_User_passEncryption::encryptPass($_POST['password'], 
+                (string)Framework::$site->config->mcryptKey));
+            $this->session->__set('lastActionTime', time());
+            header("Location: ./index.php?module=Domains");
+            return;
         } else {
             $this->setData('QF_Form', $form->toHtml());
         }

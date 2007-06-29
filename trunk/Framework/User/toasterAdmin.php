@@ -40,19 +40,22 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
     }
 
 
-    function authenticate($email, $password)
+    /**
+     * authenticate 
+     * 
+     * Authenticate user based on email and password
+     * 
+     * @param mixed $email 
+     * @param mixed $password 
+     * @access public
+     * @return mixed true on success, PEAR_Error on failure
+     */
+    public function authenticate($email, $password)
     {
-        $out = "clogin $email $password";
-        $return = $this->sockWrite($out);
-        if(PEAR::isError($return)) return $return;
-        $in = $this->SockRead();
-        if(PEAR::isError($in)) return $in;
-        if (!$this->StatusOk($in)) {
-            return PEAR::raiseError("Login failed - " . $in);
-        }
-        $this->loginUser = $this->readUserInfo();
-        if(PEAR::isError($this->loginUser)) return $this->loginUser;
-        $email_array = explode('@', $Email);
+        $result = $this->clogin($email, $password);
+        if(PEAR::isError($result)) return $result;
+        // Easy way to access domain
+        $email_array = explode('@', $email);
         $this->loginUser['domain'] = $email_array[1];
         return true;
     }
@@ -70,7 +73,7 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
      */
     function isSysAdmin($acct_info = '') {
         if ($acct_info == '') {
-            $acct_info = $this->getLoginUser();
+            $acct_info = $this->loginUser;
         }
         return $this->getGidBit($acct_info['gidflags'], 'system_admin_privileges');
     }
@@ -85,7 +88,7 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
 
     function isDomainAdmin($domain, $acct_info = '') {
         if ($acct_info == '') {
-            $acct_info = $this->getLoginUser();
+            $acct_info = $this->loginUser;
         }
         if ($this->isSysAdmin()) return true;
         if ($this->getGidBit($acct_info['gidflags'], 'domain_admin_privileges')) return true;
