@@ -159,9 +159,9 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
         }
 
         $emailArray = explode('@', $_REQUEST['account']);
-        $this->user->AddUser($this->domain, $emailArray[0], $_REQUEST['password'], $_REQUEST['comment']);
-        if($this->user->Error) {
-            $this->setData('message', _("Error: ") . $this->user->Error);
+        $result = $this->user->addUser($this->domain, $emailArray[0], $_REQUEST['password'], $_REQUEST['comment']);
+        if(PEAR::isError($result)) {
+            $this->setData('message', _("Error: ") . $result->getMessage());
             $renderer =& new HTML_QuickForm_Renderer_Array();
             $form->accept($renderer);
             $this->setData('form', 
@@ -230,9 +230,9 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
             return PEAR::raiseError(_("Error: no domain supplied"));
         }
 
-        $this->user->DelUser($this->domain, $_REQUEST['account']);
-        if($this->user->Error) {
-            return PEAR::raiseError(_("Error: ") . $this->user->Error);
+        $result = $this->user->delUser($this->domain, $_REQUEST['account']);
+        if(PEAR::isError($result)) {
+            return $result;
         }
 
         $this->setData('message', _("Account Deleted Successfully"));
