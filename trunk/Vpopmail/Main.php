@@ -16,14 +16,14 @@
  *  define VPOPMAIL_ROBOT_TIME
  * @package ToasterAdmin
  */
-define('VPOPMAIL_ROBOT_TIME', 1000);
+define('VPOPMAIL_ROBOT_TIME', 86400);
 /**
  *  VPOPMAIL_ROBOT_NUMBER
  *  
  *  define VPOPMAIL_ROBOT_NUMBER
  * @package ToasterAdmin
  */
-define('VPOPMAIL_ROBOT_NUMBER', 5);
+define('VPOPMAIL_ROBOT_NUMBER', 3);
 
 /**
  * Vpopmail_Main 
@@ -210,7 +210,7 @@ class Vpopmail_Main extends Vpopmail_Base {
         $basePath = $domain;
         if (!empty($user)) $basePath  = "$user@$basePath";
         if (!empty($path)) $basePath .= "/" . $path;
-        if($type = 'dir') $basePath.= '/';
+        if($type == 'dir') $basePath.= '/';
         $basePath = ereg_replace('//', '/', $basePath);
         return $basePath;
     }
@@ -513,11 +513,11 @@ class Vpopmail_Main extends Vpopmail_Base {
         $basePath = $domain;
         if (!empty($user)) $basePath  = "$user@$basePath";
         if (!empty($path)) $basePath .= "/".$path;
-        $status = $this->sockWrite("read_file $pasePath");
+        $status = $this->sockWrite("read_file $basePath");
         if(PEAR::isError($status)) return $status;
         $status = $this->sockRead();
         if (!$this->statusOk($status))
-            return PEAR::raiseError("command failed - $status");
+            return PEAR::raiseError($status);
         $fileContents = array();
         $in = $this->sockRead();
         while (!$this->dotOnly($in) && !$this->statusOk($in) && !$this->statusErr($in)) {
