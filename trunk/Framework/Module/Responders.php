@@ -268,7 +268,7 @@ class Framework_Module_Responders extends Framework_Auth_Vpopmail
         if($this->user->Error) {
             return PEAR::raiseError(_('Error: ') . $this->user->Error);
         }
-        $defaults = $this->user->parse_home_dotqmail($dot_qmail, $account_info);
+        $defaults = $this->user->parseHomeDotqmail($dot_qmail, $account_info);
         $form = $this->modifyAccountForm($account, $defaults);
         $renderer =& new HTML_QuickForm_Renderer_Array();
         $form->accept($renderer);
@@ -342,7 +342,7 @@ class Framework_Module_Responders extends Framework_Auth_Vpopmail
         if($this->user->Error && $this->user->Error != 'command failed - -ERR 2102 No such file or directory') {
             return PEAR::raiseError(_('Error: ') . $this->user->Error);
         }
-        $defaults = $this->user->parse_home_dotqmail($dot_qmail, $account_info);
+        $defaults = $this->user->parseHomeDotqmail($dot_qmail, $account_info);
         $form = $this->modifyAccountForm($account, $defaults);
         if(!$form->validate()) {
             $this->setData('message', _("Error Modifying Account"));

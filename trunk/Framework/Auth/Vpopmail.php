@@ -19,7 +19,6 @@
  * @uses Framework_Auth
  * @abstract
  * @package ToasterAdmin
- * @version $id$
  * @copyright 2006-2007 Bill Shupp
  * @author Bill Shupp <hostmaster@shupp.org> 
  * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}

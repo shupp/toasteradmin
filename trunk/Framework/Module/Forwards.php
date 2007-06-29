@@ -91,7 +91,7 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
         $this->setData('totalPages', ceil($this->data['total'] / $this->data['limit']));
 
         // List Accounts
-        $alias_array = $this->user->ListAliases($aliasesParsed, $this->data['currentPage'], $this->data['limit']);
+        $alias_array = $this->user->listAliases($aliasesParsed, $this->data['currentPage'], $this->data['limit']);
         if($this->user->Error) return PEAR::raiseError(_("Error: ") . $this->user->Error);
     
         if(count($alias_array) == 0) {
@@ -104,7 +104,7 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
         while(list($key,$val) = each($alias_array)) {
             $forwardName = ereg_replace('@.*$', '', $key);
             $aliases[$count]['name'] = $forwardName;
-            $aliases[$count]['contents'] = $this->user->GetAliasContents($val);
+            $aliases[$count]['contents'] = $this->user->getAliasContents($val);
             $aliases[$count]['edit_url'] = htmlspecialchars("$base_url?module=Forwards&domain={$this->domain}&forward=$forwardName&event=modifyForward");
             $aliases[$count]['delete_url'] = htmlspecialchars("$base_url?module=Forwards&domain={$this->domain}&forward=$forwardName&event=deleteForward");
             $count++;
@@ -279,7 +279,7 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
         $count = 0;
         $forward_array = array();
         while(list($key,$val) = each($contents)) {
-            $forward_array[$count]['destination'] = $this->user->display_forward_line($val);
+            $forward_array[$count]['destination'] = $this->user->displayForwardLine($val);
             $forward_array[$count]['delete_url'] = htmlspecialchars("./?module=Forwards&event=deleteForwardLineNow&domain={$this->domain}&forward=" . $_REQUEST['forward'] . "&line=" . urlencode($val));
             $count++;
         }

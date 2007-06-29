@@ -14,12 +14,14 @@
  *  VPOPMAIL_ROBOT_TIME
  *  
  *  define VPOPMAIL_ROBOT_TIME
+ * @package ToasterAdmin
  */
 define('VPOPMAIL_ROBOT_TIME', 1000);
 /**
  *  VPOPMAIL_ROBOT_NUMBER
  *  
  *  define VPOPMAIL_ROBOT_NUMBER
+ * @package ToasterAdmin
  */
 define('VPOPMAIL_ROBOT_NUMBER', 5);
 

@@ -18,7 +18,7 @@ done
 for i in `find ./Vpopmail/ -name "*.php"` ; do 
     FILES="$FILES,$i"
 done
-for i in `find ./PEAR-Framework/ -name "*.php"` ; do 
+for i in `find ./PEAR-Framework/ -name "*.php" | grep -v Object/Web.php` ; do 
     FILES="$FILES,$i"
 done
 

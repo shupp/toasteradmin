@@ -138,9 +138,9 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
      * @param mixed $contents 
      * @param mixed $account_info 
      * @access public
-     * @return void
+     * @return array $defaults
      */
-    function parse_home_dotqmail($contents, $account_info) {
+    function parseHomeDotqmail($contents, $account_info) {
         $autorespond = (string)Framework::$site->config->autorespond;
         $is_standard = false;
         $is_deleted = false;
@@ -167,7 +167,7 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
                 }
                 if (ereg($autorespond, $val)) {
                     $defaults['vacation_checked'] = ' checked';
-                    $vacation_array = $this->get_vacation($val);
+                    $vacation_array = $this->getVacation($val);
                     while(list($vacKey, $vacVal) = each($vacation_array)) {
                         $defaults[$vacKey] = $vacVal;
                     }
@@ -198,7 +198,7 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
      * @access public
      * @return void
      */
-    function get_vacation($line = '', $user_info) {
+    function getVacation($line = '', $user_info) {
         if ($line == '') {
             $path = $user_info['user_dir'].'/vacation/message';
         } else {
@@ -225,7 +225,6 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
             } else {
                 $body.= $val;
                 // $body .= $val . "\n";
-                
             }
         }
         return array(   'vacation_subject' => $subject,
@@ -233,7 +232,7 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
                         'vacation_checked' => ' checked');
     }
     /**
-     * setup_vacation
+     * setupVacation
      *
      * @param mixed $user
      * @param mixed $domain
@@ -243,8 +242,8 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
      * @access public
      * @return void
      */
-    function setup_vacation($user, $domain, $subject, $message, $acct_info = '') {
-        global $vp;
+    function setupVacation($user, $domain, $subject, $message, $acct_info = '')
+    {
         if ($acct_info == '') {
             global $user_info;
             $acct_info = $user_info;
@@ -254,20 +253,20 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
         $contents = "From: $user@$domain\n";
         $contents.= "Subject: $subject\n\n";
         $contents.= "$message\n";
-        $vp->RmDir($domain, $user, $vacation_dir);
-        $vp->MkDir($vacation_dir);
-        $vp->WriteFile($contents, $domain, $user, $message_file);
+        $this->rmDir($domain, $user, $vacation_dir);
+        $this->mkDir($vacation_dir);
+        $this->writeFile($contents, $domain, $user, $message_file);
     }
     /**
-     * ListAliases
+     * listAliases
      *
      * @param mixed $array
      * @param mixed $page
      * @param mixed $max_per_page
      * @access public
-     * @return void
+     * @return array $new_array
      */
-    function ListAliases($array, $page, $max_per_page) {
+    function listAliases($array, $page, $max_per_page) {
         $new_array = array();
         $count = 1;
         $page_count = 1;
@@ -286,7 +285,15 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
         }
         return $new_array;
     }
-    function GetAliasContents($contentsArray) {
+
+    /**
+     * getAliasContents 
+     * 
+     * @param mixed $contentsArray 
+     * @access public
+     * @return string
+     */
+    function getAliasContents($contentsArray) {
         $count = 0;
         $string = '';
         while (list($key, $val) = each($contentsArray)) {
@@ -348,13 +355,13 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
         return true;
     }
     /**
-     * display_forward_line
+     * displayForwardLine
      *
      * @param mixed $line
      * @access public
-     * @return void
+     * @return mixed null on failure, string on success
      */
-    function display_forward_line($line) {
+    function displayForwardLine($line) {
         if (ereg('^&', $line)) return ereg_replace('^&', '', $line);
     }
 
