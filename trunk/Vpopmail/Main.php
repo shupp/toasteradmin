@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Vpopmail_Main 
  * 
@@ -9,7 +10,17 @@
  * @license PHP 3.01  {@link http://www.php.net/license/3_01.txt}
  */
 
+/**
+ *  VPOPMAIL_ROBOT_TIME
+ *  
+ *  define VPOPMAIL_ROBOT_TIME
+ */
 define('VPOPMAIL_ROBOT_TIME', 1000);
+/**
+ *  VPOPMAIL_ROBOT_NUMBER
+ *  
+ *  define VPOPMAIL_ROBOT_NUMBER
+ */
 define('VPOPMAIL_ROBOT_NUMBER', 5);
 
 /**

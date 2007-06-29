@@ -2,6 +2,28 @@
 
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
+/**
+ * Framework_Auth_Vpopmail 
+ * 
+ * @uses Framework_Auth
+ * @abstract
+ * @package ToasterAdmin
+ * @copyright 2006-2007 Bill Shupp
+ * @author Bill Shupp <hostmaster@shupp.org> 
+ * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ */
+
+/**
+ * Framework_Auth_Vpopmail 
+ * 
+ * @uses Framework_Auth
+ * @abstract
+ * @package ToasterAdmin
+ * @version $id$
+ * @copyright 2006-2007 Bill Shupp
+ * @author Bill Shupp <hostmaster@shupp.org> 
+ * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ */
 abstract class Framework_Auth_Vpopmail extends Framework_Auth
 {
     public function authenticate()
