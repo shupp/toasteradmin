@@ -221,8 +221,11 @@ class Framework_Module_Domains extends Framework_Auth_Vpopmail
         }
 
         // Delete domain
-        $result = $this->user->DelDomain($domain);
-        if(PEAR::isError($result)) return $result;
+        $result = $this->user->delDomain($domain);
+        if(PEAR::isError($result)) {
+            $this->setData('message', _("Error: ") . $result->getMessage());
+            return $this->listDomains();
+        }
         $this->setData('message', _("Domain deleted successfully"));
         return $this->listDomains();
     }
