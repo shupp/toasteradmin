@@ -114,7 +114,7 @@ class Vpopmail_Main extends Vpopmail_Base {
         }
         $status = $this->sockRead();
         if ($this->statusErr($status)) {
-            return PEAR::raiseError("command failed - $Status");
+            return PEAR::raiseError($status);
         }
         $lists = array();
         $in = $this->sockRead();
@@ -409,7 +409,7 @@ class Vpopmail_Main extends Vpopmail_Base {
         if(PEAR::isError($status)) return $status;
         $status = $this->sockRead();
         if(PEAR::isError($status)) return $status;
-        if (!$this->statusOk($Status))
+        if (!$this->statusOk($status))
             return PEAR::raiseError($status);
         $lists = array();
         $in = $this->sockRead();
@@ -571,7 +571,7 @@ class Vpopmail_Main extends Vpopmail_Base {
         $basePath = $this->formatBasePath($domain, $user, $path);
         $status = $this->sockWrite("rm_dir $basePath");
         if(PEAR::isError($status)) return $status;
-        $Status = $this->sockRead();
+        $status = $this->sockRead();
         if (!$this->statusOk($status))
             return PEAR::raiseError("command rmdir failed - $status");
         return true;
@@ -593,7 +593,7 @@ class Vpopmail_Main extends Vpopmail_Base {
         $status = $this->sockWrite("mk_dir $basePath");
         if(PEAR::isError($status)) return $status;
         $status = $this->sockRead();
-        if (!$this->statusOk($Status))
+        if (!$this->statusOk($status))
             return PEAR::raiseError($status);
         return true;
     }
@@ -610,7 +610,7 @@ class Vpopmail_Main extends Vpopmail_Base {
         $status = $this->sockWrite("get_limits $domain");
         if(PEAR::isError($status)) return $status;
         $status = $this->sockRead();
-        if (!$this->statusOk($Status))
+        if (!$this->statusOk($status))
             return PEAR::raiseError($status);
         $limits = $this->readInfo();
         return $limits;
@@ -792,7 +792,7 @@ class Vpopmail_Main extends Vpopmail_Base {
         if(PEAR::isError($status)) return $status;
         $status = $this->sockRead();
         if(PEAR::isError($status)) return $status;
-        if (!$this->statusOk($Status))
+        if (!$this->statusOk($status))
             return PEAR::raiseError($status);
         return true;
     }
@@ -809,7 +809,7 @@ class Vpopmail_Main extends Vpopmail_Base {
         if(PEAR::isError($status)) return $status;
         $status = $this->sockRead();
         if(PEAR::isError($status)) return $status;
-        if(!$this->statusOk($Status))
+        if(!$this->statusOk($status))
             return PEAR::raiseError($status);
         return true;
     }
@@ -938,7 +938,7 @@ class Vpopmail_Main extends Vpopmail_Base {
         if(PEAR::isError($status)) return $status;
         $status = $this->sockRead();
         if(PEAR::isError($status)) return $status;
-        if (!$this->statusOk($Status))
+        if (!$this->statusOk($status))
             return PEAR::raiseError($status);
         // Not sure what this is for - bshupp
         // if (!empty($Warnings)) {
@@ -1051,7 +1051,7 @@ class Vpopmail_Main extends Vpopmail_Base {
         if(PEAR::isError($status)) return $status;
         $status = $this->sockRead();
         if(PEAR::isError($status)) return $status;
-        if (!$this->statusOk($Status))
+        if (!$this->statusOk($status))
             return PEAR::raiseError($status);
         $in = $this->sockRead();
         return $in;
