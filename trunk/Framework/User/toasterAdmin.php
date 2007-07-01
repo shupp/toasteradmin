@@ -373,7 +373,7 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
      * @param mixed $in_array 
      * @param mixed $type 
      * @access public
-     * @return void
+     * @return array of parsed aliases
      */
     function parseAliases($in_array, $type) {
         $out_array = array();
