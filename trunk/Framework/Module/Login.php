@@ -38,7 +38,7 @@ class Framework_Module_Login extends Framework_Auth_No
         $form = $this->createLoginForm();
         if ($form->validate()) {
             $result = $this->user->authenticate($_POST['email'], $_POST['password']);
-            if(PEAR::isError($result)) {
+            if (PEAR::isError($result)) {
                 $this->setData('loginError', $result->getMessage());
                 $this->setData('QF_Form', $form->toHtml());
                 $this->session->__set('email', null);

@@ -40,7 +40,7 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
     function __construct() {
         parent::__construct();
         // Make sure doamin was supplied
-        if(!isset($_REQUEST['domain'])) 
+        if (!isset($_REQUEST['domain'])) 
             throw new Framework_Exception(_("Error: no domain supplied"));
         $this->domain = $_REQUEST['domain'];
         $this->setData('domain', $this->domain);
@@ -60,7 +60,7 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
      */
     protected function checkPrivileges() {
         // Verify that they have access to this domain
-        if(!$this->user->isDomainAdmin($this->domain)) {
+        if (!$this->user->isDomainAdmin($this->domain)) {
             return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $this->domain);
         }
     }
@@ -71,37 +71,37 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
 
         // Pagintation setup
         $full_alias_array = $this->user->ListAlias($this->domain);
-        if($this->user->Error) return PEAR::raiseError(_("Error: ") . $this->user->Error);
+        if ($this->user->Error) return PEAR::raiseError(_("Error: ") . $this->user->Error);
         // Format the valias outpt from vpopmaild
         $aliasesParsed = $this->user->parseAliases($full_alias_array, 'forwards');
         $total = count($aliasesParsed);
 
         $this->setData('total', $total);
         $this->setData('limit', (integer)Framework::$site->config->maxPerPage);
-        if(isset($_REQUEST['start']) && !ereg('[^0-9]', $_REQUEST['start'])) {
-            if($_REQUEST['start'] == 0) {
+        if (isset($_REQUEST['start']) && !ereg('[^0-9]', $_REQUEST['start'])) {
+            if ($_REQUEST['start'] == 0) {
                 $start = 1;
             } else {
                 $start = $_REQUEST['start'];
             }
         }
-        if(!isset($start)) $start = 1;
+        if (!isset($start)) $start = 1;
         $this->setData('start', $start);
         $this->setData('currentPage', ceil($this->data['start'] / $this->data['limit']));
         $this->setData('totalPages', ceil($this->data['total'] / $this->data['limit']));
 
         // List Accounts
         $alias_array = $this->user->listAliases($aliasesParsed, $this->data['currentPage'], $this->data['limit']);
-        if($this->user->Error) return PEAR::raiseError(_("Error: ") . $this->user->Error);
+        if ($this->user->Error) return PEAR::raiseError(_("Error: ") . $this->user->Error);
     
-        if(count($alias_array) == 0) {
+        if (count($alias_array) == 0) {
             $this->setData('message', _("No Forwards.  Care to add one?"));
             return $this->addForward();
         }
     
         $aliases = array();
         $count = 0;
-        while(list($key,$val) = each($alias_array)) {
+        while (list($key,$val) = each($alias_array)) {
             $forwardName = ereg_replace('@.*$', '', $key);
             $aliases[$count]['name'] = $forwardName;
             $aliases[$count]['contents'] = $this->user->getAliasContents($val);
@@ -131,7 +131,7 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
 
     function addForward() {
         $result = $this->checkPrivileges();
-        if(PEAR::isError($result)) return $result;
+        if (PEAR::isError($result)) return $result;
 
         $form = $this->addForwardForm();
         $renderer =& new HTML_QuickForm_Renderer_Array();
@@ -167,10 +167,10 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
 
     function addForwardNow() {
         $result = $this->checkPrivileges();
-        if(PEAR::isError($result)) return $result;
+        if (PEAR::isError($result)) return $result;
 
         $form = $this->addForwardForm();
-        if(!$form->validate()) {
+        if (!$form->validate()) {
             $renderer =& new HTML_QuickForm_Renderer_Array();
             $form->accept($renderer);
             $this->setData('form', 
@@ -183,8 +183,8 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
         $this->setData('destination', $_REQUEST['destination']);
 
         $result = $this->addForwardLine();
-        if(PEAR::isError($result)) {
-            if($result->getMessage() == 'Forward Exists') {
+        if (PEAR::isError($result)) {
+            if ($result->getMessage() == 'Forward Exists') {
                 $this->setData('message', _("Forward already exists"));
                 return $this->addForward();
             }
@@ -197,24 +197,24 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
     protected function addForwardLine($type = 'new') {
 
         $contents = $this->user->ReadFile($this->domain, '', ".qmail-" . $this->data['forward']);
-        if($type == 'new') {
-            if(!$this->user->Error) {
+        if ($type == 'new') {
+            if (!$this->user->Error) {
                 return PEAR::raiseError("Forward Exists");
-            } else if($this->user->Error != 'command failed - -ERR 2102 No such file or directory') {
+            } else if ($this->user->Error != 'command failed - -ERR 2102 No such file or directory') {
                 return PEAR::raiseError(_("Error: ") . $this->user->Error);
             }
         } else {
-            if($this->user->Error) return PEAR::raiseError(_("Error: ") . $this->user->Error);
+            if ($this->user->Error) return PEAR::raiseError(_("Error: ") . $this->user->Error);
         }
     
         // Now build a new array without that forward
-        if(empty($contents)) $contents = array();
-        if(in_array("&" . $this->data['destination'], $contents)) {
+        if (empty($contents)) $contents = array();
+        if (in_array("&" . $this->data['destination'], $contents)) {
             return PEAR::raiseError('Error: destination already exists');
         }
         array_push($contents, "&" . $this->data['destination']);
         $this->user->WriteFile($contents, $this->domain, '', ".qmail-" . $this->data['forward']);
-        if($this->user->Error) {
+        if ($this->user->Error) {
                 return PEAR::raiseError(_("Error: ") . $this->user->Error);
         }
     }
@@ -222,27 +222,27 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
     protected function deleteForwardLine() {
 
         $contents = $this->user->ReadFile($this->domain, '', ".qmail-" . $this->data['forward']);
-        if($this->user->Error)
+        if ($this->user->Error)
                 return PEAR::raiseError($this->user->Error, 1);
     
         // Now build a new array without that forward
-        if(!in_array($this->data['line'], $contents)) {
+        if (!in_array($this->data['line'], $contents)) {
             return PEAR::raiseError(_('Error: forward line does not exist'), 2);
         }
 
-        if(count($contents) == 1) {
+        if (count($contents) == 1) {
             // tell caller to delete instead
             return PEAR::raiseError(_("Only one line, use delete instead"), 3);
         }
         $newContents = array();
         $count = 1;
-        while(list($key, $val) = each($contents)) {
-            if($val == $this->data['line']) continue;
+        while (list($key, $val) = each($contents)) {
+            if ($val == $this->data['line']) continue;
             $newContents[$count] = $val;
             $count++;
         }
         $this->user->WriteFile($newContents, $this->domain, '', ".qmail-" . $this->data['forward']);
-        if($this->user->Error) {
+        if ($this->user->Error) {
             return PEAR::raiseError(_("Error: ") . $this->user->Error, 4);
         }
     }
@@ -252,7 +252,7 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
     
         $this->checkPrivileges();
         // Make sure forward was supplied
-        if(!isset($_REQUEST['forward'])) {
+        if (!isset($_REQUEST['forward'])) {
             $this->setData('message', _("Error: no forward provided"));
             return $this->listForwards();
         }
@@ -261,7 +261,7 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
     
         // Get forward info if it exists
         $contents = $this->user->ReadFile($this->domain, '', ".qmail-$forward");
-        if($this->user->Error) return PEAR::raiseError(_("Error: ") . $this->user->Error);
+        if ($this->user->Error) return PEAR::raiseError(_("Error: ") . $this->user->Error);
     
         // Set template data
         $this->setData('forward', $forward);
@@ -278,7 +278,7 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
     protected function returnForwardArray($contents) {
         $count = 0;
         $forward_array = array();
-        while(list($key,$val) = each($contents)) {
+        while (list($key,$val) = each($contents)) {
             $forward_array[$count]['destination'] = $this->user->displayForwardLine($val);
             $forward_array[$count]['delete_url'] = htmlspecialchars("./?module=Forwards&event=deleteForwardLineNow&domain={$this->domain}&forward=" . $_REQUEST['forward'] . "&line=" . urlencode($val));
             $count++;
@@ -294,10 +294,10 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
 
         // Get forward info if it exists
         $contents = $this->user->ReadFile($this->domain, '', ".qmail-$forward");
-        if($this->user->Error) return PEAR::raiseError(_("Error: ") . $this->user->Error);
+        if ($this->user->Error) return PEAR::raiseError(_("Error: ") . $this->user->Error);
 
         $form = $this->modifyForwardForm();
-        if(!$form->validate()) {
+        if (!$form->validate()) {
 
             // Set template data
             $this->setData('forward', $forward);
@@ -312,8 +312,8 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
         $this->setData('destination', $_REQUEST['destination']);
     
         $result = $this->addForwardLine($type = 'modify');
-        if(PEAR::isError($result)) {
-            if($result->getMessage() == 'Error: destination already exists') {
+        if (PEAR::isError($result)) {
+            if ($result->getMessage() == 'Error: destination already exists') {
                 $this->setData('message', _("Error: destination already exists"));
                 return $this->modifyForward();
             } else {
@@ -353,12 +353,12 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
         $this->checkPrivileges();
 
         // Make sure forward was supplied
-        if(!isset($_REQUEST['forward'])) {
+        if (!isset($_REQUEST['forward'])) {
             $this->setData('message', _("Error: no forward provided"));
             return $this->listForwards();
         }
         // Make sure line was supplied
-        if(!isset($_REQUEST['line'])) {
+        if (!isset($_REQUEST['line'])) {
             $this->setData('message', _("Error: no forward line provided"));
             return $this->modifyForward();
         }
@@ -368,14 +368,14 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
         $this->setData('line', $_REQUEST['line']);
 
         $result = $this->deleteForwardLine();
-        if(PEAR::isError($result)) {
-            if($result->getCode() == 1) {
+        if (PEAR::isError($result)) {
+            if ($result->getCode() == 1) {
                 $this->setData('message', $result->getMessage());
                 return $this->listAliases();
-            } else if($result->getCode() == 2) {
+            } else if ($result->getCode() == 2) {
                 $this->setData('message', $result->getMessage());
                 return $this->modifyForward();
-            } else if($result->getCode() == 3) {
+            } else if ($result->getCode() == 3) {
                 return $this->deleteForward();
             } else {
                 return $result;
@@ -390,16 +390,16 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
         $this->checkPrivileges();
 
         // Make sure forward was supplied
-        if(!isset($_REQUEST['forward'])) {
+        if (!isset($_REQUEST['forward'])) {
             $this->setData('message', _("Error: no forward provided"));
             return $this->listForwards();
         }
         $forward = ereg_replace('^.qmail-', '', $_REQUEST['forward']);
         $contents = $this->user->ReadFile($this->domain, '', ".qmail-" . $forward);
-        if($this->user->Error)
+        if ($this->user->Error)
             return PEAR::raiseError($this->user->Error);
         $this->user->RmFile($this->domain, '', '.qmail-' . $forward);
-        if($this->user->Error)
+        if ($this->user->Error)
             return PEAR::raiseError($this->user->Error);
         $this->setData('message', _("Forward Deleted Successfully"));
         return $this->listForwards();

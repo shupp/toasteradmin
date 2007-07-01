@@ -40,7 +40,7 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
     function __construct() {
         parent::__construct();
         // Make sure doamin was supplied
-        if(!isset($_REQUEST['domain']))
+        if (!isset($_REQUEST['domain']))
             throw new Framework_Exception(_("Error: no domain supplied"));
         $this->domain = $_REQUEST['domain'];
         $this->setData('domain', $this->domain);
@@ -55,7 +55,7 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
      */
     protected function checkPrivileges() {
         // Verify that they have access to this domain
-        if(!$this->user->isDomainAdmin($this->domain)) {
+        if (!$this->user->isDomainAdmin($this->domain)) {
             return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $this->domain);
         }
     }
@@ -74,18 +74,18 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
     function listAccounts() {
 
         $privs = $this->checkPrivileges();
-        if(PEAR::isError($privs)) return privs;
+        if (PEAR::isError($privs)) return privs;
 
         // Pagintation setup
         $total = $this->user->userCount($this->domain);
-        if(PEAR::isError($total)) return $total;
+        if (PEAR::isError($total)) return $total;
         $this->paginate($total);
 
         // List Accounts
         $account_array = $this->user->listUsers($this->data['domain'], $this->data['currentPage'], $this->data['limit']);
         $accounts = array();
         $count = 0;
-        while(list($key,$val) = each($account_array)) {
+        while (list($key,$val) = each($account_array)) {
             $accounts[$count]['account'] = $key;
             $accounts[$count]['comment'] = $val['comment'];
             $accounts[$count]['quota'] = $this->user->getQuota($val['quota']);
@@ -123,7 +123,7 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
     function addAccount() {
 
         $privs = $this->checkPrivileges();
-        if(PEAR::isError($privs)) return privs;
+        if (PEAR::isError($privs)) return privs;
 
         $form = $this->addAccountForm();
         $renderer =& new HTML_QuickForm_Renderer_Array();
@@ -136,7 +136,7 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
 
     static function sameDomain ($name, $value) {
         $emailArray = explode('@', $value);
-        if($emailArray[1] == $this->domain) {
+        if ($emailArray[1] == $this->domain) {
             return true;
         } else {
             return false;
@@ -146,10 +146,10 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
     function addAccountNow() {
 
         $privs = $this->checkPrivileges();
-        if(PEAR::isError($privs)) return privs;
+        if (PEAR::isError($privs)) return privs;
 
         $form = $this->addAccountForm();
-        if(!$form->validate()) {
+        if (!$form->validate()) {
             $renderer =& new HTML_QuickForm_Renderer_Array();
             $form->accept($renderer);
             $this->setData('form', 
@@ -160,7 +160,7 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
 
         $emailArray = explode('@', $_REQUEST['account']);
         $result = $this->user->addUser($this->domain, $emailArray[0], $_REQUEST['password'], $_REQUEST['comment']);
-        if(PEAR::isError($result)) {
+        if (PEAR::isError($result)) {
             $this->setData('message', _("Error: ") . $result->getMessage());
             $renderer =& new HTML_QuickForm_Renderer_Array();
             $form->accept($renderer);
@@ -201,9 +201,9 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
     function delete() {
 
         $privs = $this->checkPrivileges();
-        if(PEAR::isError($privs)) return privs;
+        if (PEAR::isError($privs)) return privs;
 
-        if(!isset($_REQUEST['account'])) {
+        if (!isset($_REQUEST['account'])) {
             return PEAR::raiseError(_("Error: no account supplied"));
         }
 
@@ -220,18 +220,18 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
     function deleteNow() {
 
         $privs = $this->checkPrivileges();
-        if(PEAR::isError($privs)) return privs;
+        if (PEAR::isError($privs)) return privs;
 
-        if(!isset($_REQUEST['account'])) {
+        if (!isset($_REQUEST['account'])) {
             return PEAR::raiseError(_("Error: no account supplied"));
         }
 
-        if(!isset($_REQUEST['domain'])) {
+        if (!isset($_REQUEST['domain'])) {
             return PEAR::raiseError(_("Error: no domain supplied"));
         }
 
         $result = $this->user->delUser($this->domain, $_REQUEST['account']);
-        if(PEAR::isError($result)) {
+        if (PEAR::isError($result)) {
             return $result;
         }
 
@@ -243,7 +243,7 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
     function cancelDelete() {
 
         $privs = $this->checkPrivileges();
-        if(PEAR::isError($privs)) return privs;
+        if (PEAR::isError($privs)) return privs;
 
         $this->setData('message', _("Delete Canceled"));
         $this->listAccounts();
@@ -253,27 +253,27 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
     function modifyAccount() {
 
         // Make sure account was supplied
-        if(!isset($_REQUEST['account'])) {
+        if (!isset($_REQUEST['account'])) {
             return PEAR::raiseError(_("Error: no account supplied"));
         }
         $account = $_REQUEST['account'];
 
         // Check privs
-        if(!$this->user->isUserAdmin($account, $this->domain)) {
+        if (!$this->user->isUserAdmin($account, $this->domain)) {
             return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $this->domain);
         }
 
         // See what user_info to use
-        if($this->user->isDomainAdmin($this->domain)) {
+        if ($this->user->isDomainAdmin($this->domain)) {
             $account_info = $this->user->userInfo($this->domain, $_REQUEST['account']);
-            if(PEAR::isError($account_info)) return $account_info;
+            if (PEAR::isError($account_info)) return $account_info;
         } else {
             $account_info = $this->user->loginUser;
         }
 
         // Get .qmail info if it exists
         $dot_qmail = $this->user->readFile($this->domain, $_REQUEST['account'], '.qmail');
-        if(PEAR::isError($dot_qmail) && $dot_qmail->getMessage() != '-ERR 2102 No such file or directory') {
+        if (PEAR::isError($dot_qmail) && $dot_qmail->getMessage() != '-ERR 2102 No such file or directory') {
             return $dot_qmail;
         }
         $defaults = $this->user->parseHomeDotqmail($dot_qmail, $account_info);
@@ -293,7 +293,7 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
         // Language stuff
         $this->setData('LANG_Modify_Account', _("Modify Account"));
         $this->setData('LANG_Domain_Menu', _("Domain Menu"));
-        if($this->user->isDomainAdmin($this->domain)) {
+        if ($this->user->isDomainAdmin($this->domain)) {
             $this->setData('isDomainAdmin', 1);
             $this->setData('LANG_Main_Menu', _("Main Menu"));
         }
@@ -328,19 +328,19 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
     function modifyAccountNow() {
 
         // Make sure account was supplied
-        if(!isset($_REQUEST['account'])) {
+        if (!isset($_REQUEST['account'])) {
             return PEAR::raiseError(_("Error: no account supplied"));
         }
         $account = $_REQUEST['account'];
 
         // Check privs
-        if(!$this->user->isUserAdmin($account, $this->domain)) {
+        if (!$this->user->isUserAdmin($account, $this->domain)) {
             return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $this->domain);
         }
 
         // See what user_info to use
         $account_info = $this->user->userInfo($this->domain, $_REQUEST['account']);
-        if(PEAR::isError($account_info)) {
+        if (PEAR::isError($account_info)) {
             return $account_info;
         }
 
@@ -351,7 +351,7 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
         }
         $defaults = $this->user->parseHomeDotqmail($dot_qmail, $account_info);
         $form = $this->modifyAccountForm($account, $defaults);
-        if(!$form->validate()) {
+        if (!$form->validate()) {
             $this->setData('message', _("Error Modifying Account"));
             $renderer =& new HTML_QuickForm_Renderer_Array();
             $form->accept($renderer);
@@ -363,19 +363,19 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
 
         $routing = '';
         $save_a_copy = 0;
-        if($_REQUEST['routing'] == 'routing_standard') {
+        if ($_REQUEST['routing'] == 'routing_standard') {
             $routing = 'standard';
-        } else if($_REQUEST['routing'] == 'routing_deleted') {
+        } else if ($_REQUEST['routing'] == 'routing_deleted') {
             $routing = 'deleted';
-        } else if($_REQUEST['routing'] == 'routing_forwarded') {
-            if(empty($_REQUEST['forward'])) {
+        } else if ($_REQUEST['routing'] == 'routing_forwarded') {
+            if (empty($_REQUEST['forward'])) {
                 $this->setData('message', _('Error: you must supply a forward address'));
                 return $this->modifyAccount();
             } else {
                 $forward = $_REQUEST['forward'];
             }
             $routing = 'forwarded';
-            if(isset($_REQUEST['save_a_copy'])) $save_a_copy = 1;
+            if (isset($_REQUEST['save_a_copy'])) $save_a_copy = 1;
         } else {
                 $this->setData('message', _('Error: unsupported routing selection'));
                 return $this->modifyAccount();
@@ -383,7 +383,7 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
 
         // Check for vacation
         $vacation = 0;
-        if(isset($_REQUEST['vacation'])) {
+        if (isset($_REQUEST['vacation'])) {
             $vacation = 1;
             $vacation_subject = $_REQUEST['vacation_subject'];
             $vacation_body = $_REQUEST['vacation_body'];
@@ -391,15 +391,15 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
 
         // Build .qmail contents
         $dot_qmail_contents = '';
-        if($routing == 'deleted') {
+        if ($routing == 'deleted') {
             $dot_qmail_contents = "# delete";
-        } else if($routing == 'forwarded') {
+        } else if ($routing == 'forwarded') {
             $dot_qmail_contents = "&$forward";
-            if($save_a_copy = 1) $dot_qmail_contents .= "\n./Maildir/";
+            if ($save_a_copy = 1) $dot_qmail_contents .= "\n./Maildir/";
         }
 
-        if($vacation == 1) {
-            if(strlen($dot_qmail_contents) > 0) $dot_qmail_contents .= "\n";
+        if ($vacation == 1) {
+            if (strlen($dot_qmail_contents) > 0) $dot_qmail_contents .= "\n";
             $vacation_dir = $account_info['user_dir'] . '/vacation';
             $dot_qmail_contents .= '| ' . VPOPMAIL_ROBOT_PROGRAM;
             $dot_qmail_contents .= ' ' . VPOPMAIL_ROBOT_TIME;
@@ -408,7 +408,7 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
         }
 
         $dot_qmail_file = '.qmail';
-        if(strlen($dot_qmail_contents) > 0) {
+        if (strlen($dot_qmail_contents) > 0) {
             $contents = explode("\n", $dot_qmail_contents);
             // Delete existing file
             $this->user->rmFile($this->domain, $account_info['name'], $dot_qmail_file);
@@ -416,7 +416,7 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
             $result = $this->user->writeFile($contents, $this->domain, $account_info['name'], $dot_qmail_file);
 
             // Add vacation files
-            if($vacation == 1) {
+            if ($vacation == 1) {
                 $vcontents = "From: " . $account_info['name'] . "@{$this->domain}\n";
                 $vcontents .= "Subject: $vacation_subject\n\n";
                 $vcontents .= $vacation_body;

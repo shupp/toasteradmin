@@ -46,10 +46,10 @@ class Framework_Module_Domains extends Framework_Auth_Vpopmail
      */
     public function accessDirector()
     {
-        if(!$this->user->isSysAdmin()) {
+        if (!$this->user->isSysAdmin()) {
             $domain = $this->session->__get('domain');
             // Redirect to appropriate page
-            if($this->user->isDomainAdmin($domain)) {
+            if ($this->user->isDomainAdmin($domain)) {
                 header("Location: ./?module=Domains&event=domainMenu&domain=" . urlencode($domain));
                 return;
             } else {
@@ -71,14 +71,14 @@ class Framework_Module_Domains extends Framework_Auth_Vpopmail
         $this->accessDirector();
         // Pagination setup
         $total = $this->user->domainCount();
-        if(PEAR::isError($total)) return PEAR::raiseError($total);
+        if (PEAR::isError($total)) return PEAR::raiseError($total);
         $this->paginate($total);
 
         // Build domain list
         $domain_array = $this->user->listDomains($this->data['currentPage'],$this->data['limit']);
         $domains = array();
         $count = 0;
-        while(list($key,$val) = each($domain_array)) {
+        while (list($key,$val) = each($domain_array)) {
             $domains[$count]['name'] = $key;
             $domains[$count]['edit_url'] = htmlspecialchars('./?module=Domains&event=domainMenu&domain=' . $key);
             $domains[$count]['delete_url'] = htmlspecialchars('./?module=Domains&event=delDomain&domain=' . $key);
@@ -103,17 +103,17 @@ class Framework_Module_Domains extends Framework_Auth_Vpopmail
     function domainMenu($domain = null)
     {
         // Make sure the domain was supplied
-        if($domain == null) {
-            if(empty($_REQUEST['domain']))
+        if ($domain == null) {
+            if (empty($_REQUEST['domain']))
                 return PEAR::raiseError(_("Error: no domain supplied"));
             $domain = $_REQUEST['domain'];
         }
 
-        if(!$this->user->isDomainAdmin($domain)) {
+        if (!$this->user->isDomainAdmin($domain)) {
             return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $domain);
         }
 
-        if($this->user->isSysAdmin()) $this->setData('isSysAdmin', 1);
+        if ($this->user->isSysAdmin()) $this->setData('isSysAdmin', 1);
         // Setup URLs
         $this->setData('domain', $domain);
         $this->setData('list_accounts_url', htmlspecialchars('./?module=Accounts&domain=' . $this->data['domain']));
@@ -134,7 +134,7 @@ class Framework_Module_Domains extends Framework_Auth_Vpopmail
 
     function addDomain()
     {
-        if(!$this->user->isSysAdmin()) {
+        if (!$this->user->isSysAdmin()) {
             return PEAR::raiseError(_('Error: you do not have add domain privileges'));
         }
         // Create form
@@ -148,19 +148,19 @@ class Framework_Module_Domains extends Framework_Auth_Vpopmail
 
     function addDomainNow()
     {
-        if(!$this->user->isSysAdmin()) {
+        if (!$this->user->isSysAdmin()) {
             return PEAR::raiseError(_('Error: you do not have add domain privileges'));
         }
 
         $form = $this->addDomainForm();
-        if(!$form->validate()) {
+        if (!$form->validate()) {
             $this->addDomain();
             return;
         }
 
         // Add domain
         $result = $this->user->AddDomain($_REQUEST['domain'], $_REQUEST['password']);
-        if(PEAR::isError($result)) {
+        if (PEAR::isError($result)) {
             $this->setData('message', _("Error: ") . $result->getMessage());
             return $this->addDomain();
         }
@@ -186,13 +186,13 @@ class Framework_Module_Domains extends Framework_Auth_Vpopmail
     function delDomain($domain = null)
     {
         // Make sure the domain was supplied
-        if($domain == null) {
-            if(empty($_REQUEST['domain']))
+        if ($domain == null) {
+            if (empty($_REQUEST['domain']))
                 return PEAR::raiseError(_("Error: no domain supplied"));
             $domain = $_REQUEST['domain'];
         }
 
-        if(!$this->user->isDomainAdmin($domain)) {
+        if (!$this->user->isDomainAdmin($domain)) {
             return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $domain);
         }
 
@@ -210,19 +210,19 @@ class Framework_Module_Domains extends Framework_Auth_Vpopmail
     function delDomainNow($domain = null)
     {
         // Make sure the domain was supplied
-        if($domain == null) {
-            if(empty($_REQUEST['domain']))
+        if ($domain == null) {
+            if (empty($_REQUEST['domain']))
                 return PEAR::raiseError(_("Error: no domain supplied"));
             $domain = $_REQUEST['domain'];
         }
 
-        if(!$this->user->isDomainAdmin($domain)) {
+        if (!$this->user->isDomainAdmin($domain)) {
             return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $domain);
         }
 
         // Delete domain
         $result = $this->user->delDomain($domain);
-        if(PEAR::isError($result)) {
+        if (PEAR::isError($result)) {
             $this->setData('message', _("Error: ") . $result->getMessage());
             return $this->listDomains();
         }

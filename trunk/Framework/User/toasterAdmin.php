@@ -53,7 +53,7 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
     public function authenticate($email, $password)
     {
         $result = $this->clogin($email, $password);
-        if(PEAR::isError($result)) return $result;
+        if (PEAR::isError($result)) return $result;
         // Easy way to access domain
         $email_array = explode('@', $email);
         $this->loginUser['domain'] = $email_array[1];
@@ -167,7 +167,7 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
                 if (ereg(VPOPMAIL_ROBOT_PROGRAM, $val)) {
                     $defaults['vacation_checked'] = ' checked';
                     $vacation_array = $this->getVacation($val, $account_info);
-                    while(list($vacKey, $vacVal) = each($vacation_array)) {
+                    while (list($vacKey, $vacVal) = each($vacation_array)) {
                         $defaults[$vacKey] = $vacVal;
                     }
                     continue;
@@ -316,19 +316,19 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
     function aliasesToArray($aliasArray) {
         // generate unique list of aliases
         $aliasList = array();
-        while(list($key, $val) = each($aliasArray)) {
+        while (list($key, $val) = each($aliasArray)) {
             $alias = ereg_replace('(^[^ ]+) .*$', '\1', $val);
-            if(!in_array($alias, $aliasList)) 
+            if (!in_array($alias, $aliasList)) 
                 array_push($aliasList, $alias);
         }
         // Now create content arrays
         $contentArray = array();
         reset($aliasList);
-        while(list($key, $val) = each($aliasList)) {
+        while (list($key, $val) = each($aliasList)) {
             reset($aliasArray);
             $count = 0;
-            while(list($lkey, $lval) = each($aliasArray)) {
-                if(ereg("^$val ", $lval)) {
+            while (list($lkey, $lval) = each($aliasArray)) {
+                if (ereg("^$val ", $lval)) {
                     $aliasLine = ereg_replace('^[^ ]+ (.*$)', '\1', $lval);
                     $contentArray[$val][$count] = $aliasLine;
                     $count++;
@@ -350,7 +350,7 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
      */
     public static function validEmailAddress($email) {
         $result = Mail_RFC822::parseAddressList($email, '');
-        if(PEAR::isError($result)) return false;
+        if (PEAR::isError($result)) return false;
         return true;
     }
     /**
@@ -381,12 +381,12 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
         foreach ($raw_array as $parentkey => $parentval) {
             $is_type = 'forwards';
             foreach ($parentval as $key => $val) {
-                if(ereg('[|].*' . VPOPMAIL_ROBOT__PROGRAM, $val)) {
+                if (ereg('[|].*' . VPOPMAIL_ROBOT__PROGRAM, $val)) {
                     $is_type = 'responders';
                     break;
                 }
             }
-            if($type == $is_type)
+            if ($type == $is_type)
                 $out_array[$parentkey] = $parentval;
         }
         return $out_array;
@@ -407,12 +407,12 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
         $page_count = 1;
         $limit_count = 1;
         $out_array = array();
-        while((list($key, $val) = each($array)) && $page_count <= $page) {
-            if($page_count == $page) {
+        while ((list($key, $val) = each($array)) && $page_count <= $page) {
+            if ($page_count == $page) {
                 $out_array[$key] = $val;
             }
             $limit_count++;
-            if($limit_count > $limit) {
+            if ($limit_count > $limit) {
                 $limit_count = 1;
                 $page_count++;
             }

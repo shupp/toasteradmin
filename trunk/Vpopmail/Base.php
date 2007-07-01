@@ -118,11 +118,11 @@ class Vpopmail_Base  extends Framework_User {
     {
         if ($this->debug > 0 && is_null($this->log)) {
             $this->log = Log::factory('file', $this->logFile);
-            if(is_null($this->log)) throw new Framework_Exception("Error creating Log object");
+            if (is_null($this->log)) throw new Framework_Exception("Error creating Log object");
         }
         $this->socket = new Net_Socket();
         $result = $this->socket->connect($this->address, $this->port, null, 30);
-        if(PEAR::isError($result)) throw new Framework_Exception($result->getMessage());
+        if (PEAR::isError($result)) throw new Framework_Exception($result->getMessage());
     }
 
     /**
@@ -136,7 +136,7 @@ class Vpopmail_Base  extends Framework_User {
      */
     public function recordio($data)
     {
-        if($this->debug > 0)
+        if ($this->debug > 0)
             $this->log->log($data);
     }
 
@@ -229,7 +229,7 @@ class Vpopmail_Base  extends Framework_User {
     {
         $this->recordio("sockWrite send: $data");
         $result = $this->socket->writeLine($data);
-        if(PEAR::isError($result)) return $result;
+        if (PEAR::isError($result)) return $result;
         return true;
     }
 
@@ -246,7 +246,7 @@ class Vpopmail_Base  extends Framework_User {
         $in = '';
         while ('' == $in) {
             $in = $this->socket->readLine();
-            if(PEAR::isError($in)) return $in;
+            if (PEAR::isError($in)) return $in;
             $in = trim($in);
             $this->recordio("sockRead Read: $in");
         }
@@ -263,7 +263,7 @@ class Vpopmail_Base  extends Framework_User {
     public function rawSockRead($maxLen = 2048)
     {
         $in = $this->socket->read($maxLen);
-        if(PEAR::isError($in)) return $in;
+        if (PEAR::isError($in)) return $in;
         $this->recordio("rawSockRead Read: $in");
         return $in = trim($in);
     }
@@ -291,7 +291,7 @@ class Vpopmail_Base  extends Framework_User {
      */
     public function __destruct()
     {
-        if($this->socket instanceof Net_Socket) {
+        if ($this->socket instanceof Net_Socket) {
             $this->quit();
             $this->socket->disconnect();
         }

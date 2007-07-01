@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <framework>
     <!-- set to 1 to send debug info to logFile -->
-    <debug>0</debug>
+    <debug>1</debug>
     <vpopmaildHost>home.shupp.org</vpopmaildHost>
     <vpopmaildPort>89</vpopmaildPort>
     <!-- inactivity timeout - in seconds -->
