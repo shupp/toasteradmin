@@ -165,7 +165,7 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
                     $defaults['save_a_copy_checked'] = ' checked';
                     continue;
                 }
-                if (ereg(VPOPMAIL_ROBOT_PROGRAM, $val)) {
+                if (ereg($this->vpopmail_robot_program, $val)) {
                     $defaults['vacation_checked'] = ' checked';
                     $vacation_array = $this->getVacation($val, $account_info);
                     while (list($vacKey, $vacVal) = each($vacation_array)) {
@@ -354,7 +354,7 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
         foreach ($raw_array as $parentkey => $parentval) {
             $is_type = 'forwards';
             foreach ($parentval as $key => $val) {
-                if (ereg('[|].*' . VPOPMAIL_ROBOT__PROGRAM, $val)) {
+                if (ereg('[|].*' . $this->vpopmail_robot_program, $val)) {
                     $is_type = 'responders';
                     break;
                 }
