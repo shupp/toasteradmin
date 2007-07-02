@@ -139,10 +139,9 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
         if (PEAR::isError($result)) return $result;
 
         $form = $this->addForwardForm();
-        $renderer =& new HTML_QuickForm_Renderer_Array();
+        $renderer =& new HTML_QuickForm_Renderer_AssocArray();
         $form->accept($renderer);
-        $this->setData('form', 
-            HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
+        $this->setData('form', $renderer->toAssocArray());
         $this->tplFile = 'addForward.tpl';
     }
 
@@ -187,10 +186,9 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
 
         $form = $this->addForwardForm();
         if (!$form->validate()) {
-            $renderer =& new HTML_QuickForm_Renderer_Array();
+            $renderer =& new HTML_QuickForm_Renderer_AssocArray();
             $form->accept($renderer);
-            $this->setData('form', 
-                HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
+            $this->setData('form', $renderer->toAssocArray());
             $this->tplFile = 'addForward.tpl';
             return;
         }
@@ -309,9 +307,9 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
         $this->setData('forward_contents', $this->returnForwardArray($contents));
 
         $form = $this->modifyForwardForm();
-        $renderer =& new HTML_QuickForm_Renderer_Array();
+        $renderer =& new HTML_QuickForm_Renderer_AssocArray();
         $form->accept($renderer);
-        $this->setData('form', HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
+        $this->setData('form', $renderer->toAssocArray());
         $this->tplFile = 'modifyForward.tpl';
     }
     
@@ -356,9 +354,9 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
             $this->setData('forward', $forward);
             $this->setData('forward_contents', $this->returnForwardArray($contents));
 
-            $renderer =& new HTML_QuickForm_Renderer_Array();
+            $renderer =& new HTML_QuickForm_Renderer_AssocArray();
             $form->accept($renderer);
-            $this->setData('form', HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
+            $this->setData('form', $renderer->toAssocArray());
             $this->tplFile = 'modifyForward.tpl';
             return;
         }

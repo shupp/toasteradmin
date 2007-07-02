@@ -126,10 +126,9 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
         if (PEAR::isError($privs)) return privs;
 
         $form = $this->addAccountForm();
-        $renderer =& new HTML_QuickForm_Renderer_Array();
+        $renderer =& new HTML_QuickForm_Renderer_AssocArray();
         $form->accept($renderer);
-        $this->setData('form', 
-            HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
+        $this->setData('form', $renderer->toAssocArray());
         $this->tplFile = 'addAccount.tpl';
         return;
     }
@@ -150,10 +149,9 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
 
         $form = $this->addAccountForm();
         if (!$form->validate()) {
-            $renderer =& new HTML_QuickForm_Renderer_Array();
+            $renderer =& new HTML_QuickForm_Renderer_AssocArray();
             $form->accept($renderer);
-            $this->setData('form', 
-                HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
+            $this->setData('form', $renderer->toAssocArray());
             $this->tplFile = 'addAccount.tpl';
             return;
         }
@@ -162,10 +160,9 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
         $result = $this->user->addUser($this->domain, $emailArray[0], $_REQUEST['password'], $_REQUEST['comment']);
         if (PEAR::isError($result)) {
             $this->setData('message', _("Error: ") . $result->getMessage());
-            $renderer =& new HTML_QuickForm_Renderer_Array();
+            $renderer =& new HTML_QuickForm_Renderer_AssocArray();
             $form->accept($renderer);
-            $this->setData('form', 
-                HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
+            $this->setData('form', $renderer->toAssocArray());
             $this->tplFile = 'addAccount.tpl';
             return;
         }
@@ -278,10 +275,9 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
         }
         $defaults = $this->user->parseHomeDotqmail($dot_qmail, $account_info);
         $form = $this->modifyAccountForm($account, $defaults);
-        $renderer =& new HTML_QuickForm_Renderer_Array();
+        $renderer =& new HTML_QuickForm_Renderer_AssocArray();
         $form->accept($renderer);
-        $this->setData('form', 
-            HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
+        $this->setData('form', $renderer->toAssocArray());
         $this->tplFile = 'modifyAccount.tpl';
         return;
 
@@ -353,10 +349,9 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
         $form = $this->modifyAccountForm($account, $defaults);
         if (!$form->validate()) {
             $this->setData('message', _("Error Modifying Account"));
-            $renderer =& new HTML_QuickForm_Renderer_Array();
+            $renderer =& new HTML_QuickForm_Renderer_AssocArray();
             $form->accept($renderer);
-            $this->setData('form', 
-                HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
+            $this->setData('form', $renderer->toAssocArray());
             $this->tplFile = 'modifyAccount.tpl';
             return;
         }
