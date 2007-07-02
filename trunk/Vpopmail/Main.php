@@ -371,7 +371,6 @@ class Vpopmail_Main extends Vpopmail_Base {
      */
     public function robotGet($domain, $user)
     {
-        $robotPath = strtoupper($user) .'/';
         $dotQmailName = ".qmail-$user";
         $dotQmail = $this->readFile($domain, '', $dotQmailName);
         if (PEAR::isError($dotQmail))
@@ -390,17 +389,17 @@ class Vpopmail_Main extends Vpopmail_Base {
         $result = array();
         $result['Time'] = $Time;
         $result['Number'] = $Number;
-        array_shift($Message); #   Eat From: address
+        array_shift($message); #   Eat From: address
         $result['Subject'] = substr(array_shift($message), 9);
-        array_shift($Message); #  eat blank line
+        array_shift($message); #  eat blank line
         if (0 == count($dotQmail['Forward'])) { #  Empty
-            $Result['Forward'] = '';
+            $result['Forward'] = '';
         } elseif (count($dotQmail['Forward']) > 1) { #  array
-            $Result['Forward'] = $dotQmail['Forward'];
+            $result['Forward'] = $dotQmail['Forward'];
         } else { #  Single entry
-            $Result['Forward'] = $dotQmail['Forward'][0];
+            $result['Forward'] = $dotQmail['Forward'][0];
         }
-        $result['Message'] = $Message;
+        $result['Message'] = $message;
         return $result;
     }
 
