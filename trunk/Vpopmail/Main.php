@@ -372,7 +372,7 @@ class Vpopmail_Main extends Vpopmail_Base {
         $dotQmailName = ".qmail-$user";
         $dotQmail = $this->readFile($domain, '', $dotQmailName);
         if (PEAR::isError($dotQmail))
-            return PEAR::raseError("ERR - Unable to find dotqmail file - " . $dotQmail->getMessage());
+            return PEAR::raiseError("ERR - Unable to find dotqmail file - " . $dotQmail->getMessage());
         $this->recordio("dotQmail: " . print_r($dotQmail, 1));
         $dotQmail = $this->dotQmailSplit($dotQmail);
         $this->recordio("dotQmaili split: " . print_r($dotQmail, 1));
@@ -383,7 +383,7 @@ class Vpopmail_Main extends Vpopmail_Base {
         list($Program, $Time, $Number, $MessageFile, $RobotPath) = explode(' ', $dotQmail['Program'][0]);
         $message = $this->readFile($MessageFile);
         if (PEAR::isError($message))
-            return PEAR::raseError("ERR - Unable to find message file - " . $dotQmail->getMessage());
+            return PEAR::raiseError("ERR - Unable to find message file - " . $dotQmail->getMessage());
         $result = array();
         $result['Time'] = $Time;
         $result['Number'] = $Number;
