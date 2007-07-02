@@ -33,8 +33,9 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
         $this->address = gethostbyname((string)Framework::$site->config->vpopmaildHost);
         $this->port = (string)Framework::$site->config->vpopmaildPort;
         $this->logFile = (string)Framework::$site->config->logFile;
-        // Define VPOPMAIL_ROBOT_PROGRAM
-        define('VPOPMAIL_ROBOT_PROGRAM', (string)Framework::$site->config->autorespond);
+        $this->vpopmail_robot_program = (string)Framework::$site->config->vpopmail_robot_program;
+        $this->vpopmail_robot_time = (int)Framework::$site->config->vpopmail_robot_time;
+        $this->vpopmail_robot_number = (int)Framework::$site->config->vpopmail_robot_number;
         parent::__construct();
         $in = $this->sockRead();
     }

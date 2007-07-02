@@ -11,21 +11,6 @@
  */
 
 /**
- *  VPOPMAIL_ROBOT_TIME
- *  
- *  define VPOPMAIL_ROBOT_TIME
- * @package ToasterAdmin
- */
-define('VPOPMAIL_ROBOT_TIME', 86400);
-/**
- *  VPOPMAIL_ROBOT_NUMBER
- *  
- *  define VPOPMAIL_ROBOT_NUMBER
- * @package ToasterAdmin
- */
-define('VPOPMAIL_ROBOT_NUMBER', 3);
-
-/**
  * Vpopmail_Main 
  * 
  * @uses Vpopmail_Base
@@ -36,6 +21,27 @@ define('VPOPMAIL_ROBOT_NUMBER', 3);
  */
 class Vpopmail_Main extends Vpopmail_Base {
 
+    /**
+     * vpopmail_robot_program 
+     * 
+     * @var string
+     * @access public
+     */
+    public $vpopmail_robot_program = '/usr/bin/autorespond';
+    /**
+     * vpopmail_robot_time 
+     * 
+     * @var float
+     * @access public
+     */
+    public $vpopmail_robot_time = 1000;
+    /**
+     * vpopmail_robot_number 
+     * 
+     * @var float
+     * @access public
+     */
+    public $vpopmail_robot_number = 3;
     /**
      * clogin 
      * 
@@ -318,8 +324,10 @@ class Vpopmail_Main extends Vpopmail_Base {
      * @access public
      * @return mixed true on success, PEAR_Error on failure
      */
-    public function robotSet($domain, $user, $subject, $message, $forward, $time = VPOPMAIL_ROBOT_TIME, $number = VPOPMAIL_ROBOT_NUMBER)
+    public function robotSet($domain, $user, $subject, $message, $forward, $time = '', $number = '')
     {
+        if ($time == '') $time = $this->vpopmail_robot_time;
+        if ($number == '') $number = $this->vpopmail_robot_number;
         $robotDir = strtoupper($user);
         $dotQmailName = ".qmail-$user";
 
@@ -329,7 +337,7 @@ class Vpopmail_Main extends Vpopmail_Base {
         $robotPath = $domainArray['path']."/$robotDir";
 
         $messagePath = "$robotPath/message";
-        $program = VPOPMAIL_ROBOT_PROGRAM;
+        $program = $this->vpopmail_robot_program;
         #  Build the dot qmail file
         $dotQmail = array("|$program $time $number $messagePath $robotPath");
         if (is_array($forward)) {
@@ -370,7 +378,7 @@ class Vpopmail_Main extends Vpopmail_Base {
         $this->recordio("dotQmaili split: " . print_r($dotQmail, 1));
         if (count($dotQmail['Program']) > 1)  #  Too many programs
             return PEAR::raiseError('ERR - too many programs in robot dotqmail file');
-        if (!ereg(VPOPMAIL_ROBOT_PROGRAM, $dotQmail['Program'][0]))
+        if (!ereg($this->vpopmail_robot_program, $dotQmail['Program'][0]))
             return PEAR::raiseError('ERR - Mail Robot program not found');
         list($Program, $Time, $Number, $MessageFile, $RobotPath) = explode(' ', $dotQmail['Program'][0]);
         $message = $this->readFile($MessageFile);
