@@ -719,7 +719,7 @@ class Vpopmail_Main extends Vpopmail_Base {
     {
         $out = $this->sockWrite("dom_info $domain");
         if (PEAR::isError($out))  return $out;
-        $status = $this->sockRead();
+        $in = $this->sockRead();
         if (PEAR::isError($in))  return $in;
         if (!$this->statusOk($in)) return PEAR::raiseError("dom_info failed - " . $in);
         return $this->readInfo();
