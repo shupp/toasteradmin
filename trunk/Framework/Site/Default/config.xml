@@ -5,7 +5,7 @@
     <vpopmaildHost>home.shupp.org</vpopmaildHost>
     <vpopmaildPort>89</vpopmaildPort>
     <!-- inactivity timeout - in seconds -->
-    <inactiveTimeout>300</inactiveTimeout>
+    <inactiveTimeout>600</inactiveTimeout>
     <mcryptKey>My Secret Key</mcryptKey>
     <maxPerPage>10</maxPerPage>
     <vpopmail_robot_program>/usr/bin/autorespond</vpopmail_robot_program>
