@@ -58,6 +58,19 @@ class Framework_Module_Responders extends Framework_Auth_Vpopmail
         }
     }
 
+    /**
+     * sameDomain 
+     * 
+     * @param mixed $name 
+     * @param mixed $value 
+     * @access public
+     * @return bool
+     */
+    public function sameDomain ($name, $value) {
+        $emailArray = explode('@', $value);
+        if ($emailArray[1] == $this->domain) return true;
+        return false;
+    }
 
     /**
      * __default 
@@ -73,34 +86,22 @@ class Framework_Module_Responders extends Framework_Auth_Vpopmail
 
         $this->checkPrivileges();
 
-        $full_alias_array = $this->user->ListAlias($this->domain);
+        $full_alias_array = $this->user->listAlias($this->domain);
+        if (PEAR::isError($full_alias_array)) return $full_alias_array;
         $autoresponders_raw = $this->user->parseAliases($full_alias_array, 'responders');
 
         // Pagintation setup
         $total = count($autoresponders_raw);
-        if ($this->user->Error) die ("Error: {$this->user->Error}");
-        $this->setData('total', $total);
-        $this->setData('limit', (integer)Framework::$site->config->maxPerPage);
-        if (isset($_REQUEST['start']) && !ereg('[^0-9]', $_REQUEST['start'])) {
-            if ($_REQUEST['start'] == 0) {
-                $start = 1;
-            } else {
-                $start = $_REQUEST['start'];
-            }
-        }
-        if (!isset($start)) $start = 1;
-        $this->setData('start', $start);
-        $this->setData('currentPage', ceil($this->data['start'] / $this->data['limit']));
-        $this->setData('totalPages', ceil($this->data['total'] / $this->data['limit']));
-
+        $this->paginate($total);
+        
         // List Responders
         $autoresponders_paginated = $this->user->paginateArray($autoresponders_raw, $this->data['currentPage'], $this->data['limit']);
         $autoresponders = array();
         $count = 0;
         while (list($key,$val) = each($autoresponders_paginated)) {
             $autoresponders[$count]['autoresponder'] = $key;
-            $autoresponders[$count]['edit_url'] = htmlspecialchars("./?module=Responders&domain={$this->domain}&responder=$key&event=modifyResponder");
-            $autoresponders[$count]['delete_url'] = htmlspecialchars("./?module=Responders&domain={$this->domain}&responder=$key&event=deleteResponder");
+            $autoresponders[$count]['edit_url'] = htmlspecialchars("./?module=Responders&domain={$this->domain}&autoresponder=$key&event=modifyResponder");
+            $autoresponders[$count]['delete_url'] = htmlspecialchars("./?module=Responders&domain={$this->domain}&autoresponder=$key&event=delete");
             $count++;
         }
         $this->setData('autoresponders', $autoresponders);
@@ -129,76 +130,76 @@ class Framework_Module_Responders extends Framework_Auth_Vpopmail
      * @return void
      */
     function addResponder() {
-
-        $form = $this->addForm();
-        $renderer =& new HTML_QuickForm_Renderer_Array();
+        $form = $this->responderForm();
+        $renderer =& new HTML_QuickForm_Renderer_AssocArray();
         $form->accept($renderer);
-        $this->setData('form', 
-            HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
-        $this->tplFile = 'addResponder.tpl';
+        $this->setData('form', $renderer->toAssocArray());
+        $this->tplFile = 'responderForm.tpl';
         return;
-    }
-
-    static function sameDomain ($name, $value) {
-        $emailArray = explode('@', $value);
-        if ($emailArray[1] == $this->domain) return true;
-        return false;
     }
 
     function addResponderNow() {
-
-        $form = $this->addForm();
+        $this->setData('LANG_responder_submit', _("Add Auto-Responder"));
+        $this->setData('LANG_responder_header', _("Add Auto-Responder to domain "));
+        $form = $this->responderForm();
         if (!$form->validate()) {
-            $renderer =& new HTML_QuickForm_Renderer_Array();
+            $renderer =& new HTML_QuickForm_Renderer_AssocArray();
             $form->accept($renderer);
-            $this->setData('form', 
-                HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
-            $this->tplFile = 'addResponder.tpl';
+            $this->setData('form', $renderer->toAssocArray());
+            $this->tplFile = 'responderForm.tpl';
             return;
         }
 
-        $emailArray = explode('@', $_REQUEST['account']);
-
-        $result = $this->user->RobotSet($this->domain, $emailArray[0], $_POST['subject'], $_POST['body'], $_POST['copy']);
-        print_r("result: ". $result);exit;
-        exit;
-
-
-
-        $this->user->AddUser($this->domain, $emailArray[0], $_REQUEST['password'], $_REQUEST['comment']);
-        if ($this->user->Error) {
-            $this->setData('message', _("Error: ") . $this->user->Error);
-            $renderer =& new HTML_QuickForm_Renderer_Array();
-            $form->accept($renderer);
-            $this->setData('form', 
-                HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
-            $this->tplFile = 'addAccount.tpl';
-            return;
+        // Split autoresponder to get user
+        $email_array = explode('@', $_REQUEST['autoresponder']);
+        $responder = $this->user->robotGet($this->domain, $email_array[0]);
+        if (!PEAR::isError($responder)) {
+            $this->setData('message', _('Error: autoresponder already exists: ' . $email_array[0]));
+            return $this->addResponder();
         }
 
-        $this->setData('message', _("Account Added Successfully"));
-        $this->listAutoResponders();
-        return;
+        $result = $this->user->robotSet($this->domain, $email_array[0], $_POST['subject'], $_POST['body'], $_POST['copy']);
+        if (PEAR::isError($result)) return $result;
+        $this->setData('message', _("Auto-Responder Added Successfully"));
+        return $this->listResponders();
     }
 
-    function addForm() {
-
-        $this->setData('LANG_Add_AutoResponder_to_domain', _("Add Auto-Responder to domain "));
+    function responderForm($type = 'add', $defaults = '') {
         $this->setData('LANG_Domain_Menu', _("Domain Menu"));
-        $form = new HTML_QuickForm('formAddAccount', 'post', "./?module=Responders&event=addResponderNow&domain={$this->domain}");
+        $this->setData('type', $type);
+        if ($type == 'add') {
+            $this->setData('LANG_responder_submit', _("Add"));
+            $this->setData('LANG_responder_header', _("Add Auto-Responder to domain ") . $this->domain);
+        } else {
+            $this->setData('responder_name', $defaults['autoresponder']);
+            $this->setData('LANG_responder_submit', _("Modify"));
+            $this->setData('LANG_responder_header', _("Modify Auto-Responder ") . $_REQUEST['autoresponder']);
+        }
 
-        $form->setDefaults(array('autoresponder' => '@' . $this->domain));
+        $form = new HTML_QuickForm('formAddAccount', 'post', "./?module=Responders&event=${type}ResponderNow&domain={$this->domain}");
 
-        $form->addElement('text', 'autoresponder', _('Auto-Responder'));
+        if ($defaults == '') {
+            $form->setDefaults(array('autoresponder' => '@' . $this->domain));
+        } else {
+            $form->setDefaults($defaults);
+        }
+
+        if ($type == 'modify') {
+            $form->addElement('hidden', 'autoresponder');
+            $form->addRule('autoresponder', _("Auto-Responder is required"), 'required', null );
+            $form->addRule('autoresponder', _("Auto-Responder must be a full address"), 'email', null);
+        } else {
+            $form->addElement('text', 'autoresponder', _('Auto-Responder'));
+            $form->addRule('autoresponder', _("Auto-Responder is required"), 'required', null, 'client');
+            $form->addRule('autoresponder', _("Auto-Responder must be a full address"), 'email', null, 'client');
+        }
         $form->addElement('text', 'copy', _("Send Copy To"));
         $form->addElement('text', 'subject', _("Subject"));
         $form->addElement('textarea', 'body', _("Body"), 'cols="40" rows="10"');
-        $form->addElement('submit', 'submit', _("Add Auto-Responder"));
+        $form->addElement('submit', 'submit', $this->__get('LANG_responder_submit'));
 
         $form->registerRule('sameDomain', 'regex', "/@$this->domain$/i");
 
-        $form->addRule('autoresponder', _("Auto-Responder is required"), 'required', null, 'client');
-        $form->addRule('autoresponder', _("Auto-Responder must be a full address"), 'email', null, 'client');
         $form->addRule('autoresponder', _('Error: wrong domain in Auto-Responder'), 'sameDomain');
         $form->addRule('copy', _("'Save a copy' must be an email address"), 'email', null, 'client');
         $form->addRule('subject', _("Subject is required"), 'required', null, 'client');
@@ -207,228 +208,97 @@ class Framework_Module_Responders extends Framework_Auth_Vpopmail
     }
 
     function delete() {
-
-        if (!isset($_REQUEST['account'])) {
-            return PEAR::raiseError(_("Error: no account supplied"));
+        if (!isset($_REQUEST['autoresponder'])) {
+            return PEAR::raiseError(_("Error: no responder supplied"));
         }
-
-        $this->setData('LANG_Are_you_sure_you_want_to_delete_this_account', _("Are you sure you want to delete this account"));
+        $this->setData('LANG_Are_you_sure_you_want_to_delete_this_responder', _("Are you sure you want to delete the responder"));
         $this->setData('LANG_cancel', _("cancel"));
         $this->setData('LANG_delete', _("delete"));
-
-        $this->setData('account', $_REQUEST['account']);
-        $this->setData('cancel_url', "./?module=Accounts&event=cancelDelete&domain=" . $this->domain);
-        $this->setData('delete_now_url', "./?module=Accounts&event=deleteNow&domain=" . $this->domain . "&account=" . $_REQUEST['account']);
-        $this->tplFile = 'accountConfirmDelete.tpl';
+        $this->setData('autoresponder', $_REQUEST['autoresponder']);
+        $this->setData('cancel_url', "./?module=Responders&event=cancelDelete&domain=" . $this->domain);
+        $this->setData('delete_now_url', "./?module=Responders&event=deleteNow&domain=" . $this->domain . "&autoresponder=" . $_REQUEST['autoresponder']);
+        $this->tplFile = 'responderConfirmDelete.tpl';
     }
 
     function deleteNow() {
-
-        if (!isset($_REQUEST['account'])) {
-            return PEAR::raiseError(_("Error: no account supplied"));
+        if (!isset($_REQUEST['autoresponder'])) {
+            return PEAR::raiseError(_("Error: no responder supplied"));
         }
-
         if (!isset($_REQUEST['domain'])) {
             return PEAR::raiseError(_("Error: no domain supplied"));
         }
-
-        $this->user->DelUser($this->domain, $_REQUEST['account']);
-        if ($this->user->Error) {
-            return PEAR::raiseError(_("Error: ") . $this->user->Error);
-        }
-
-        $this->setData('message', _("Account Deleted Successfully"));
-        $this->listAccounts();
-        return;
+        $array = explode('@', $_REQUEST['autoresponder']);
+        $result = $this->user->robotDel($this->domain, $array[0]);
+        if (PEAR::isError($result)) return $result;
+        $this->setData('message', _("Responder Deleted Successfully"));
+        return $this->listResponders();
     }
 
     function cancelDelete() {
         $this->setData('message', _("Delete Canceled"));
-        $this->listAccounts();
+        $this->listResponders();
         return;
     }
 
     function modifyResponder() {
-
         // Make sure account was supplied
-        if (!isset($_REQUEST['responder'])) {
+        if (!isset($_REQUEST['autoresponder'])) {
             return PEAR::raiseError(_("Error: no Auto-Responder supplied"));
         }
-        $respondername = $_REQUEST['responder'];
-
         // Check privs
         if (!$this->user->isUserAdmin($account, $this->domain)) {
             return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $this->domain);
         }
-
-        $array = explode('@', $respondername);
-        $responder = $this->user->RobotGet($this->domain,$array[0]);
-        print_r($responder);exit;
-
-        if ($this->user->Error) {
-            return PEAR::raiseError(_('Error: ') . $this->user->Error);
+        $array = explode('@', $_REQUEST['autoresponder']);
+        // Setup defaults
+        $responder = $this->user->robotGet($this->domain,$array[0]);
+        if (PEAR::isError($responder)) return $responder;
+        $defaults = array();
+        $defaults['subject'] = $responder['Subject'];
+        $defaults['body'] = implode("\n", $responder['Message']);
+        $defaults['autoresponder'] = $_REQUEST['autoresponder'];
+        if (isset($responder['Forward'])) {
+            $defaults['copy'] = $responder['Forward'];
         }
-        $defaults = $this->user->parseHomeDotqmail($dot_qmail, $account_info);
-        $form = $this->modifyAccountForm($account, $defaults);
-        $renderer =& new HTML_QuickForm_Renderer_Array();
+
+        $form = $this->responderForm('modify', $defaults);
+        $renderer =& new HTML_QuickForm_Renderer_AssocArray();
         $form->accept($renderer);
-        $this->setData('form', 
-            HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
-        // print_r($this->data['form']);exit;
-        $this->tplFile = 'modifyAccount.tpl';
+        $this->setData('form', $renderer->toAssocArray());
+        $this->tplFile = 'responderForm.tpl';
         return;
-
     }
 
-
-    function modifyAccountForm($account, $defaults) {
-
-        // Language stuff
-        $this->setData('LANG_Modify_Account', _("Modify Account"));
-        $this->setData('LANG_Domain_Menu', _("Domain Menu"));
-        if ($this->user->isDomainAdmin($this->domain)) {
-            $this->setData('isDomainAdmin', 1);
-            $this->setData('LANG_Main_Menu', _("Main Menu"));
-        }
-        $this->setData('account', $account);
-
-        $form = new HTML_QuickForm('formModifyAccount', 'post', "./?module=Accounts&event=modifyAccountNow&domain={$this->domain}&account=$account");
-
-        $form->setDefaults($defaults);
-
-        $form->addElement('text', 'comment', _("Real Name/Comment"));
-        $form->addElement('password', 'password', _("Password"));
-        $form->addElement('password', 'password2', _("Re-Type Password"));
-        $form->addElement('radio', 'routing', 'Mail Routing', _('Standard (No Forwarding)'), 'routing_standard');
-        $form->addElement('radio', 'routing', '', _('All Mail Deleted'), 'routing_deleted');
-        $form->addElement('radio', 'routing', '', _('Forward to:'), 'routing_forwarded');
-        $form->addElement('text', 'forward');
-        $form->addElement('checkbox', 'save_a_copy', _('Save A Copy'));
-
-        $form->addElement('checkbox', 'vacation', _('Send a Vacation Auto-Response'));
-        $form->addElement('text', 'vacation_subject', _('Vacation Subject:'));
-        $form->addElement('textarea', 'vacation_body', _('Vacation Message:'), 'rows="10" cols="40"');
-        $form->addElement('submit', 'submit', _('Modify Account'));
-
-        $form->addRule(array('password', 'password2'), _('The passwords do not match'), 'compare', null, 'client');
-        $form->addRule('routing', _('Please select a mail routing type'), 'required', null, 'client');
-        $form->addRule('forward', _('"Forward to" must be a valid email address'), 'email', null, 'client');
-
-        return $form;
-    }
-
-
-    function modifyAccountNow() {
-
+    function modifyResponderNow() {
         // Make sure account was supplied
-        if (!isset($_REQUEST['account'])) {
-            return PEAR::raiseError(_("Error: no account supplied"));
+        if (!isset($_REQUEST['autoresponder'])) {
+            return PEAR::raiseError(_("Error: no Auto-Responder supplied"));
         }
-        $account = $_REQUEST['account'];
-
         // Check privs
         if (!$this->user->isUserAdmin($account, $this->domain)) {
             return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $this->domain);
         }
-
-        // See what user_info to use
-        $account_info = $this->user->UserInfo($this->domain, $_REQUEST['account']);
-        if ($this->user->Error) {
-            return PEAR::raiseError(_('Error: ') . $this->user->Error);
-        }
-
-        // Get .qmail info if it exists
-        $dot_qmail = $this->user->ReadFile($this->domain, $_REQUEST['account'], '.qmail');
-        if ($this->user->Error && $this->user->Error != 'command failed - -ERR 2102 No such file or directory') {
-            return PEAR::raiseError(_('Error: ') . $this->user->Error);
-        }
-        $defaults = $this->user->parseHomeDotqmail($dot_qmail, $account_info);
-        $form = $this->modifyAccountForm($account, $defaults);
+        $array = explode('@', $_REQUEST['autoresponder']);
+        // Setup defaults
+        $responder = $this->user->robotGet($this->domain,$array[0]);
+        if (PEAR::isError($responder)) return $responder;
+        $defaults = array();
+        $defaults['subject'] = $responder['Subject'];
+        $defaults['body'] = implode("\n", $responder['Message']);
+        $defaults['autoresponder'] = $_REQUEST['autoresponder'];
+        $form = $this->responderForm('modify', $defaults);
         if (!$form->validate()) {
-            $this->setData('message', _("Error Modifying Account"));
-            $renderer =& new HTML_QuickForm_Renderer_Array();
+            $renderer =& new HTML_QuickForm_Renderer_AssocArray();
             $form->accept($renderer);
-            $this->setData('form', 
-                HTML_QuickForm_Renderer_AssocArray::toAssocArray($form->toArray()));
-            $this->tplFile = 'modifyAccount.tpl';
+            $this->setData('form', $renderer->toAssocArray());
+            $this->tplFile = 'responderForm.tpl';
             return;
         }
-
-        $routing = '';
-        $save_a_copy = 0;
-        if ($_REQUEST['routing'] == 'routing_standard') {
-            $routing = 'standard';
-        } else if ($_REQUEST['routing'] == 'routing_deleted') {
-            $routing = 'deleted';
-        } else if ($_REQUEST['routing'] == 'routing_forwarded') {
-            if (empty($_REQUEST['forward'])) {
-                return PEAR::raiseError(_('Error: you must supply a forward address'));
-            } else {
-                $forward = $_REQUEST['forward'];
-            }
-            $routing = 'forwarded';
-            if (isset($_REQUEST['save_a_copy'])) $save_a_copy = 1;
-        } else {
-            return PEAR::raiseError(_('Error: unsupported routing selection'));
-        }
-
-        // Check for vacation
-        $vacation = 0;
-        if (isset($_REQUEST['vacation'])) {
-            $vacation = 1;
-            $vacation_subject = $_REQUEST['vacation_subject'];
-            $vacation_body = $_REQUEST['vacation_body'];
-        }
-
-        // Build .qmail contents
-        $dot_qmail_contents = '';
-        if ($routing == 'deleted') {
-            $dot_qmail_contents = "# delete";
-        } else if ($routing == 'forwarded') {
-            $dot_qmail_contents = "&$forward";
-            if ($save_a_copy = 1) $dot_qmail_contents .= "\n./Maildir/";
-        }
-
-        if ($vacation == 1) {
-            if (strlen($dot_qmail_contents) > 0) $dot_qmail_contents .= "\n";
-            $vacation_dir = $account_info['user_dir'] . '/vacation';
-            $dot_qmail_contents .= "| $autorespond 86400 3 $vacation_dir/message $vacation_dir";
-            // Example:
-            // | /usr/local/bin/autorespond 86400 3 /home/vpopmail/domains/shupp.org/test/vacation/message /home/vpopmail/domains/shupp.org/test/vacation
-        }
-
-        $dot_qmail_file = $account_info['user_dir'] . '/.qmail';
-        if (strlen($dot_qmail_contents) > 0) {
-            $contents = explode("\n", $dot_qmail_contents);
-            // Delete existing file
-            $this->user->RmFile($this->domain, $account_info['name'], $dot_qmail_file);
-            // Write .qmail file
-            $this->user->WriteFile(explode("\n", $dot_qmail_contents), '', '', $dot_qmail_file);
-
-            // Add vacation files
-            if ($vacation == 1) {
-                $vcontents = "From: " . $account_info['name'] . "@{$this->domain}\n";
-                $vcontents .= "Subject: $vacation_subject\n\n";
-                $vcontents .= $vacation_body;
-                $contents = explode("\n", $vcontents);
-                $vdir = 'vacation';
-                $message = 'vacation/message';
-                // Delete existing file
-                $this->user->RmDir($this->domain, $account_info['name'], $vdir);
-                // Make vacation directory
-                $this->user->MkDir($this->domain, $account_info['name'], $vdir);
-                // Write vacation message
-                $this->user->WriteFile($contents, $this->domain, $account_info['name'], $message);
-            }
-        } else {
-            $this->user->RmDir($this->domain, $account_info['name'], 'vacation');
-            $this->user->RmFile('', '', $dot_qmail_file);
-        }
-
-        $this->setData('message', _('Account Modified Successfully'));
-        $this->modifyAccount();
+        $result = $this->user->robotDel($this->domain, $array[0]);
+        $result = $this->user->robotSet($this->domain, $array[0], $_POST['subject'], $_POST['body'], $_POST['copy']);
+        if (PEAR::isError($result)) return $result;
+        $this->setData('message', _("Auto-Responder modified successfully"));
+        return $this->listResponders();
     }
-
 }
-
 ?>
