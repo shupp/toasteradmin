@@ -243,13 +243,8 @@ class Vpopmail_Base  extends Framework_User {
      */
     public function sockRead()
     {
-        $in = '';
-        while ('' == $in) {
-            $in = $this->socket->readLine();
-            if (PEAR::isError($in)) return $in;
-            $in = trim($in);
-            $this->recordio("sockRead Read: $in");
-        }
+        $in = $this->socket->readLine();
+        $this->recordio("sockRead Read: $in");
         return $in;
     }
 
