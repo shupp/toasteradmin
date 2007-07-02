@@ -257,34 +257,6 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
         $this->mkDir($vacation_dir);
         $this->writeFile($contents, $domain, $user, $message_file);
     }
-    /**
-     * listAliases
-     *
-     * @param mixed $array
-     * @param mixed $page
-     * @param mixed $max_per_page
-     * @access public
-     * @return array $new_array
-     */
-    function listAliases($array, $page, $max_per_page) {
-        $new_array = array();
-        $count = 1;
-        $page_count = 1;
-        $item_count = 1;
-        while (list($key, $val) = each($array)) {
-            if ($page_count == $page) {
-                $new_array[$key] = $val;
-            }
-            if ($item_count == $max_per_page) {
-                $page_count++;
-                $item_count = 1;
-            } else {
-                $item_count++;
-            }
-            $count++;
-        }
-        return $new_array;
-    }
 
     /**
      * getAliasContents 

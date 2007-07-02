@@ -92,7 +92,7 @@ class Framework_Module_Forwards extends Framework_Auth_Vpopmail
         $this->paginate($total);
 
         // List Accounts
-        $alias_array = $this->user->listAliases($aliasesParsed, $this->data['currentPage'], $this->data['limit']);
+        $alias_array = $this->user->paginateArray($aliasesParsed, $this->data['currentPage'], $this->data['limit']);
     
         if (count($alias_array) == 0) {
             $this->setData('message', _("No Forwards.  Care to add one?"));
