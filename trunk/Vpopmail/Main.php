@@ -330,6 +330,9 @@ class Vpopmail_Main extends Vpopmail_Base {
         if ($number == '') $number = $this->vpopmail_robot_number;
         $robotDir = strtoupper($user);
         $dotQmailName = ".qmail-$user";
+        if (!is_array($message)) {
+            $message = explode("\n", $message);
+        }
 
         // Get domain directory for robotPath
         $domainArray = $this->domainInfo($domain);
