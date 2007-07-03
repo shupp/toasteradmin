@@ -157,7 +157,11 @@ class Framework_Module_Accounts extends Framework_Auth_Vpopmail
         }
 
         $emailArray = explode('@', $_REQUEST['account']);
-        $result = $this->user->addUser($this->domain, $emailArray[0], $_REQUEST['password'], $_REQUEST['comment']);
+        $result = $this->user->addUser($this->domain, $emailArray[0], $_REQUEST['password']);
+        if(!PEAR::isError($result)) {
+            // Update gecos
+            $result = $this->user->modUser($this->domain, $emailArray[0], array('comment' => $_REQUEST['comment']));
+        }
         if (PEAR::isError($result)) {
             $this->setData('message', _("Error: ") . $result->getMessage());
             $renderer =& new HTML_QuickForm_Renderer_AssocArray();
