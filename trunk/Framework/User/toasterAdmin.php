@@ -149,7 +149,7 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
         $defaults['comment'] = $account_info['comment'];
         $defaults['forward'] = '';
         $defaults['save_a_copy_checked'] = '';
-        $defaults['vacation_checked'] = '';
+        $defaults['vacation'] = '';
         $defaults['vacation_subject'] = '';
         $defaults['vacation_body'] = '';
         if (empty($contents)) $is_standard = true;
@@ -166,7 +166,6 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
                     continue;
                 }
                 if (ereg($this->vpopmail_robot_program, $val)) {
-                    $defaults['vacation_checked'] = ' checked';
                     $vacation_array = $this->getVacation($val, $account_info);
                     while (list($vacKey, $vacVal) = each($vacation_array)) {
                         $defaults[$vacKey] = $vacVal;
@@ -206,30 +205,14 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
             $array = explode(' ', $line);
             $path = $array[3];
         }
-        $contents = $this->ReadFile($path);
-        /// pre($contents);
-        if ($this->Error) {
-            $tpl->set_msg_err(_('Error: ') .$this->Error);
-            $tpl->wrap_exit();
-        }
-        $subject = '';
-        $body = '';
-        while (list($key, $val) = each($contents)) {
-            if ($key == '1') {
-                $subject = ereg_replace('^Subject: *', '', $val);
-                continue;
-            }
-            if ($key < 3) continue;
-            if (strlen($val) == 0) {
-                $body.= "\n";
-            } else {
-                $body.= $val;
-                // $body .= $val . "\n";
-            }
-        }
+        $contents = $this->readFile($path);
+        if (PEAR::isError($contents)) return $contents;
+        array_shift($contents); #   Eat From: address
+        $subject = substr(array_shift($contents), 9);
+        array_shift($contents); #  eat blank line
         return array(   'vacation_subject' => $subject,
-                        'vacation_body' => $body,
-                        'vacation_checked' => ' checked');
+                        'vacation_body' => implode("\n", $contents),
+                        'vacation' => ' checked');
     }
     /**
      * setupVacation
