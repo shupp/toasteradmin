@@ -856,13 +856,12 @@ class Vpopmail_Main extends Vpopmail_Base {
      * @param mixed $domain 
      * @param mixed $user 
      * @param mixed $password 
-     * @param mixed $gecos 
      * @access public
      * @return mixed true on success, PEAR_Error on failure
      */
-    public function addUser($domain, $user, $password, $gecos)
+    public function addUser($domain, $user, $password)
     {
-        $status = $this->sockWrite("add_user $user@$domain $password $gecos");
+        $status = $this->sockWrite("add_user $user@$domain $password");
         if (PEAR::isError($status)) return $status;
         $status = $this->sockRead();
         if (PEAR::isError($status)) return $status;
