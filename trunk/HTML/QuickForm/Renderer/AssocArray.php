@@ -6,7 +6,16 @@
  * HTML_QuickForm_Renderer_AssocArray 
  * 
  * @uses HTML_QuickForm
- * @package 
+ * @package ToasterAdmin
+ * @copyright 2007 Bill Shupp
+ * @author Bill Shupp <hostmaster@shupp.org> 
+ * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ */
+/**
+ * HTML_QuickForm_Renderer_AssocArray 
+ * 
+ * @uses HTML_QuickForm_Renderer_Array
+ * @package ToasterAdmin
  * @copyright 2007 Bill Shupp
  * @author Bill Shupp <hostmaster@shupp.org> 
  * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
