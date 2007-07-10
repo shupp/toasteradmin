@@ -3,7 +3,7 @@
 /**
  * Responders Module
  * 
- * @uses Framework_Auth_Vpopmail
+ * @uses Framework_Auth_User
  * @package ToasterAdmin
  * @copyright 2006-2007 Bill Shupp
  * @author Bill Shupp <hostmaster@shupp.org> 
@@ -13,13 +13,13 @@
 /**
  * Framework_Module_Responders 
  * 
- * @uses Framework_Auth_Vpopmail
+ * @uses Framework_Auth_User
  * @package ToasterAdmin
  * @copyright 2006-2007 Bill Shupp
  * @author Bill Shupp <hostmaster@shupp.org> 
  * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
  */
-class Framework_Module_Responders extends Framework_Auth_Vpopmail
+class Framework_Module_Responders extends Framework_Auth_User
 {
 
     /**

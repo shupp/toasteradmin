@@ -38,6 +38,10 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
         $this->vpopmail_robot_number = (int)Framework::$site->config->vpopmail_robot_number;
         parent::__construct();
         $in = $this->sockRead();
+        if (!$this->statusOk($in)) {
+            throw new Framework_Exception("Error: initial status: $in");
+        }
+
     }
 
 
@@ -61,7 +65,33 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
         return true;
     }
 
-    
+    public function isDefault() {
+
+        $session =& Framework_Session::singleton();
+        if (is_null($session->email)) {
+            return true;
+        }
+        // Check timeout
+        $time = time();
+        $lastActionTime = $session->lastActionTime;
+        $timeLimit = (int)Framework::$site->config->inactiveTimeout;
+        $this->recordio("timeout info: time: $time, lastActionTime: $lastActionTime, timeLimit: $timeLimit");
+        if (($time - $lastActionTime) > $timeLimit) {
+            header('Location: ./?module=Login&event=logoutInactive');
+            return false;
+        }
+
+        // Authenticate
+        $encryptedPass = $session->password;
+        $plainPass =  Framework_User_passEncryption::decryptPass($encryptedPass, (string)Framework::$site->config->mcryptKey);
+        if (!PEAR::isError($this->authenticate($session->email, $plainPass))) {
+            $session->lastActionTime = $time;
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     /**
      *
      * Extensions to Vpopmaild for Bill's ToasterAdmin

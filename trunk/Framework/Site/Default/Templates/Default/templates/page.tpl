@@ -12,15 +12,15 @@
 	<div id="container">
 		<div id="head"></div>
 		<div id="contentwrapper">
-        {if $logged_in_as}
+        {if $smarty.session.email}
         <center>
         <table width="514" border="0">
             <tr>
                 <td align="left">
-            {$LANG_logged_in_as} {$logged_in_as}
+            logged in as {$smarty.session.email}
                 </td>
                 <td align="right">
-            <a href='./?module=Login&event=logoutNow'>{$LANG_logout}</a>
+            <a href='./?module=Login&event=logoutNow'>logout</a>
                 </td>
             </tr>
         </table>
