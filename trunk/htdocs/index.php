@@ -26,14 +26,32 @@ $ta_include_path = FRAMEWORK_BASE_PATH;
 
 ini_set('include_path', $ta_include_path . PATH_SEPARATOR . ini_get('include_path'));
 
-require_once('Framework.php');
+try {
+    require_once 'Framework.php';
 
-$result = Framework::start('Default');
+    $controller = 'Web';
+    if (isset($_GET['Controller'])) {
+        $controller = $_GET['Controller'];
+    }
+    $result = Framework::start('Default', $controller);
+    if (PEAR::isError($result)) {
+        switch ($result->getCode()) {
+        case FRAMEWORK_ERROR_AUTH:
+            header('Location: ./?module=Login');
+            break;
+        default:
+            // If a PEAR error is returned usually something catastrophic 
+            // happend like an event returning a PEAR_Error or throwing an 
+            // exception of some sort.
+            die($result->getMessage());
+        }
+    }
 
-if (PEAR::isError($result)) {
-    die($result->getMessage());
+    // Run shutdown functions and stop the Framework
+    Framework::stop();
+} catch (Framework_Exception $error) {
+    echo $error->getMessage();
 }
 
-Framework::stop();
-
 ?>
+
