@@ -3,7 +3,31 @@
 class ToasterAdmin_Common extends Framework_User_ToasterAdmin
 {
 
-   public function paginate($total) {
+    /**
+     * domain 
+     * 
+     * $domain is set from $_REQUEST['domain'];
+     * 
+     * @var mixed
+     * @access public
+     */
+    public $domain = null;
+
+    /**
+     * __construct 
+     * 
+     * @access public
+     * @return void
+     */
+    public function __construct() {
+        parent::__construct();
+        if (isset($_REQUEST['domain'])) {
+            $this->domain = $_REQUEST['domain'];
+        }
+    }
+    
+
+    public function paginate($total) {
         $this->setData('total', $total);
         $this->setData('limit', (integer)Framework::$site->config->maxPerPage);
         if (isset($_REQUEST['start']) && !ereg('[^0-9]', $_REQUEST['start'])) {
