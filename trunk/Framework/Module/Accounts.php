@@ -39,7 +39,7 @@ class Framework_Module_Accounts extends Framework_Auth_User
      */
     function __construct() {
         parent::__construct();
-        // Make sure doamin was supplied
+        // Make sure domain was supplied
         if (!isset($_REQUEST['domain']))
             throw new Framework_Exception(_("Error: no domain supplied"));
         $this->domain = $_REQUEST['domain'];
