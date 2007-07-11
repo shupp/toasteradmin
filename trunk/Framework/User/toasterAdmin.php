@@ -22,6 +22,17 @@
 class Framework_User_toasterAdmin extends Vpopmail_Main {
 
     /**
+     * ezmlmOpts 
+     * 
+     * This will be an array of the default ezmlm command 
+     * line options
+     * 
+     * @var mixed
+     * @access public
+     */
+    public $ezmlmOpts = null;
+
+    /**
      * __construct 
      * 
      * @access protected
@@ -354,7 +365,7 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
     /**
      * parseAliases 
      * 
-     * Return correct type of aliases - forwards or responders
+     * Return correct type of aliases - forwards, responders, or lists (ezmlm)
      * 
      * @param mixed $in_array 
      * @param mixed $type 
@@ -369,6 +380,10 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
             foreach ($parentval as $key => $val) {
                 if (ereg('[|].*' . $this->vpopmail_robot_program, $val)) {
                     $is_type = 'responders';
+                    break;
+                }
+                if (ereg('[|].*ezmlm-', $val)) {
+                    $is_type = 'lists';
                     break;
                 }
             }
@@ -404,6 +419,44 @@ class Framework_User_toasterAdmin extends Vpopmail_Main {
             }
         }
         return $out_array;
+    }
+
+    /**
+     * setDefaultEzmlmOpts 
+     * 
+     * This just assigns default options to $this->ezmlmOpts
+     * 
+     * @access public
+     * @return void
+     */
+    public function setDefaultEzmlmOpts() {
+        /* for the options below, use 1 for "on" or "yes" */
+        $this->ezmlmOpts['a'] = 1; /* Archive */
+        $this->ezmlmOpts['b'] = 1; /* Moderator-only access to archive */
+        $this->ezmlmOpts['c'] = 0; /* ignored */
+        $this->ezmlmOpts['d'] = 0; /* Digest */
+        $this->ezmlmOpts['e'] = 0; /* ignored */
+        $this->ezmlmOpts['f'] = 1; /* Prefix */
+        $this->ezmlmOpts['g'] = 1; /* Guard Archive */
+        $this->ezmlmOpts['h'] = 0; /* Subscribe doesn't require conf */
+        $this->ezmlmOpts['i'] = 0; /* Indexed */
+        $this->ezmlmOpts['j'] = 0; /* Unsubscribe doesn't require conf */
+        $this->ezmlmOpts['k'] = 0; /* Create a blocked sender list */
+        $this->ezmlmOpts['l'] = 0; /* Remote admins can access subscriber list */
+        $this->ezmlmOpts['m'] = 0; /* Moderated */
+        $this->ezmlmOpts['n'] = 0; /* Remote admins can edit text files */
+        $this->ezmlmOpts['o'] = 0; /* Others rejected (for Moderated lists only */
+        $this->ezmlmOpts['p'] = 1; /* Public */
+        $this->ezmlmOpts['q'] = 1; /* Service listname-request */
+        $this->ezmlmOpts['r'] = 0; /* Remote Administration */
+        $this->ezmlmOpts['s'] = 0; /* Subscriptions are moderated */
+        $this->ezmlmOpts['t'] = 0; /* Add Trailer to outgoing messages */
+        $this->ezmlmOpts['u'] = 1; /* Only subscribers can post */
+        $this->ezmlmOpts['v'] = 0; /* ignored */
+        $this->ezmlmOpts['w'] = 0; /* special ezmlm-warn handling (ignored) */
+        $this->ezmlmOpts['x'] = 0; /* enable some extras (ignored) */
+        $this->ezmlmOpts['y'] = 0; /* ignored */
+        $this->ezmlmOpts['z'] = 0; /* ignored */
     }
 
 }
