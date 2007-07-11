@@ -24,6 +24,8 @@ class ToasterAdmin_Common extends Framework_User_ToasterAdmin
         if (isset($_REQUEST['domain'])) {
             $this->domain = $_REQUEST['domain'];
         }
+        $this->setData('domain', $this->domain);
+        $this->setData('domain_url', htmlspecialchars('./?module=Domains&event=domainMenu&domain=' . $this->domain));
     }
     
 
