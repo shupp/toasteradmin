@@ -1,6 +1,6 @@
 <?php
 /**
- * Framework_User_toasterAdmin 
+ * Framework_User_ToasterAdmin 
  * 
  * @package ToasterAdmin
  * @copyright 2005-2006 Bill Shupp
@@ -10,7 +10,7 @@
 
 /**
  *
- * Extensions to Framework_User_vpopmail for Bill's ToasterAdmin
+ * Extensions to Vpopmail_Main for Bill's ToasterAdmin
  *
  * This class extends Vpopmaild with some ToasterAdmin specific functions
  *
@@ -19,7 +19,7 @@
  * @version 1.0
  *
  */
-class Framework_User_toasterAdmin extends Vpopmail_Main {
+class Framework_User_ToasterAdmin extends Vpopmail_Main {
 
     /**
      * ezmlmOpts 
