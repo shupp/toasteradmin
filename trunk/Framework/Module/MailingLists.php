@@ -20,7 +20,7 @@
  * @author Bill Shupp <hostmaster@shupp.org> 
  * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
  */
-class Framework_Module_MailingLists extends Framwork_Auth_User
+class Framework_Module_MailingLists extends ToasterAdmin_Common
 {
     public function __construct() {
         parent::__construct();

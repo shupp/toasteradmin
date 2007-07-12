@@ -21,13 +21,8 @@
  * @author Bill Shupp <hostmaster@shupp.org> 
  * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
  */
-class Framework_Module_Accounts extends Framework_Auth_User
+class Framework_Module_Accounts extends ToasterAdmin_Common
 {
-
-    /**
-     *  $domain is set from $_REQUEST['domain'];
-     */
-    public $domain = null;
 
     /**
      * __construct 
@@ -39,27 +34,10 @@ class Framework_Module_Accounts extends Framework_Auth_User
      */
     function __construct() {
         parent::__construct();
-        // Make sure domain was supplied
-        if (!isset($_REQUEST['domain']))
-            throw new Framework_Exception(_("Error: no domain supplied"));
-        $this->domain = $_REQUEST['domain'];
-        $this->setData('domain', $this->domain);
-        $this->setData('domain_url', htmlspecialchars('./?module=Domains&event=domainMenu&domain=' . $this->domain));
-    }
-
-    /**
-     * checkPrivileges 
-     * 
-     * @access protected
-     * @return void
-     */
-    protected function checkPrivileges() {
-        // Verify that they have access to this domain
-        if (!$this->user->isDomainAdmin($this->domain)) {
-            return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $this->domain);
+        if (($result = $this->noDomainSupplied())) {
+            return $result;
         }
     }
-
 
     /**
      * __default 
@@ -73,12 +51,15 @@ class Framework_Module_Accounts extends Framework_Auth_User
 
     function listAccounts() {
 
-        $privs = $this->checkPrivileges();
-        if (PEAR::isError($privs)) return privs;
+        if (($result = $this->noDomainPrivs())) {
+            return $result;
+        }
 
         // Pagintation setup
         $total = $this->user->userCount($this->domain);
-        if (PEAR::isError($total)) return $total;
+        if (PEAR::isError($total)) {
+            return $total;
+        }
         $this->paginate($total);
 
         // List Accounts
@@ -122,8 +103,9 @@ class Framework_Module_Accounts extends Framework_Auth_User
      */
     function addAccount() {
 
-        $privs = $this->checkPrivileges();
-        if (PEAR::isError($privs)) return privs;
+        if (($result = $this->noDomainPrivs())) {
+            return $result;
+        }
 
         $form = $this->addAccountForm();
         $renderer =& new HTML_QuickForm_Renderer_AssocArray();
@@ -133,19 +115,11 @@ class Framework_Module_Accounts extends Framework_Auth_User
         return;
     }
 
-    static function sameDomain ($name, $value) {
-        $emailArray = explode('@', $value);
-        if ($emailArray[1] == $this->domain) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     function addAccountNow() {
 
-        $privs = $this->checkPrivileges();
-        if (PEAR::isError($privs)) return privs;
+        if (($result = $this->noDomainPrivs())) {
+            return $result;
+        }
 
         $form = $this->addAccountForm();
         if (!$form->validate()) {
@@ -201,8 +175,9 @@ class Framework_Module_Accounts extends Framework_Auth_User
 
     function delete() {
 
-        $privs = $this->checkPrivileges();
-        if (PEAR::isError($privs)) return privs;
+        if (($result = $this->noDomainPrivs())) {
+            return $result;
+        }
 
         if (!isset($_REQUEST['account'])) {
             return PEAR::raiseError(_("Error: no account supplied"));
@@ -220,8 +195,9 @@ class Framework_Module_Accounts extends Framework_Auth_User
 
     function deleteNow() {
 
-        $privs = $this->checkPrivileges();
-        if (PEAR::isError($privs)) return privs;
+        if (($result = $this->noDomainPrivileges())) {
+            return $result;
+        }
 
         if (!isset($_REQUEST['account'])) {
             return PEAR::raiseError(_("Error: no account supplied"));
@@ -243,8 +219,9 @@ class Framework_Module_Accounts extends Framework_Auth_User
 
     function cancelDelete() {
 
-        $privs = $this->checkPrivileges();
-        if (PEAR::isError($privs)) return privs;
+        if (($result = $this->noDomainPrivileges())) {
+            return $result;
+        }
 
         $this->setData('message', _("Delete Canceled"));
         $this->listAccounts();

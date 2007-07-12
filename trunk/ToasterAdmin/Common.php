@@ -1,6 +1,6 @@
 <?php
 
-class ToasterAdmin_Common extends Framework_User_ToasterAdmin
+abstract class ToasterAdmin_Common extends Framework_Auth_User
 {
 
     /**
@@ -77,6 +77,20 @@ class ToasterAdmin_Common extends Framework_User_ToasterAdmin
         return false;
     }
 
+    /**
+     * sameDomain 
+     * 
+     * @param mixed $name 
+     * @param mixed $value 
+     * @static
+     * @access public
+     * @return void
+     */
+    static public function sameDomain ($name, $value) {
+        $emailArray = explode('@', $value);
+        if ($emailArray[1] == $this->domain) return true;
+        return false;
+    }
+
 }
 ?>
-

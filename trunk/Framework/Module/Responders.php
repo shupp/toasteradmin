@@ -3,7 +3,7 @@
 /**
  * Responders Module
  * 
- * @uses Framework_Auth_User
+ * @uses ToasterAdmin_Common
  * @package ToasterAdmin
  * @copyright 2006-2007 Bill Shupp
  * @author Bill Shupp <hostmaster@shupp.org> 
@@ -13,19 +13,14 @@
 /**
  * Framework_Module_Responders 
  * 
- * @uses Framework_Auth_User
+ * @uses ToasterAdmin_Common
  * @package ToasterAdmin
  * @copyright 2006-2007 Bill Shupp
  * @author Bill Shupp <hostmaster@shupp.org> 
  * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
  */
-class Framework_Module_Responders extends Framework_Auth_User
+class Framework_Module_Responders extends ToasterAdmin_Common
 {
-
-    /**
-     *  $domain is set from $_REQUEST['domain'];
-     */
-    public $domain = null;
 
     /**
      * __construct 
@@ -37,39 +32,14 @@ class Framework_Module_Responders extends Framework_Auth_User
      */
     function __construct() {
         parent::__construct();
-        // Make sure doamin was supplied
-        if (!isset($_REQUEST['domain']))
-            throw new Framework_Exception(_("Error: no domain supplied"));
-        $this->domain = $_REQUEST['domain'];
-        $this->setData('domain', $this->domain);
-        $this->setData('domain_url', htmlspecialchars('./?module=Domains&event=domainMenu&domain=' . $this->domain));
-    }
-
-    /**
-     * checkPrivileges 
-     * 
-     * @access protected
-     * @return void
-     */
-    protected function checkPrivileges() {
-        // Verify that they have access to this domain
-        if (!$this->user->isDomainAdmin($this->domain)) {
-            return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $this->domain);
+        // Make they have access
+        if (($result = $this->noDomainPrivileges())) {
+            return $result;
         }
-    }
-
-    /**
-     * sameDomain 
-     * 
-     * @param mixed $name 
-     * @param mixed $value 
-     * @access public
-     * @return bool
-     */
-    public function sameDomain ($name, $value) {
-        $emailArray = explode('@', $value);
-        if ($emailArray[1] == $this->domain) return true;
-        return false;
+        // Make sure doamin was supplied
+        if (($result = $this->noDomainSupplied())) {
+            return $result;
+        }
     }
 
     /**
@@ -245,10 +215,6 @@ class Framework_Module_Responders extends Framework_Auth_User
         if (!isset($_REQUEST['autoresponder'])) {
             return PEAR::raiseError(_("Error: no Auto-Responder supplied"));
         }
-        // Check privs
-        if (!$this->user->isUserAdmin($account, $this->domain)) {
-            return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $this->domain);
-        }
         $array = explode('@', $_REQUEST['autoresponder']);
         // Setup defaults
         $responder = $this->user->robotGet($this->domain,$array[0]);
@@ -273,10 +239,6 @@ class Framework_Module_Responders extends Framework_Auth_User
         // Make sure account was supplied
         if (!isset($_REQUEST['autoresponder'])) {
             return PEAR::raiseError(_("Error: no Auto-Responder supplied"));
-        }
-        // Check privs
-        if (!$this->user->isUserAdmin($account, $this->domain)) {
-            return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $this->domain);
         }
         $array = explode('@', $_REQUEST['autoresponder']);
         // Setup defaults

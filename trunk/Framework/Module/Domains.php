@@ -24,7 +24,7 @@
  * @version 1.0
  *
  */
-class Framework_Module_Domains extends Framework_Auth_User
+class Framework_Module_Domains extends ToasterAdmin_Common
 {
     /**
      * __default

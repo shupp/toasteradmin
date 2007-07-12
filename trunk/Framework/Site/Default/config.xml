@@ -13,7 +13,7 @@
     <vpopmail_robot_number>3</vpopmail_robot_number>
     <logFile>/tmp/framework.log</logFile>
     <user>
-        <userClass>toasterAdmin</userClass>
+        <userClass>ToasterAdmin</userClass>
         <userLocaleDir>Framework/Site/Default/locale</userLocaleDir>
     </user>
 </framework>

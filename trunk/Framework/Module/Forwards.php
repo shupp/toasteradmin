@@ -21,13 +21,8 @@
  * @author Bill Shupp <hostmaster@shupp.org> 
  * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
  */
-class Framework_Module_Forwards extends Framework_Auth_User
+class Framework_Module_Forwards extends ToasterAdmin_Common
 {
-
-    /**
-     *  $domain is set from $_REQUEST['domain'];
-     */
-    public $domain = null;
 
     /**
      * __construct 
@@ -40,11 +35,13 @@ class Framework_Module_Forwards extends Framework_Auth_User
     function __construct() {
         parent::__construct();
         // Make sure doamin was supplied
-        if (!isset($_REQUEST['domain'])) 
-            throw new Framework_Exception(_("Error: no domain supplied"));
-        $this->domain = $_REQUEST['domain'];
-        $this->setData('domain', $this->domain);
-        $this->setData('domain_url', htmlspecialchars('./?module=Domains&event=domainMenu&domain=' . $this->domain));
+        if (($result = $this->noDomainSupplied())) {
+            return $result;
+        }
+        // Make sure they are authorized
+        if (($result = $this->noDomainPrivileges())) {
+            return $result;
+        }
     }
 
     /**
