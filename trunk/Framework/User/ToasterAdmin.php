@@ -27,7 +27,7 @@ class Framework_User_ToasterAdmin extends Net_Vpopmaild {
      */
     function __construct() {
         parent::__construct();
-        $this->logFile = (string)Framework::$site->config->logFile;
+        $this->accept(Framework::$log);
         $this->setDebug((int)Framework::$site->config->debug);
         $this->address = gethostbyname((string)Framework::$site->config->vpopmaildHost);
         $this->port = (string)Framework::$site->config->vpopmaildPort;
