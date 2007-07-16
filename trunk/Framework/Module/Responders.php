@@ -33,7 +33,7 @@ class Framework_Module_Responders extends ToasterAdmin_Common
     function __construct() {
         parent::__construct();
         // Make they have access
-        if (($result = $this->noDomainPrivileges())) {
+        if (($result = $this->noDomainPrivs())) {
             return $result;
         }
         // Make sure doamin was supplied
@@ -54,7 +54,9 @@ class Framework_Module_Responders extends ToasterAdmin_Common
 
     function listResponders() {
 
-        $this->checkPrivileges();
+        if (($result = $this->noDomainPrivs())) {
+            return $result;
+        }
 
         $full_alias_array = $this->user->listAlias($this->domain);
         if (PEAR::isError($full_alias_array)) return $full_alias_array;

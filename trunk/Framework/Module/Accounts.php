@@ -195,7 +195,7 @@ class Framework_Module_Accounts extends ToasterAdmin_Common
 
     function deleteNow() {
 
-        if (($result = $this->noDomainPrivileges())) {
+        if (($result = $this->noDomainPrivs())) {
             return $result;
         }
 
@@ -219,7 +219,7 @@ class Framework_Module_Accounts extends ToasterAdmin_Common
 
     function cancelDelete() {
 
-        if (($result = $this->noDomainPrivileges())) {
+        if (($result = $this->noDomainPrivs())) {
             return $result;
         }
 

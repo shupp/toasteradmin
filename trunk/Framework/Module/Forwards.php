@@ -39,7 +39,7 @@ class Framework_Module_Forwards extends ToasterAdmin_Common
             return $result;
         }
         // Make sure they are authorized
-        if (($result = $this->noDomainPrivileges())) {
+        if (($result = $this->noDomainPrivs())) {
             return $result;
         }
     }
