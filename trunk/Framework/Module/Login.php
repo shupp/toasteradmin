@@ -45,12 +45,12 @@ class Framework_Module_Login extends Framework_Auth_No
                 $this->session->__set('password',  null);
                 return;
             }
+            $crypt = new Crypt_Blowfish((string)Framework::$site->config->mcryptKey);
             $emailArray = explode('@', $_POST['email']);
             $this->session->__set('user', $emailArray[0]);
             $this->session->__set('domain', $emailArray[1]);
             $this->session->__set('email', $_POST['email']);
-            $this->session->__set('password', Framework_User_passEncryption::encryptPass($_POST['password'], 
-                (string)Framework::$site->config->mcryptKey));
+            $this->session->__set('password', $crypt->encrypt($_POST['password']));
             $this->session->__set('lastActionTime', time());
             header("Location: ./index.php?module=Domains");
             return;

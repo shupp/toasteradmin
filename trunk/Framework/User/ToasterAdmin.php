@@ -94,7 +94,8 @@ class Framework_User_ToasterAdmin extends Vpopmail_Main {
 
         // Authenticate
         $encryptedPass = $session->password;
-        $plainPass =  Framework_User_passEncryption::decryptPass($encryptedPass, (string)Framework::$site->config->mcryptKey);
+        $crypt = new Crypt_Blowfish((string)Framework::$site->config->mcryptKey);
+        $plainPass =  $crypt->decrypt($encryptedPass);
         if (!PEAR::isError($this->authenticate($session->email, $plainPass))) {
             $session->lastActionTime = $time;
             return false;
