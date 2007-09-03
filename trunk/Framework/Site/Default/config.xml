@@ -2,7 +2,7 @@
 <framework>
     <!-- set to 1 to send debug info to logFile -->
     <debug>0</debug>
-    <vpopmaildHost>home.shupp.org</vpopmaildHost>
+    <vpopmaildHost>localhost</vpopmaildHost>
     <vpopmaildPort>89</vpopmaildPort>
     <!-- inactivity timeout - in seconds -->
     <inactiveTimeout>600</inactiveTimeout>
@@ -12,6 +12,7 @@
     <vpopmail_robot_time>86400</vpopmail_robot_time>
     <vpopmail_robot_number>3</vpopmail_robot_number>
     <logFile>/tmp/framework.log</logFile>
+    <dbClass>None</dbClass>
     <user>
         <userClass>ToasterAdmin</userClass>
         <userLocaleDir>Framework/Site/Default/locale</userLocaleDir>
