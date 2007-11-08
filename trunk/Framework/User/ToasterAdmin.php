@@ -27,19 +27,18 @@ class Framework_User_ToasterAdmin extends Net_Vpopmaild {
      */
     function __construct() {
         parent::__construct();
-        $this->accept(Framework::$log);
-        $this->setDebug((int)Framework::$site->config->debug);
-        $this->address = gethostbyname((string)Framework::$site->config->vpopmaildHost);
-        $this->port = (string)Framework::$site->config->vpopmaildPort;
-        $this->vpopmail_robot_program = (string)Framework::$site->config->vpopmail_robot_program;
-        $this->vpopmail_robot_time = (int)Framework::$site->config->vpopmail_robot_time;
-        $this->vpopmail_robot_number = (int)Framework::$site->config->vpopmail_robot_number;
+        $this->acceptLog(Framework::$log);
+        $this->setDebug((bool)Framework::$site->config->debug);
+        $this->vpopmailRobotProgram = (string)Framework::$site->config->vpopmailRobotProgram;
+        $this->vpopmailRobotRime = (int)Framework::$site->config->vpopmailRobotTime;
+        $this->vpopmailRobotNumber = (int)Framework::$site->config->vpopmailRobotNumber;
+        $address = gethostbyname((string)Framework::$site->config->vpopmaildHost);
+        $port = (string)Framework::$site->config->vpopmaildPort;
         try {
-            $this->connect();
-        } catch (Net_Vpopmaild_Exception $e) {
+            $this->connect($address, $port);
+        } catch (Net_Vpopmaild_FatalException $e) {
             throw new Framework_Exception("Error: " . $e->getMessage());
         }
-
     }
 
 
