@@ -47,13 +47,13 @@ class Framework_Module_Domains extends ToasterAdmin_Common
     public function accessDirector()
     {
         if (!$this->user->isSysAdmin()) {
-            $domain = $this->session->__get('domain');
+            $domain = $this->session->domain;
             // Redirect to appropriate page
             if ($this->user->isDomainAdmin($domain)) {
                 header("Location: ./?module=Domains&event=domainMenu&domain=" . urlencode($domain));
                 return;
             } else {
-                header("Location: ./?module=Accounts&domain=" . urlencode($domain) . '&account=' . urlencode($this->session->__get('user')) . '&event=modifyAccount');
+                header("Location: ./?module=Accounts&domain=" . urlencode($domain) . '&account=' . urlencode($this->session->user) . '&event=modifyAccount');
                 return;
             }
         }
@@ -95,9 +95,7 @@ class Framework_Module_Domains extends ToasterAdmin_Common
         $this->setData('LANG_delete_domain', _('delete domain'));
 
         $this->tplFile = 'listDomains.tpl';
-
         return;
-
     }
 
     function domainMenu($domain = null)

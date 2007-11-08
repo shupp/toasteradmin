@@ -32,14 +32,7 @@ abstract class ToasterAdmin_Common extends Framework_Auth_User
     public function paginate($total) {
         $this->setData('total', $total);
         $this->setData('limit', (integer)Framework::$site->config->maxPerPage);
-        if (isset($_REQUEST['start']) && !ereg('[^0-9]', $_REQUEST['start'])) {
-            if ($_REQUEST['start'] == 0) {
-                $start = 1;
-            } else {
-                $start = $_REQUEST['start'];
-            }
-        }
-        if (!isset($start)) $start = 1;
+        $start = !empty($_REQUEST['start']) ? (int)$_REQUEST['start'] : 1;
         $this->setData('start', $start);
         $this->setData('currentPage', ceil($this->data['start'] / $this->data['limit']));
         $this->setData('totalPages', ceil($this->data['total'] / $this->data['limit']));
