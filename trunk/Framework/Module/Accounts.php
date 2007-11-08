@@ -265,7 +265,6 @@ class Framework_Module_Accounts extends ToasterAdmin_Common
         $this->setData('form', $renderer->toAssocArray());
         $this->tplFile = 'modifyAccount.tpl';
         return;
-
     }
 
     private function modifyAccountForm($account, $defaults) {
@@ -325,9 +324,9 @@ class Framework_Module_Accounts extends ToasterAdmin_Common
         }
 
         // Get .qmail info if it exists
-        $dot_qmail = $this->user->readFile($this->domain, $_REQUEST['account'], '.qmail');
-        if (PEAR::isError($dot_qmail) && $dot_qmail->getMessage() != '-ERR 2102 No such file or directory') {
-            return $dot_qmail;
+        try {
+            $dot_qmail = $this->user->readFile($this->domain, $_REQUEST['account'], '.qmail');
+        } catch (Net_Vpopmaild_Exception $e) {
         }
         $defaultsOrig = $this->user->parseHomeDotqmail($dot_qmail, $account_info);
         $form = $this->modifyAccountForm($account, $defaultsOrig);
@@ -381,23 +380,21 @@ class Framework_Module_Accounts extends ToasterAdmin_Common
             $dot_qmail_contents = "# delete";
         } else if ($routing == 'forwarded') {
             $dot_qmail_contents = "&$forward";
-            if ($save_a_copy = 1) $dot_qmail_contents .= "\n./Maildir/";
+            if ($save_a_copy == 1) $dot_qmail_contents .= "\n./Maildir/";
         }
 
         if ($vacation == 1) {
             if (strlen($dot_qmail_contents) > 0) $dot_qmail_contents .= "\n";
             $vacation_dir = $account_info['user_dir'] . '/vacation';
-            $dot_qmail_contents .= '| ' . $this->user->vpopmail_robot_program;
-            $dot_qmail_contents .= ' ' . $this->user->vpopmail_robot_time;
-            $dot_qmail_contents .= ' ' . $this->user->vpopmail_robot_number;
+            $dot_qmail_contents .= '| ' . $this->user->vpopmailRobotProgram;
+            $dot_qmail_contents .= ' ' . $this->user->vpopmailRobotTime;
+            $dot_qmail_contents .= ' ' . $this->user->vpopmailRobotNumber;
             $dot_qmail_contents .= " $vacation_dir/message $vacation_dir";
         }
 
         $dot_qmail_file = '.qmail';
         if (strlen($dot_qmail_contents) > 0) {
             $contents = explode("\n", $dot_qmail_contents);
-            // Delete existing file
-            $this->user->rmFile($this->domain, $account_info['name'], $dot_qmail_file);
             // Write .qmail file
             $result = $this->user->writeFile($contents, $this->domain, $account_info['name'], $dot_qmail_file);
 
@@ -410,13 +407,14 @@ class Framework_Module_Accounts extends ToasterAdmin_Common
                 $vdir = 'vacation';
                 $message = 'vacation/message';
                 // Delete existing file
-                $this->user->rmDir($this->domain, $account_info['name'], $vdir);
+                try {
+                    $this->user->rmDir($this->domain, $account_info['name'], $vdir);
+                } catch (Net_Vpopmaild_Exception $e) {
+                }
                 // Make vacation directory
                 $result = $this->user->mkDir($this->domain, $account_info['name'], $vdir);
-                if (PEAR::isError($result)) return $result;
                 // Write vacation message
                 $result = $this->user->writeFile($contents, $this->domain, $account_info['name'], $message);
-                if (PEAR::isError($result)) return $result;
             }
         } else {
             $this->user->rmFile($this->domain, $account_info['name'], $dot_qmail_file);
