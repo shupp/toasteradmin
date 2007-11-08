@@ -250,9 +250,9 @@ class Framework_Module_Accounts extends ToasterAdmin_Common
         }
 
         // Get .qmail info if it exists
-        $dot_qmail = $this->user->readFile($this->domain, $_REQUEST['account'], '.qmail');
-        if (PEAR::isError($dot_qmail) && $dot_qmail->getMessage() != '-ERR 2102 No such file or directory') {
-            return $dot_qmail;
+        try {
+            $dot_qmail = $this->user->readFile($this->domain, $_REQUEST['account'], '.qmail');
+        } catch (Net_Vpopmaild_Exception $e) {
         }
         $defaults = $this->user->parseHomeDotqmail($dot_qmail, $account_info);
         $this->user->recordio(print_r($defaults, 1));
