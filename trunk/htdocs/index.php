@@ -49,7 +49,7 @@ try {
 
     // Run shutdown functions and stop the Framework
     Framework::stop();
-} catch (Framework_Exception $error) {
+} catch (Exception $error) {
     echo $error->getMessage();
 }
 
