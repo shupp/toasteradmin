@@ -27,17 +27,6 @@
 class Framework_Module_Domains extends ToasterAdmin_Common
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-        if (!$this->user->isSysAdmin()) {
-            // Should not use $_GET['event'] here
-            if (!isset($_GET['event'] || $_GET['event'] != 'domainMenu') {
-                throw new  Framework_Exception('Error: not enough permissions');
-            }
-        }
-    }
-
     /**
      * __default
      *
@@ -57,6 +46,10 @@ class Framework_Module_Domains extends ToasterAdmin_Common
      */
     public function listDomains()
     {
+        if (!$this->user->isSysAdmin()) {
+            throw new Framework_Exception (_('Error: you do not have list domain privileges'));
+        }
+
         // Pagination setup
         $total = $this->user->domainCount();
         $this->paginate($total);
@@ -90,12 +83,12 @@ class Framework_Module_Domains extends ToasterAdmin_Common
         // Make sure the domain was supplied
         if ($domain == null) {
             if (empty($_REQUEST['domain']))
-                return PEAR::raiseError(_("Error: no domain supplied"));
+                throw new Framework_Exception (_("Error: no domain supplied"));
             $domain = $_REQUEST['domain'];
         }
 
         if (!$this->user->isDomainAdmin($domain)) {
-            return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $domain);
+            throw new Framework_Exception (_('Error: you do not have edit privileges on domain ') . $domain);
         }
 
         if ($this->user->isSysAdmin()) {
@@ -122,7 +115,7 @@ class Framework_Module_Domains extends ToasterAdmin_Common
     function addDomain()
     {
         if (!$this->user->isSysAdmin()) {
-            return PEAR::raiseError(_('Error: you do not have add domain privileges'));
+            throw new Framework_Exception (_('Error: you do not have add domain privileges'));
         }
         // Create form
 
@@ -136,7 +129,7 @@ class Framework_Module_Domains extends ToasterAdmin_Common
     function addDomainNow()
     {
         if (!$this->user->isSysAdmin()) {
-            return PEAR::raiseError(_('Error: you do not have add domain privileges'));
+            throw new Framework_Exception (_('Error: you do not have add domain privileges'));
         }
 
         $form = $this->addDomainForm();
@@ -175,12 +168,12 @@ class Framework_Module_Domains extends ToasterAdmin_Common
         // Make sure the domain was supplied
         if ($domain == null) {
             if (empty($_REQUEST['domain']))
-                return PEAR::raiseError(_("Error: no domain supplied"));
+                throw new Framework_Exception (_("Error: no domain supplied"));
             $domain = $_REQUEST['domain'];
         }
 
         if (!$this->user->isDomainAdmin($domain)) {
-            return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $domain);
+            throw new Framework_Exception (_('Error: you do not have edit privileges on domain ') . $domain);
         }
 
         $this->setData('LANG_Are_you_sure_you_want_to_delete_this_domain', _("Are you sure you want to delete this domain?"));
@@ -199,12 +192,12 @@ class Framework_Module_Domains extends ToasterAdmin_Common
         // Make sure the domain was supplied
         if ($domain == null) {
             if (empty($_REQUEST['domain']))
-                return PEAR::raiseError(_("Error: no domain supplied"));
+                throw new Framework_Exception (_("Error: no domain supplied"));
             $domain = $_REQUEST['domain'];
         }
 
         if (!$this->user->isDomainAdmin($domain)) {
-            return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $domain);
+            throw new Framework_Exception (_('Error: you do not have edit privileges on domain ') . $domain);
         }
 
         // Delete domain
