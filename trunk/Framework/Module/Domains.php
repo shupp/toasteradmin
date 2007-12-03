@@ -26,6 +26,18 @@
  */
 class Framework_Module_Domains extends ToasterAdmin_Common
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        if (!$this->user->isSysAdmin()) {
+            // Should not use $_GET['event'] here
+            if (!isset($_GET['event'] || $_GET['event'] != 'domainMenu') {
+                throw new  Framework_Exception('Error: not enough permissions');
+            }
+        }
+    }
+
     /**
      * __default
      *
@@ -37,29 +49,6 @@ class Framework_Module_Domains extends ToasterAdmin_Common
         $this->listDomains();
     }
 
-
-    /**
-     * accessDirector 
-     * 
-     * @access public
-     * @return void
-     */
-    public function accessDirector()
-    {
-        if (!$this->user->isSysAdmin()) {
-            $domain = $this->session->domain;
-            // Redirect to appropriate page
-            if ($this->user->isDomainAdmin($domain)) {
-                header("Location: ./?module=Domains&event=domainMenu&domain=" . urlencode($domain));
-                return;
-            } else {
-                header("Location: ./?module=Accounts&domain=" . urlencode($domain) . '&account=' . urlencode($this->session->user) . '&event=modifyAccount');
-                return;
-            }
-        }
-    }
-
-
     /**
      * listDomains 
      * 
@@ -68,10 +57,8 @@ class Framework_Module_Domains extends ToasterAdmin_Common
      */
     public function listDomains()
     {
-        $this->accessDirector();
         // Pagination setup
         $total = $this->user->domainCount();
-        if (PEAR::isError($total)) return PEAR::raiseError($total);
         $this->paginate($total);
 
         // Build domain list
@@ -111,13 +98,15 @@ class Framework_Module_Domains extends ToasterAdmin_Common
             return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $domain);
         }
 
-        if ($this->user->isSysAdmin()) $this->setData('isSysAdmin', 1);
+        if ($this->user->isSysAdmin()) {
+            $this->setData('isSysAdmin', 1);
+        }
         // Setup URLs
         $this->setData('domain', $domain);
         $this->setData('list_accounts_url', htmlspecialchars('./?module=Accounts&domain=' . $this->data['domain']));
         $this->setData('list_forwards_url', htmlspecialchars('./?module=Forwards&domain=' . $this->data['domain']));
         $this->setData('list_responders_url', htmlspecialchars('./?module=Responders&domain=' . $this->data['domain']));
-        $this->setData('list_lists_url', htmlspecialchars('./?module=Lists&domain=' . $this->data['domain']));
+        // $this->setData('list_lists_url', htmlspecialchars('./?module=Lists&domain=' . $this->data['domain']));
 
         // Language
         $this->setData('LANG_Email_Accounts', _('Email Accounts'));

@@ -13,7 +13,7 @@
     <li><a href="{$list_accounts_url}">{$LANG_Email_Accounts}</a></li>
     <li><a href="{$list_forwards_url}">{$LANG_Forwards}</a></li>
     <li><a href="{$list_responders_url}">{$LANG_Auto_Responders}</a></li>
-    <li><a href="{$list_lists_url}">{$LANG_Mailing_Lists}</a></li>
+    <!-- <li><a href="{$list_lists_url}">{$LANG_Mailing_Lists}</a></li> -->
 </ul>
 </td>
 </tr>

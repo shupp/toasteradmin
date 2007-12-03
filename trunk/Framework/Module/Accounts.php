@@ -254,7 +254,7 @@ class Framework_Module_Accounts extends ToasterAdmin_Common
             $dot_qmail = $this->user->readFile($this->domain, $_REQUEST['account'], '.qmail');
         } catch (Net_Vpopmaild_Exception $e) {
         }
-        $defaults = $this->user->parseHomeDotqmail($dot_qmail, $account_info);
+        $defaults = $this->parseHomeDotqmail($dot_qmail, $account_info);
         $this->user->recordio(print_r($defaults, 1));
         $form = $this->modifyAccountForm($account, $defaults);
         $renderer =& new HTML_QuickForm_Renderer_AssocArray();
@@ -328,7 +328,7 @@ class Framework_Module_Accounts extends ToasterAdmin_Common
             $dot_qmail = $this->user->readFile($this->domain, $_REQUEST['account'], '.qmail');
         } catch (Net_Vpopmaild_Exception $e) {
         }
-        $defaultsOrig = $this->user->parseHomeDotqmail($dot_qmail, $account_info);
+        $defaultsOrig = $this->parseHomeDotqmail($dot_qmail, $account_info);
         $form = $this->modifyAccountForm($account, $defaultsOrig);
         if (!$form->validate()) {
             $this->setData('message', _("Error Modifying Account"));
@@ -417,12 +417,86 @@ class Framework_Module_Accounts extends ToasterAdmin_Common
                 $result = $this->user->writeFile($contents, $this->domain, $account_info['name'], $message);
             }
         } else {
-            $this->user->rmFile($this->domain, $account_info['name'], $dot_qmail_file);
+            try {
+                $this->user->rmFile($this->domain, $account_info['name'], $dot_qmail_file);
+            } catch (Net_Vpopmaild_Exception $e) {
+            }
         }
 
         $url = "./?module=Accounts&event=modifyAccount&domain={$this->domain}&account={$account_info['name']}&modified=1";
         header("Location: $url");
         return $this->modifyAccount();
+    }
+
+    /**
+     * Parse Home dot-qmail
+     *
+     * Evaluate contents of a .qmail file in a user's home directory.
+     * Looking for routing types standard, delete, or forward, with optional
+     * saving of messages, as well as vacation messages.
+     *
+     * @param mixed $contents     .qmail contents
+     * @param mixed $account_info user account info
+     *
+     * @access protected
+     * @return array $defaults
+     */
+    protected function parseHomeDotqmail($contents, $account_info)
+    {
+        $is_standard  = false;
+        $is_deleted   = false;
+        $is_forwarded = false;
+        // Set default template settings
+        $defaults['comment']          = $account_info['comment'];
+        $defaults['forward']          = '';
+        $defaults['save_a_copy']      = '';
+        $defaults['vacation']         = '';
+        $defaults['vacation_subject'] = '';
+        $defaults['vacation_body']    = '';
+        if (empty($contents)) {
+            $is_standard = true;
+        }
+        if ((is_array($contents)
+            && count($contents) == 1
+            && $contents[0] == '# delete')) {
+            $is_deleted = true;
+        }
+        if ($is_standard) {
+            $defaults['routing'] = 'routing_standard';
+        } else if ($is_deleted) {
+            $defaults['routing'] = 'routing_deleted';
+        } else {
+            // now let's parse it
+            while (list($key, $val) = each($contents)) {
+                if ($val == $account_info['user_dir'].'/Maildir/'
+                    || $val == './Maildir/') {
+
+                    $defaults['save_a_copy'] = ' checked';
+                    continue;
+                }
+                if (preg_match("({$this->user->vpopmailRobotProgram})", $val)) {
+                    $vacation_array = $this->user->getVacation($account_info, $val);
+
+                    while (list($vacKey, $vacVal) = each($vacation_array)) {
+                        $defaults[$vacKey] = $vacVal;
+                    }
+                    continue;
+                } else {
+                    if (Validate::email(preg_replace('/^&/', '', $val),
+                        array('use_rfc822' => 1))) {
+
+                        $is_forwarded        = true;
+                        $defaults['routing'] = 'routing_forwarded';
+                        $defaults['forward'] = preg_replace('/^&/', '', $val);
+                    }
+                }
+            }
+            // See if default routing select applies
+            if (!$is_standard && !$is_deleted && !$is_forwarded) {
+                $defaults['routing'] = 'routing_standard';
+            }
+        }
+        return $defaults;
     }
 
 }
