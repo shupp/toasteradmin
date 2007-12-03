@@ -51,7 +51,7 @@ class Framework_Module_Login extends Framework_Auth_No
             $this->session->email = $_POST['email'];
             $this->session->password = $crypt->encrypt($_POST['password']);
             $this->session->lastActionTime = time();
-            header('Location: ./index.php?module=Domains');
+            header('Location: ./index.php?module=Home');
             return;
         } else {
             $this->setData('QF_Form', $form->toHtml());
