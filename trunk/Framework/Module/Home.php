@@ -31,7 +31,7 @@ class Framework_Module_Home extends ToasterAdmin_Common
     {
         // Redirect to appropriate page
         if ($this->user->isSysAdmin()) {
-            header('Location: ./?module=Domains');
+            header('Location: ./?module=Main');
             return;
         }
         $domain = $this->session->domain;

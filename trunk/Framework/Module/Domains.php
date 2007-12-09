@@ -94,6 +94,7 @@ class Framework_Module_Domains extends ToasterAdmin_Auth_System
         $form = $this->addDomainForm();
         $this->setData('addDomainForm', $form->toHtml());
         $this->setData('LANG_Main_Menu', _('Main Menu'));
+        $this->setData('LANG_List_Domains', _('List Domains'));
         $this->tplFile = 'addDomain.tpl';
         return;
     }
