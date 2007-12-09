@@ -60,7 +60,8 @@ abstract class ToasterAdmin_Common extends Framework_Auth_User
      * Was $_REQUEST['domain'] supplied?
      * Required by several modules
      *
-     * @return mixed
+     * @return void
+     * @throws Framework_Exception on failure
      */
     protected function noDomainSupplied() {
         if (is_null($this->domain)) {
