@@ -57,7 +57,7 @@ class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
         }
         $account = $_REQUEST['account'];
         if ($this->user->isDomainAdmin($this->domain)) {
-            $account_info = $this->user->userInfo($account, $this->domain);
+            $account_info = $this->user->userInfo($this->domain, $account);
         } else {
             $account_info = $this->user->loginUser;
         }
@@ -145,7 +145,7 @@ class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
 
         // See what user_info to use
         if ($this->user->isDomainAdmin($this->domain)) {
-            $account_info = $this->user->userInfo($account, $this->domain);
+            $account_info = $this->user->userInfo($this->domain, $account);
         } else {
             $account_info = $this->user->loginUser;
         }
@@ -179,7 +179,9 @@ class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
         if (!empty($changeArray)) {
             $this->user->modUser($this->domain, $_REQUEST['account'], $changeArray);
         }
-        if (isset($changeArray['clear_text_password'])) {
+        if (isset($changeArray['clear_text_password']) 
+            && $account == $this->user->loginUser['name'] 
+            && $this->domain == $this->user->loginUser['domain']) {
             $crypt = new Crypt_Blowfish((string)Framework::$site->config->mcryptKey);
             $this->session->password = $crypt->encrypt($changeArray['clear_text_password']);
         }

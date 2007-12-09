@@ -64,7 +64,7 @@ class Framework_Module_Accounts extends ToasterAdmin_Auth_Domain
             $accounts[$count]['account'] = $key;
             $accounts[$count]['comment'] = $val['comment'];
             $accounts[$count]['quota'] = $this->user->getQuota($val['quota']);
-            $accounts[$count]['edit_url'] = htmlspecialchars("./?module=Accounts&domain={$this->domain}&account=$key&event=modifyAccount");
+            $accounts[$count]['edit_url'] = htmlspecialchars("./?module=Accounts&class=Modify&domain={$this->domain}&account=$key&event=modifyAccount");
             $accounts[$count]['delete_url'] = htmlspecialchars("./?module=Accounts&domain={$this->domain}&account=$key&event=delete");
             $count++;
         }
