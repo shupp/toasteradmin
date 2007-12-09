@@ -25,7 +25,7 @@ abstract class ToasterAdmin_Common extends Framework_Auth_User
             $this->domain = $_REQUEST['domain'];
         }
         $this->setData('domain', $this->domain);
-        $this->setData('domain_url', htmlspecialchars('./?module=Domains&event=domainMenu&domain=' . $this->domain));
+        $this->setData('domain_url', htmlspecialchars('./?module=Domains&class=Menu&domain=' . $this->domain));
     }
     
 
