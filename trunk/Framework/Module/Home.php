@@ -36,7 +36,7 @@ class Framework_Module_Home extends ToasterAdmin_Common
         }
         $domain = $this->session->domain;
         if ($this->user->isDomainAdmin($domain)) {
-            header("Location: ./?module=Domains&event=domainMenu&domain=" . urlencode($domain));
+            header("Location: ./?module=Domains&class=Menu&domain=" . urlencode($domain));
             return;
         } else {
             header("Location: ./?module=Accounts&domain=" . urlencode($domain) . '&account=' . urlencode($this->session->user) . '&event=modifyAccount');
