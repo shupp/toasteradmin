@@ -13,9 +13,9 @@
     <li><a href='./?module=Domains'>{$LANG_List_Domains}</a></li>
     <li><a href='./?module=Domains&amp;event=addDomain'>{$LANG_Add_Domain}</a></li>
     <li><a href='./?module=Main&amp;event=addAliasDomain'>{$LANG_Add_Alias_Domain}</a></li>
-    <li><a href='./?module=Main&amp;event=find'>{$LANG_Find_Domain}</a></li>
-    <li><a href='./?module=Main&amp;event=find'>{$LANG_Delete_Domain}</a></li>
-    <li><a href='./?module=Main&amp;event=modLimits'>{$LANG_Modify_Limits}</a></li>
+    <li><a href='./?module=Main&amp;class=find'>{$LANG_Find_Domain}</a></li>
+    <li><a href='./?module=Main&amp;class=find'>{$LANG_Delete_Domain}</a></li>
+    <li><a href='./?module=Main&amp;class=modLimits'>{$LANG_Modify_Limits}</a></li>
 </ul>
 </td>
 </tr>
