@@ -31,5 +31,6 @@
     <!-- end of the table, which was also used partially because it's late and I'm tired -->
     <!-- eof box 2 -->
     <div class="clear"></div>
+    <a href="./?module=Main">Main Menu</a>
 </div>
 <div class="boxbottom"></div>
