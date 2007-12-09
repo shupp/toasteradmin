@@ -143,3 +143,9 @@ font-size: 12px;
 color: #E0423A;
 text-decoration: underline;
 }
+
+#pages a, a:link, a:visited {
+ font-size: 12px;
+ color: #E0423A;
+ text-decoration: none;
+}
