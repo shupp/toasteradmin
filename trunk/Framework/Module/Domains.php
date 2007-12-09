@@ -63,7 +63,7 @@ class Framework_Module_Domains extends ToasterAdmin_Auth_System
         $count = 0;
         while (list($key,$val) = each($domainArray)) {
             $domains[$count]['name'] = $key;
-            $domains[$count]['edit_url'] = htmlspecialchars('./?module=Domains&class=domainMenu&domain=' . $key);
+            $domains[$count]['edit_url'] = htmlspecialchars('./?module=Domains&class=Menu&domain=' . $key);
             $domains[$count]['delete_url'] = htmlspecialchars('./?module=Domains&event=delDomain&domain=' . $key);
             $count++;
         }
@@ -115,12 +115,13 @@ class Framework_Module_Domains extends ToasterAdmin_Auth_System
         }
 
         // Add domain
-        $result = $this->user->AddDomain($_REQUEST['domain'], $_REQUEST['password']);
-        if (PEAR::isError($result)) {
-            $this->setData('message', _("Error: ") . $result->getMessage());
+        try {
+            $result = $this->user->addDomain($form->getElementValue('domain'), $form->getElementValue('password'));
+        } catch (Net_Vpopmaild_Exception $e) {
+            $this->setData('message', _("Error: ") . $e->getMessage());
             return $this->addDomain();
         }
-        header('./?module=Domains&class=Menu&success');
+        header('Location: ./?module=Domains&class=Menu&success&domain=' . $form->getElementValue('domain'));
         return;
     }
 

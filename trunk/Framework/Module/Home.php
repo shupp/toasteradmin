@@ -39,7 +39,7 @@ class Framework_Module_Home extends ToasterAdmin_Common
             header("Location: ./?module=Domains&class=Menu&domain=" . urlencode($domain));
             return;
         } else {
-            header("Location: ./?module=Accounts&domain=" . urlencode($domain) . '&account=' . urlencode($this->session->user) . '&event=modifyAccount');
+            header("Location: ./?module=Accounts&class=Modify&domain=" . urlencode($domain) . '&account=' . urlencode($this->session->user) . '&event=modifyAccount');
             return;
         }
     }
