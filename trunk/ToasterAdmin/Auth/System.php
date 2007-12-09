@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ToasterAdmin_Auth_SysAdmin 
+ * ToasterAdmin_Auth_System 
  * 
  * PHP Version 5
  * 
@@ -17,7 +17,7 @@
  */
 
 /**
- * ToasterAdmin_Auth_SysAdmin 
+ * ToasterAdmin_Auth_System 
  * 
  * Check that the user has SysAdmin privileges
  * 
@@ -29,7 +29,7 @@
  * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
  * @link      http://trac.merchbox.com/trac/toasteradmin
  */
-abstract class ToasterAdmin_Auth_SysAdmin extends ToasterAdmin_Common
+abstract class ToasterAdmin_Auth_System extends ToasterAdmin_Common
 {
     /**
      * authenticate 
