@@ -47,7 +47,7 @@ abstract class ToasterAdmin_Auth_Domain extends ToasterAdmin_Common
         }
         $domain = !is_null($this->domain) ? 
             $this->domain : $this->user->loginUser['domain'];
-        return $this->user->isDomain($domain);
+        return $this->user->isDomainAdmin($domain);
     }
 }
 ?>
