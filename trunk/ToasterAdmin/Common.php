@@ -60,14 +60,12 @@ abstract class ToasterAdmin_Common extends Framework_Auth_User
      * Was $_REQUEST['domain'] supplied?
      * Required by several modules
      *
-     * @access protected false if it was supplied, PEAR_Error if it was not
      * @return mixed
      */
     protected function noDomainSupplied() {
-        if (!isset($_REQUEST['domain'])) {
-            return PEAR::raiseError(_('Error no domain supplied'));
+        if (is_null($this->domain)) {
+            throw new Framework_Exception (_('Error no domain supplied'));
         }
-        return false;
     }
 
     /**
