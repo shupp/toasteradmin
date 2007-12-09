@@ -167,23 +167,24 @@ class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
         }
 
         // update password / comment if it's changing
-        $changeArray = array();
-        $password    = $form->getElementValue('password');
-        $comment     = $form->getElementValue('comment');
+        $changePass    = 0;
+        $changeComment = 0;
+        $password      = $form->getElementValue('password');
+        $comment       = $form->getElementValue('comment');
         if (!empty($password)) {
-            $changeArray['clear_text_password'] = $password;
+            $account_info['clear_text_password'] = $password;
+            $changePass = 1;
         }
         if (!empty($comment)) {
-            $changeArray['comment'] = $comment;
+            $account_info['comment'] = $comment;
         }
-        if (!empty($changeArray)) {
-            $this->user->modUser($this->domain, $_REQUEST['account'], $changeArray);
+        if ($changePass || $changeComment) {
+            $this->user->modUser($this->domain, $_REQUEST['account'], $account_info);
         }
-        if (isset($changeArray['clear_text_password']) 
-            && $account == $this->user->loginUser['name'] 
-            && $this->domain == $this->user->loginUser['domain']) {
+        if (isset($changePass) && $account == $this->user->loginUser['name'] 
+                && $this->domain == $this->user->loginUser['domain']) {
             $crypt = new Crypt_Blowfish((string)Framework::$site->config->mcryptKey);
-            $this->session->password = $crypt->encrypt($changeArray['clear_text_password']);
+            $this->session->password = $crypt->encrypt($password);
         }
 
         // Determine new routing
