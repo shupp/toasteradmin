@@ -1,27 +1,35 @@
 <?php
 
-/**
- *
- * Forward Module
- *
- * This module is for viewing and editing vpopmail forwards
- *
- * @author Bill Shupp <hostmaster@shupp.org>
- * @package ToasterAdmin
- * @version 1.0
- *
- */
-
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
  * Framework_Module_Forwards 
  * 
- * @package ToasterAdmin
- * @copyright 2005-2006 Bill Shupp
- * @author Bill Shupp <hostmaster@shupp.org> 
- * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * This module is for viewing and editing vpopmail forwards
+ * 
+ * PHP Version 5
+ * 
+ * @uses      ToasterAdmin_Auth_Domain
+ * @package   ToasterAdmin
+ * @author    Bill Shupp <hostmaster@shupp.org> 
+ * @copyright 2007 Bill Shupp
+ * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link      http://trac.merchbox.com/trac/toasteradmin
  */
-class Framework_Module_Forwards extends ToasterAdmin_Common
+
+/**
+ * Framework_Module_Forwards 
+ * 
+ * This module is for viewing and editing vpopmail forwards
+ * 
+ * @uses      ToasterAdmin_Auth_Domain
+ * @package   ToasterAdmin
+ * @author    Bill Shupp <hostmaster@shupp.org> 
+ * @copyright 2007 Bill Shupp
+ * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link      http://trac.merchbox.com/trac/toasteradmin
+ */
+class Framework_Module_Forwards extends ToasterAdmin_Auth_Domain
 {
 
     /**
@@ -34,14 +42,7 @@ class Framework_Module_Forwards extends ToasterAdmin_Common
      */
     function __construct() {
         parent::__construct();
-        // Make sure doamin was supplied
-        if (($result = $this->noDomainSupplied())) {
-            return $result;
-        }
-        // Make sure they are authorized
-        if (($result = $this->noDomainPrivs())) {
-            return $result;
-        }
+        $this->noDomainSupplied())) {
     }
 
     /**
@@ -54,21 +55,6 @@ class Framework_Module_Forwards extends ToasterAdmin_Common
         return $this->listForwards();
     }
 
-
-    /**
-     * checkPrivileges 
-     * 
-     * @access protected
-     * @return mixed true on success, PEAR_Error on failure
-     */
-    protected function checkPrivileges() {
-        // Verify that they have access to this domain
-        if (!$this->user->isDomainAdmin($this->domain)) {
-            return PEAR::raiseError(_('Error: you do not have edit privileges on domain ') . $this->domain);
-        }
-        return true;
-    }
-    
     /**
      * listForwards 
      * 
@@ -77,9 +63,6 @@ class Framework_Module_Forwards extends ToasterAdmin_Common
      */
     function listForwards() {
     
-        $result = $this->checkPrivileges();
-        if (PEAR::isError($result)) return $result;
-
         // Pagintation setup
         $full_alias_array = $this->user->listAlias($this->domain);
         if (PEAR::isError($full_alias_array)) return $full_alias_array;
@@ -132,9 +115,6 @@ class Framework_Module_Forwards extends ToasterAdmin_Common
      * @return mixed void on success, PEAR_Error on failure
      */
     function addForward() {
-        $result = $this->checkPrivileges();
-        if (PEAR::isError($result)) return $result;
-
         $form = $this->addForwardForm();
         $renderer =& new HTML_QuickForm_Renderer_AssocArray();
         $form->accept($renderer);
@@ -178,9 +158,6 @@ class Framework_Module_Forwards extends ToasterAdmin_Common
      * @return mixed PEAR_Error on failure, listForwards() on success
      */
     function addForwardNow() {
-        $result = $this->checkPrivileges();
-        if (PEAR::isError($result)) return $result;
-
         $form = $this->addForwardForm();
         if (!$form->validate()) {
             $renderer =& new HTML_QuickForm_Renderer_AssocArray();
@@ -247,7 +224,6 @@ class Framework_Module_Forwards extends ToasterAdmin_Common
      * @return mixed true on success, PEAR_Error on failure
      */
     protected function deleteForwardLine() {
-
         $contents = $this->user->readFile($this->domain, '', ".qmail-" . $this->data['forward']);
         if (PEAR::isError($contents)) {
             // Go back to list aliases, which will display the messgae
@@ -285,8 +261,6 @@ class Framework_Module_Forwards extends ToasterAdmin_Common
      * @return mixed void on success, PEAR_Error on failure
      */
     function modifyForward() {
-    
-        $this->checkPrivileges();
         // Make sure forward was supplied
         if (!isset($_REQUEST['forward'])) {
             $this->setData('message', _("Error: no forward provided"));
@@ -335,8 +309,6 @@ class Framework_Module_Forwards extends ToasterAdmin_Common
      * @return mixed void on success, PEAR_Error on failure
      */
     function modifyForwardNow() {
-        $this->checkPrivileges();
-
         $forward = ereg_replace('^.qmail-', '', $_REQUEST['forward']);
         $this->setData('forward', $forward);
 
@@ -410,8 +382,6 @@ class Framework_Module_Forwards extends ToasterAdmin_Common
      * @return mixed result of modifyForward on success, PEAR_Error on failure
      */
     function deleteForwardLineNow() {
-        $this->checkPrivileges();
-
         // Make sure forward was supplied
         if (!isset($_REQUEST['forward'])) {
             $this->setData('message', _("Error: no forward provided"));
@@ -452,9 +422,6 @@ class Framework_Module_Forwards extends ToasterAdmin_Common
      * @return mixed listForwards() on success, PEAR_Error on failure
      */
     function deleteForward() {
-        $result = $this->checkPrivileges();
-        if (PEAR::isError($result)) return $result;
-
         // Make sure forward was supplied
         if (!isset($_REQUEST['forward'])) {
             $this->setData('message', _("Error: no forward provided"));
