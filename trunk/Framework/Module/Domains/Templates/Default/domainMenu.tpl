@@ -18,6 +18,6 @@
 </td>
 </tr>
 </table>
-{if $isSysAdmin}<a href="./?module=Domains">{$LANG_Main_Menu}</a>{/if}
+{if $isSysAdmin}<a href="./?module=Domains">{$LANG_Domain_List}</a>{/if}
 </div>
 <div class="boxbottom"></div>

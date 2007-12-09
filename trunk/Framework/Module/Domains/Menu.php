@@ -61,7 +61,7 @@ class Framework_Module_Domains_Menu extends ToasterAdmin_Auth_Domain
         $this->setData('LANG_Forwards', _('Forwards'));
         $this->setData('LANG_Auto_Responders', _('Auto-Responders'));
         $this->setData('LANG_Mailing_Lists', _('Mailing Lists'));
-        $this->setData('LANG_Main_Menu', _('Main Menu'));
+        $this->setData('LANG_Domain_List', _('Domain List'));
 
         $this->tplFile = 'domainMenu.tpl';
         return;
