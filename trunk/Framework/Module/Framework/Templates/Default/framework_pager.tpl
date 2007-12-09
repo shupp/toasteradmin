@@ -1,5 +1,5 @@
 {if $nav->total > $nav->limit}
-    <div style="vertical-align: middle;">
+    <div class="framework_pager">
     <table border="0"><tr valign="center">
     {if $nav->start > 1}
         <td>
