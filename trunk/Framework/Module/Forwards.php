@@ -35,33 +35,37 @@ class Framework_Module_Forwards extends ToasterAdmin_Auth_Domain
     /**
      * __construct 
      * 
-     * class constructor
+     * Check that a domain was supplied
      * 
-     * @access protected
-     * @return result of listForwards()
+     * @access public
+     * @return void
      */
-    function __construct() {
+    public function __construct() {
         parent::__construct();
-        $this->noDomainSupplied())) {
+        $this->noDomainSupplied();
     }
 
     /**
      * __default 
      * 
-     * @access protected
+     * Run listForwards() by default
+     * 
+     * @access public
      * @return void
      */
-    function __default() {
+    public function __default() {
         return $this->listForwards();
     }
 
     /**
      * listForwards 
      * 
+     * List Forwards
+     * 
      * @access public
      * @return void
      */
-    function listForwards() {
+    public function listForwards() {
     
         // Pagintation setup
         $full_alias_array = $this->user->listAlias($this->domain);
@@ -111,24 +115,29 @@ class Framework_Module_Forwards extends ToasterAdmin_Auth_Domain
     /**
      * addForward 
      * 
+     * Show Add Forward form
+     * 
      * @access public
      * @return mixed void on success, PEAR_Error on failure
      */
-    function addForward() {
+    public function addForward() {
         $form = $this->addForwardForm();
         $renderer =& new HTML_QuickForm_Renderer_AssocArray();
         $form->accept($renderer);
         $this->setData('form', $renderer->toAssocArray());
         $this->tplFile = 'addForward.tpl';
+        return;
     }
 
     /**
      * addForwardForm 
      * 
-     * @access public
-     * @return object $form
+     * Create Add Forward Form
+     * 
+     * @access private
+     * @return object $form HTML_QuickForm Object
      */
-    function addForwardForm() {
+    private function addForwardForm() {
         // Lang
         $this->setData('LANG_Forward_Name', _("Forward Name"));
         $this->setData('LANG_Add_Forward', _("Add Forward"));
@@ -154,10 +163,12 @@ class Framework_Module_Forwards extends ToasterAdmin_Auth_Domain
     /**
      * addForwardNow 
      * 
+     * Try and actually add a forward
+     * 
      * @access public
      * @return mixed PEAR_Error on failure, listForwards() on success
      */
-    function addForwardNow() {
+    public function addForwardNow() {
         $form = $this->addForwardForm();
         if (!$form->validate()) {
             $renderer =& new HTML_QuickForm_Renderer_AssocArray();
@@ -170,50 +181,61 @@ class Framework_Module_Forwards extends ToasterAdmin_Auth_Domain
         $this->setData('forward', $_REQUEST['forward']);
         $this->setData('destination', $_REQUEST['destination']);
 
-        $result = $this->addForwardLine();
-        if (PEAR::isError($result)) {
-            if ($result->getMessage() == 'Forward Exists') {
-                $this->setData('message', _("Forward already exists"));
-                return $this->addForward();
-            }
-            return $result;
+        try {
+            $this->addNewForward();
+        } catch (Exception $e) {
+            $this->setData('message', $e->getMessage());
+            return $this->addForward();
         }
         $this->setData('message', _("Forward Added Successfully"));
         return $this->listForwards();
     }
 
     /**
+     * addNewForward 
+     * 
+     * Add new forward file
+     * 
+     * @access protected
+     * @return void
+     */
+    protected function addNewForward()
+    {
+        $file = '.qmail-' . $this->data['forward'];
+        // Verify that it doesn't exist
+        try {
+            $contents = $this->user->readFile($this->domain, '', $file);
+        } catch (Net_Vpopmaild_Exception $e) {
+            if ($e->getCode() != 0.2102) {
+                throw new Framework_Exception($e->getMessage(), $e->getCode());
+            }
+        }
+
+        $contents = array('&' . $this->data['destination']);
+        $result = $this->user->writeFile($contents, $this->domain, '', $file);
+        return true;
+    }
+
+    /**
      * addForwardLine 
      * 
-     * @param string $type 
+     * Add forward line to existing forward
+     * 
      * @access protected
-     * @return mixed true on success, PEAR_Error on failure
+     * @return bool true on success, false if forward exists
      */
-    protected function addForwardLine($type = 'new') {
-
-        $contents = $this->user->readFile($this->domain, '', ".qmail-" . $this->data['forward']);
-        if ($type == 'new') {
-            if (!PEAR::isError($contents)) {
-                return PEAR::raiseError('Forward Exists');
-            } else if ($contents->getMessage() != '-ERR 2102 No such file or directory') {
-                return $contents;
-            } else {
-                $contents = array();
-            }
-        } else {
-            if (PEAR::isError($contents)) return $contents;
-        }
-    
+    protected function addForwardLine()
+    {
+        $file = '.qmail-' . $this->data['forward'];
+        // Let exception bubble up
+        $contents = $this->user->readFile($this->domain, '', $file);
+        $destination = '&' . $this->data['destination'];
         // Now build a new array without that forward
-        if (in_array("&" . $this->data['destination'], $contents)) {
-            $this->setData('message', 'Error: destination already exists');
-            return $this->modifyForward();
+        if (in_array($destination, $contents)) {
+            return false;
         }
-        array_push($contents, "&" . $this->data['destination']);
-        $result = $this->user->writeFile($contents, $this->domain, '', ".qmail-" . $this->data['forward']);
-        if (PEAR::isError($result)) {
-                return $result;
-        }
+        array_push($contents, $destination);
+        $result = $this->user->writeFile($contents, $this->domain, '', $file);
         return true;
     }
 
@@ -331,14 +353,9 @@ class Framework_Module_Forwards extends ToasterAdmin_Auth_Domain
         }
         $this->setData('destination', $_REQUEST['destination']);
     
-        $result = $this->addForwardLine($type = 'modify');
-        if (PEAR::isError($result)) {
-            if ($result->getMessage() == 'Error: destination already exists') {
-                $this->setData('message', _("Error: destination already exists"));
-                return $this->modifyForward();
-            } else {
-                return $result;
-            }
+        if (!$this->addForwardLine()) {
+            $this->setData('message', _("Error: destination already exists"));
+            return $this->modifyForward();
         }
         $this->setData('message', _("Destination Added Successfully"));
         return $this->modifyForward();
@@ -418,10 +435,10 @@ class Framework_Module_Forwards extends ToasterAdmin_Auth_Domain
     /**
      * deleteForward 
      * 
-     * @access public
+     * @access protected
      * @return mixed listForwards() on success, PEAR_Error on failure
      */
-    function deleteForward() {
+    protected function deleteForward() {
         // Make sure forward was supplied
         if (!isset($_REQUEST['forward'])) {
             $this->setData('message', _("Error: no forward provided"));
