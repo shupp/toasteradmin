@@ -1,12 +1,51 @@
 <?php
 
+/**
+ * Framework_Module_Main_Find 
+ * 
+ * @uses      ToasterAdmin_Auth_System
+ * @package   ToasterAdmin
+ * @author    Bill Shupp <hostmaster@shupp.org> 
+ * @copyright 2007 Bill Shupp
+ * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link      http://trac.merchbox.com/trac/toasteradmin
+ */
+
+/**
+ * Framework_Module_Main_Find 
+ * 
+ * Find domains
+ * 
+ * @uses      ToasterAdmin_Auth_System
+ * @package   ToasterAdmin
+ * @author    Bill Shupp <hostmaster@shupp.org> 
+ * @copyright 2007 Bill Shupp
+ * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link      http://trac.merchbox.com/trac/toasteradmin
+ */
 class Framework_Module_Main_Find extends ToasterAdmin_Auth_System
 {
+    /**
+     * __default 
+     * 
+     * Run $this->find();
+     * 
+     * @access public
+     * @return void
+     */
     public function __default()
     {
         return $this->find();
     }
 
+    /**
+     * find 
+     * 
+     * Diplay find form
+     * 
+     * @access public
+     * @return void
+     */
     public function find()
     {
         $this->setData('LANG_Main_Menu', _('Main Menu'));
@@ -14,6 +53,14 @@ class Framework_Module_Main_Find extends ToasterAdmin_Auth_System
         $this->tplFile = 'find.tpl';
         return;
     }
+    /**
+     * findNow 
+     * 
+     * Actually try to find a domain
+     * 
+     * @access public
+     * @return void
+     */
     public function findNow()
     {
         $this->setData('LANG_Main_Menu', _('Main Menu'));
@@ -37,6 +84,14 @@ class Framework_Module_Main_Find extends ToasterAdmin_Auth_System
         $this->tplFile = 'find.tpl';
         return;
     }
+    /**
+     * findForm 
+     * 
+     * Generate find form
+     * 
+     * @access private
+     * @return void
+     */
     private function findForm()
     {
         $form = new HTML_QuickForm('formFind', 'post', './?module=Main&class=Find&event=findNow');

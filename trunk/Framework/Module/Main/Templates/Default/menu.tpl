@@ -10,12 +10,13 @@
 <table border="0" cellpadding="15">
 <tr><td class="border">
 <ul>
-    <li><a href='./?module=Domains'>{$LANG_List_Domains}</a></li>
-    <li><a href='./?module=Domains&amp;event=addDomain'>{$LANG_Add_Domain}</a></li>
-    <li><a href='./?module=Main&amp;class=AliasDomain'>{$LANG_Add_Alias_Domain}</a></li>
-    <li><a href='./?module=Main&amp;class=find'>{$LANG_Find_Domain}</a></li>
-    <li><a href='./?module=Main&amp;class=find'>{$LANG_Delete_Domain}</a></li>
-    <li><a href='./?module=Main&amp;class=modLimits'>{$LANG_Modify_Limits}</a></li>
+    <li><a href='./?module=Domains'>{t}List Domains{/t}</a></li>
+    <li><a href='./?module=Domains&amp;event=addDomain'>{t}Add Domain{/t}</a></li>
+    <li><a href='./?module=Main&amp;class=AliasDomain'>{t}Add Alias Domain{/t}</a></li>
+    <li><a href='./?module=Main&amp;class=find'>{t}Find Domain{/t}</a></li>
+    <li><a href='./?module=Main&amp;class=find'>{t}Delete Domain{/t}</a></li>
+    <li><a href='./?module=Main&amp;class=IPMaps'>{t}IP Maps{/t}</a></li>
+    <li><a href='./?module=Main&amp;class=modLimits'>{t}Modify Limits{/t}</a></li>
 </ul>
 </td>
 </tr>
