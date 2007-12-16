@@ -1,6 +1,6 @@
 <div class="boxtop"></div>
 <div class="box">
-<strong>{$LANG_Main_Menu}</strong>
+<strong>{t}Main Menu{/t}</strong>
 </div>
 <div class="boxbottom"></div>
 
