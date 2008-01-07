@@ -46,12 +46,17 @@ class Framework_Module_Main_AliasDomain extends ToasterAdmin_Auth_System
      * 
      * Display add form
      * 
+     * @param object $form HTML_QuickForm object, default null
+     * 
      * @access public
      * @return void
      */
-    public function add()
+    public function add($form = null)
     {
-        $this->setData('addForm', $this->_addForm()->toHtml());    
+        if (is_null($form)) {
+            $form = $this->_addForm();
+        }
+        $this->_renderForm($form);
         $this->tplFile = 'addAliasDomain.tpl';
         return;
     }
@@ -67,7 +72,7 @@ class Framework_Module_Main_AliasDomain extends ToasterAdmin_Auth_System
     {
         $form = $this->_addForm();
         if (!$form->validate()) {
-            return $this->add();
+            return $this->add($form);
         }
         $domain = $form->getElementValue('domain');
         $alias  = $form->getElementValue('alias');
@@ -78,7 +83,7 @@ class Framework_Module_Main_AliasDomain extends ToasterAdmin_Auth_System
             $result = $this->user->addAliasDomain($domain, $alias);
         } catch (Net_Vpopmaild_Exception $e) {
             $this->setData('message', _('Error:') . $e->getMessage());
-            return $this->add();
+            return $this->add($form);
         }
 
         // Display find form
@@ -109,6 +114,11 @@ class Framework_Module_Main_AliasDomain extends ToasterAdmin_Auth_System
         $form->applyFilter('__ALL__', 'trim');
 
         return $form;
+    }
+
+    private function _renderForm($form)
+    {
+        $this->setData('addForm', $form->toHtml());    
     }
 }
 ?>
