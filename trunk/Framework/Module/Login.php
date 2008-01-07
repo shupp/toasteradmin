@@ -31,6 +31,7 @@ class Framework_Module_Login extends Framework_Auth_No
     {
         $form = $this->createLoginForm();
         $this->setData('QF_Form', $form->toHtml());
+        $this->tplFile = 'Login.tpl';
     }
 
     public function loginNow()
