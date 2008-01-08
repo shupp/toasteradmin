@@ -10,7 +10,8 @@
  * @filesource
  */
 
-ini_set('error_reporting', E_ALL & ~E_NOTICE);
+// ini_set('error_reporting', E_ALL & ~E_NOTICE);
+ini_set('error_reporting', E_ALL);
 
 if(!isset($_GET['module'])) {
     header("Location: ./?module=Login");
@@ -33,17 +34,15 @@ try {
     if (isset($_GET['Controller'])) {
         $controller = $_GET['Controller'];
     }
-    $result = Framework::start('Default', $controller);
-    if (PEAR::isError($result)) {
-        switch ($result->getCode()) {
+    try {
+        Framework::start('Default', $controller);
+    } catch (Framework_Exception $e) {
+        switch ($e->getCode()) {
         case FRAMEWORK_ERROR_AUTH:
             header('Location: ./?module=Login');
             break;
         default:
-            // If a PEAR error is returned usually something catastrophic 
-            // happend like an event returning a PEAR_Error or throwing an 
-            // exception of some sort.
-            die($result->getMessage());
+            die($e->getMessage());
         }
     }
 
