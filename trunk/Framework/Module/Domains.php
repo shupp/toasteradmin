@@ -92,10 +92,7 @@ class Framework_Module_Domains extends ToasterAdmin_Auth_System
     public function addDomain()
     {
         $form = $this->addDomainForm();
-        $this->setData('addDomainForm', $form->toHtml());
-        $this->setData('LANG_Main_Menu', _('Main Menu'));
-        $this->setData('LANG_List_Domains', _('List Domains'));
-        $this->tplFile = 'addDomain.tpl';
+        $this->_renderForm($form);
         return;
     }
 
@@ -111,7 +108,7 @@ class Framework_Module_Domains extends ToasterAdmin_Auth_System
     {
         $form = $this->addDomainForm();
         if (!$form->validate()) {
-            $this->addDomain();
+            $this->_renderForm($form);
             return;
         }
 
@@ -208,9 +205,17 @@ class Framework_Module_Domains extends ToasterAdmin_Auth_System
      * @access public
      * @return void
      */
-    function cancelDelDomain() {
+    public function cancelDelDomain() {
         $this->setData('message', _("Domain deletion canceled"));
         return $this->listDomains();
+    }
+
+    private function _renderForm($form)
+    {
+        $this->tplFile = 'addDomain.tpl';
+        $this->setData('addDomainForm', $form->toHtml());
+        $this->setData('LANG_Main_Menu', _('Main Menu'));
+        $this->setData('LANG_List_Domains', _('List Domains'));
     }
 
 }
