@@ -109,8 +109,8 @@ class Framework_Module_Main_IPMaps extends ToasterAdmin_Auth_System
      */
     public function add()
     {
-        $this->setData('addForm', $this->_addForm()->toHtml());
-        $this->tplFile = 'addIPMap.tpl';
+        $form = $this->_addForm();
+        $this->_renderForm($form);
     }
 
     /**
@@ -125,13 +125,15 @@ class Framework_Module_Main_IPMaps extends ToasterAdmin_Auth_System
     {
         $form = $this->_addForm();
         if (!$form->validate()) {
-            return $this->add();
+            $this->_renderForm($form);
+            return;
         }
         try {
             $this->user->addIPMap($form->getElementValue('ip'), $form->getElementValue('domain'));
         } catch (Net_Vpopmaild_Exception $e) {
             $this->setData('message', _('Error adding IP Map'));
-            return $this->add();
+            $this->_renderForm($form);
+            return;
         }
         $this->tplFile = 'addIPMapSuccess.tpl';
     }
@@ -160,6 +162,12 @@ class Framework_Module_Main_IPMaps extends ToasterAdmin_Auth_System
         $form->applyFilter('__ALL__', 'trim');
 
         return $form;
+    }
+
+    private function _renderForm($form)
+    {
+        $this->setData('addForm', $form->toHtml());
+        $this->tplFile = 'addIPMap.tpl';
     }
 }
 ?>
