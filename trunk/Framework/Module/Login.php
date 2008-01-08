@@ -36,6 +36,7 @@ class Framework_Module_Login extends Framework_Auth_No
 
     public function loginNow()
     {
+        $this->tplFile = 'Login.tpl';
         $form = $this->createLoginForm();
         if ($form->validate()) {
             if (!$result = $this->user->authenticate($_POST['email'], $_POST['password'])) {
