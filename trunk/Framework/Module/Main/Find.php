@@ -49,8 +49,8 @@ class Framework_Module_Main_Find extends ToasterAdmin_Auth_System
     public function find()
     {
         $this->setData('LANG_Main_Menu', _('Main Menu'));
-        $this->setData('findForm', $this->findForm()->toHtml());    
-        $this->tplFile = 'find.tpl';
+        $form = $this->_findForm();
+        $this->_renderForm($form);
         return;
     }
     /**
@@ -64,11 +64,12 @@ class Framework_Module_Main_Find extends ToasterAdmin_Auth_System
     public function findNow()
     {
         $this->setData('LANG_Main_Menu', _('Main Menu'));
-        $form = $this->findForm();
+        $form = $this->_findForm();
         if (!$form->validate()) {
-            return $this->find();
+            $this->_renderForm($form);
+            return;
         }
-        $this->setData('findForm', $this->findForm()->toHtml());    
+        $this->_renderForm($form);
         $domain = $form->getElementValue('domain');
         $this->setData('domain', $domain);
 
@@ -80,19 +81,16 @@ class Framework_Module_Main_Find extends ToasterAdmin_Auth_System
             $this->setData('delete_url', "./?module=Domains&amp;event=delDomain&amp;domain=$domain");
             $this->setData('edit_url', "./?module=Domains&amp;class=Menu&amp;domain=$domain");
         }
-        // Display find form
-        $this->tplFile = 'find.tpl';
-        return;
     }
     /**
-     * findForm 
+     * _findForm 
      * 
      * Generate find form
      * 
      * @access private
      * @return void
      */
-    private function findForm()
+    private function _findForm()
     {
         $form = new HTML_QuickForm('formFind', 'post', './?module=Main&class=Find&event=findNow');
 
@@ -103,6 +101,20 @@ class Framework_Module_Main_Find extends ToasterAdmin_Auth_System
         $form->applyFilter('__ALL__', 'trim');
 
         return $form;
+    }
+
+    /**
+     * _renderForm 
+     * 
+     * @param mixed $form 
+     * @access private
+     * @return void
+     */
+    private function _renderForm($form)
+    {
+        $this->setData('findForm', $form->toHtml());
+        // Display find form
+        $this->tplFile = 'find.tpl';
     }
 }
 ?>
