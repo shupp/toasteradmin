@@ -26,6 +26,7 @@ class Framework_User_ToasterAdmin extends Net_Vpopmaild {
      * @return void
      */
     function __construct() {
+        $this->userID = null;
         parent::__construct();
         $this->acceptLog(Framework::$log);
         $this->setDebug((bool)Framework::$site->config->debug);
