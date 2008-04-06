@@ -1,0 +1,14 @@
+<div class="boxtop"></div>
+<div class="box"><strong>Edit Limits for {$domain}</strong></div>
+<div class="boxbottom"></div>
+
+
+<div class="boxtop"></div>
+<div class="box">
+{$limitsForm}
+<br />
+<br />
+<a href="./?module=Main">{$LANG_Main_Menu}</a>
+</div>
+<div class="boxbottom"></div>
+
