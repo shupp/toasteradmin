@@ -126,7 +126,9 @@ class Framework_Module_Accounts extends ToasterAdmin_Auth_Domain
             return;
         }
         // Update gecos
-        $result = $this->user->modUser($this->domain, $emailArray[0], array('comment' => $_REQUEST['comment']));
+        $userInfo = $this->user->userInfo($this->domain, $emailArray[0]);
+        $userInfo['comment'] = $_REQUEST['comment'];
+        $result = $this->user->modUser($this->domain, $userInfo['name'], $userInfo);
 
         $this->setData('message', _("Account Added Successfully"));
         $this->listAccounts();
