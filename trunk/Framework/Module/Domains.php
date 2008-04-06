@@ -64,7 +64,7 @@ class Framework_Module_Domains extends ToasterAdmin_Auth_System
         while (list($key,$val) = each($domainArray)) {
             $domains[$count]['name'] = $key;
             $domains[$count]['limits_url'] = htmlspecialchars('./?module=Main&class=Limits&domain=' . $key);
-            $domains[$count]['edit_url'] = htmlspecialchars('./?module=Domains&class=Menu&domain=' . $key);
+            $domains[$count]['menu_url'] = htmlspecialchars('./?module=Domains&class=Menu&domain=' . $key);
             $domains[$count]['delete_url'] = htmlspecialchars('./?module=Domains&event=delDomain&domain=' . $key);
             $count++;
         }

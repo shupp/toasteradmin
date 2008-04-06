@@ -8,6 +8,7 @@
 {$limitsForm}
 <br />
 <br />
+<a href="./?module=Domains">{t}Domains {/t}</a> | 
 <a href="./?module=Main">{$LANG_Main_Menu}</a>
 </div>
 <div class="boxbottom"></div>

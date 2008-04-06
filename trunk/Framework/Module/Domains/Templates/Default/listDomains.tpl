@@ -21,7 +21,10 @@
         {foreach from=$domains item=domain}
         <tr>
             <td class="domaincell">{$domain.name}</td>
-            <td class="editcell"><a href="{$domain.limits_url}">{t}limits{/t}</a> | <a href="{$domain.edit_url}">{t}edit{/t}</a> | <a href="{$domain.delete_url}">{t}delete{/t}</a></td>
+            <td class="editcell">
+                <a href="{$domain.menu_url}">{t}menu{/t}</a> | 
+                <a href="{$domain.limits_url}">{t}limits{/t}</a> | 
+                <a href="{$domain.delete_url}">{t}delete{/t}</a></td>
         </tr>
         <tr>
             <td colspan="2" class="dividercell"></td>
@@ -31,6 +34,6 @@
     <!-- end of the table, which was also used partially because it's late and I'm tired -->
     <!-- eof box 2 -->
     <div class="clear"></div>
-    <a href="./?module=Main">Main Menu</a>
+    <a href="./?module=Main">{t}Main Menu{/t}</a>
 </div>
 <div class="boxbottom"></div>
