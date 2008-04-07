@@ -50,6 +50,7 @@ class Framework_Module_Main_IPMaps extends ToasterAdmin_Auth_System
     {
         $rawList = $this->user->showIPMap();
         $count = 0;
+        $maps  = array();
         foreach ($rawList as $ip => $domains) {
             $maps[$count]['ip'] = $ip;
             $maps[$count]['domains'] = explode(", ", $domains);
