@@ -19,7 +19,7 @@
  * @author Bill Shupp <hostmaster@shupp.org> 
  * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
  */
-class Framework_Module_Responders extends ToasterAdmin_Common
+class Framework_Module_Responders extends ToasterAdmin_Auth_Domain
 {
 
     /**
@@ -32,10 +32,6 @@ class Framework_Module_Responders extends ToasterAdmin_Common
      */
     function __construct() {
         parent::__construct();
-        // Make they have access
-        if (($result = $this->noDomainPrivs())) {
-            return $result;
-        }
         // Make sure doamin was supplied
         if (($result = $this->noDomainSupplied())) {
             return $result;

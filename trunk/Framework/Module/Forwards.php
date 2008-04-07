@@ -89,8 +89,8 @@ class Framework_Module_Forwards extends ToasterAdmin_Auth_Domain
             $forwardName = ereg_replace('@.*$', '', $key);
             $aliases[$count]['name'] = $forwardName;
             $aliases[$count]['contents'] = $this->user->getAliasContents($val);
-            $aliases[$count]['edit_url'] = htmlspecialchars("$base_url?module=Forwards&domain={$this->domain}&forward=$forwardName&event=modifyForward");
-            $aliases[$count]['delete_url'] = htmlspecialchars("$base_url?module=Forwards&domain={$this->domain}&forward=$forwardName&event=deleteForward");
+            $aliases[$count]['edit_url'] = htmlspecialchars("./?module=Forwards&domain={$this->domain}&forward=$forwardName&event=modifyForward");
+            $aliases[$count]['delete_url'] = htmlspecialchars("./?module=Forwards&domain={$this->domain}&forward=$forwardName&event=deleteForward");
             $count++;
         }
         $this->setData('forwards', $aliases);
