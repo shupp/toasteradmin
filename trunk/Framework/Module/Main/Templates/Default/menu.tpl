@@ -16,7 +16,6 @@
     <li><a href='./?module=Main&amp;class=find'>{t}Find Domain{/t}</a></li>
     <li><a href='./?module=Main&amp;class=find'>{t}Delete Domain{/t}</a></li>
     <li><a href='./?module=Main&amp;class=IPMaps'>{t}IP Maps{/t}</a></li>
-    <li><a href='./?module=Main&amp;class=modLimits'>{t}Modify Limits{/t}</a></li>
 </ul>
 </td>
 </tr>
