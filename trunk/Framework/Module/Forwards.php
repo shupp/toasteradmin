@@ -69,7 +69,6 @@ class Framework_Module_Forwards extends ToasterAdmin_Auth_Domain
     
         // Pagintation setup
         $full_alias_array = $this->user->listAlias($this->domain);
-        if (PEAR::isError($full_alias_array)) return $full_alias_array;
         // Format the valias outpt from vpopmaild
         $aliasesParsed = $this->user->parseAliases($full_alias_array, 'forwards');
         $total = count($aliasesParsed);
@@ -247,19 +246,15 @@ class Framework_Module_Forwards extends ToasterAdmin_Auth_Domain
      */
     protected function deleteForwardLine() {
         $contents = $this->user->readFile($this->domain, '', ".qmail-" . $this->data['forward']);
-        if (PEAR::isError($contents)) {
-            // Go back to list aliases, which will display the messgae
-            return PEAR::raiseError($contents->getMessage(), 1);
-        }
     
         // Now build a new array without that forward
         if (!in_array($this->data['line'], $contents)) {
-            return PEAR::raiseError(_('Error: forward line does not exist'), 2);
+            throw new Framewor_Exception(_('Error: forward line does not exist'), 2);
         }
 
         if (count($contents) == 1) {
             // tell caller to delete instead
-            return PEAR::raiseError(_("Only one line, use delete instead"), 3);
+            throw new Framework_Exception(_("Only one line, use delete instead"), 3);
         }
         $newContents = array();
         $count = 1;
@@ -269,9 +264,6 @@ class Framework_Module_Forwards extends ToasterAdmin_Auth_Domain
             $count++;
         }
         $result = $this->user->writeFile($newContents, $this->domain, '', ".qmail-" . $this->data['forward']);
-        if (PEAR::isError($result)) {
-            return $result;
-        }
         return true;
     }
     
@@ -289,11 +281,10 @@ class Framework_Module_Forwards extends ToasterAdmin_Auth_Domain
             return $this->listForwards();
         }
 
-        $forward = ereg_replace('^.qmail-', '', $_REQUEST['forward']);
+        $forward = preg_replace('/^.qmail-/', '', $_REQUEST['forward']);
     
         // Get forward info if it exists
         $contents = $this->user->ReadFile($this->domain, '', ".qmail-$forward");
-        if ($this->user->Error) return PEAR::raiseError(_("Error: ") . $this->user->Error);
     
         // Set template data
         $this->setData('forward', $forward);
@@ -336,7 +327,6 @@ class Framework_Module_Forwards extends ToasterAdmin_Auth_Domain
 
         // Get forward info if it exists
         $contents = $this->user->ReadFile($this->domain, '', ".qmail-$forward");
-        if ($this->user->Error) return PEAR::raiseError(_("Error: ") . $this->user->Error);
 
         $form = $this->modifyForwardForm();
         if (!$form->validate()) {
@@ -414,18 +404,19 @@ class Framework_Module_Forwards extends ToasterAdmin_Auth_Domain
         $this->setData('forward', $forward);
         $this->setData('line', $_REQUEST['line']);
 
-        $result = $this->deleteForwardLine();
-        if (PEAR::isError($result)) {
-            if ($result->getCode() == 1) {
-                $this->setData('message', $result->getMessage());
+        try {
+            $result = $this->deleteForwardLine();
+        } catch (Framework_Exception $e) {
+            if ($e->getCode() == 1) {
+                $this->setData('message', $e->getMessage());
                 return $this->listAliases();
-            } else if ($result->getCode() == 2) {
-                $this->setData('message', $result->getMessage());
+            } else if ($e->getCode() == 2) {
+                $this->setData('message', $e->getMessage());
                 return $this->modifyForward();
-            } else if ($result->getCode() == 3) {
+            } else if ($e->getCode() == 3) {
                 return $this->deleteForward();
             } else {
-                return $result;
+                throw new Framework_Exception($e->getMessage(), $e->getCode());
             }
         }
         $this->setData('message', _("Destination Deleted Successfully"));
@@ -446,10 +437,7 @@ class Framework_Module_Forwards extends ToasterAdmin_Auth_Domain
         }
         $forward = ereg_replace('^.qmail-', '', $_REQUEST['forward']);
         $contents = $this->user->readFile($this->domain, '', ".qmail-" . $forward);
-        if (PEAR::isError($contents))
-            return $contents;
         $result = $this->user->rmFile($this->domain, '', '.qmail-' . $forward);
-        if (PEAR::isError($contents)) return $contents;
         $this->setData('message', _("Forward Deleted Successfully"));
         return $this->listForwards();
     }
