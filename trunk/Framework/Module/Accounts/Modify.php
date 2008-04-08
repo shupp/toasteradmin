@@ -66,6 +66,7 @@ class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
         try {
             $dot_qmail = $this->user->readFile($this->domain, $_REQUEST['account'], '.qmail');
         } catch (Net_Vpopmaild_Exception $e) {
+            $dot_qmail = '';
         }
         $defaults = $this->parseHomeDotqmail($dot_qmail, $account_info);
         $this->user->recordio(print_r($defaults, 1));
@@ -154,6 +155,7 @@ class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
         try {
             $dot_qmail = $this->user->readFile($this->domain, $_REQUEST['account'], '.qmail');
         } catch (Net_Vpopmaild_Exception $e) {
+            $dot_qmail = '';
         }
         $defaultsOrig = $this->parseHomeDotqmail($dot_qmail, $account_info);
         $form = $this->modifyAccountForm($account, $defaultsOrig);
@@ -181,7 +183,7 @@ class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
         if ($changePass || $changeComment) {
             $this->user->modUser($this->domain, $_REQUEST['account'], $account_info);
         }
-        if (isset($changePass) && $account == $this->user->loginUser['name'] 
+        if ($changePass && $account == $this->user->loginUser['name'] 
                 && $this->domain == $this->user->loginUser['domain']) {
             $crypt = new Crypt_Blowfish((string)Framework::$site->config->mcryptKey);
             $this->session->password = $crypt->encrypt($password);
