@@ -1,14 +1,14 @@
 <!-- box 1 -->
 <div class="boxtop"></div>
 <div class="box">
-<strong><a href="{$add_domain_url}">{$LANG_Add_Domain}</a></strong>
+<strong><a href="{$add_domain_url}">{t}Add Domain{/t}</a></strong>
 </div>
 <div class="boxbottom"></div>
 <!-- eof box 1 -->
 <!-- box 2 -->
 <div class="boxtopDomains">
     <div class="boxtopDomainscontent">
-        <h1>{$LANG_Domains_Page} {$currentPage} {$LANG_of} {$totalPages}</h1>
+        <h1>{t}Domains: Page{/t} {$currentPage} {t}of{/t} {$totalPages}</h1>
     {framework_pager start=$start limit=$limit total=$total} 
     </div>
 </div>

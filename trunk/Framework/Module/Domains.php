@@ -4,14 +4,16 @@
 /**
  * Framework_Module_Domains 
  * 
- * This module is for viewing and editing vpopmail domains
+ * PHP Version 5.1.0+
  * 
- * @uses      ToasterAdmin_Auth_System
- * @package   ToasterAdmin
- * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
- * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
- * @link      http://trac.merchbox.com/trac/toasteradmin
+ * @uses       ToasterAdmin_Auth_System
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org> 
+ * @copyright  2007-2008 Bill Shupp
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 
 
@@ -20,12 +22,14 @@
  * 
  * This module is for viewing and editing vpopmail domains
  * 
- * @uses      ToasterAdmin_Auth_System
- * @package   ToasterAdmin
- * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
- * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
- * @link      http://trac.merchbox.com/trac/toasteradmin
+ * @uses       ToasterAdmin_Auth_System
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org> 
+ * @copyright  2007-2008 Bill Shupp
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 class Framework_Module_Domains extends ToasterAdmin_Auth_System
 {
@@ -35,8 +39,8 @@ class Framework_Module_Domains extends ToasterAdmin_Auth_System
      *
      * Run listDomains()
      *
-     * @access      public
-     * @return      mixed
+     * @access public
+     * @return mixed
      */
     public function __default()
     {
@@ -58,26 +62,24 @@ class Framework_Module_Domains extends ToasterAdmin_Auth_System
         $this->paginate($total);
 
         // Build domain list
-        $domainArray = $this->user->listDomains($this->data['currentPage'],$this->data['limit']);
-        $domains = array();
-        $count = 0;
-        while (list($key,$val) = each($domainArray)) {
-            $domains[$count]['name'] = $key;
-            $domains[$count]['limits_url'] = htmlspecialchars('./?module=Main&class=Limits&domain=' . $key);
-            $domains[$count]['menu_url'] = htmlspecialchars('./?module=Domains&class=Menu&domain=' . $key);
-            $domains[$count]['delete_url'] = htmlspecialchars('./?module=Domains&event=delDomain&domain=' . $key);
-            $count++;
+        $list = $this->user->listDomains($this->data['currentPage'],
+            $this->data['limit']);
+        $a    = array();
+        $c    = 0;
+        foreach ($list as $key => $val) {
+            $lus = './?module=Main&class=Limits&domain=' . $key;
+            $mus = './?module=Domains&class=Menu&domain=' . $key;
+            $dus = './?module=Domains&event=delDomain&domain=' . $key;
+
+            $a[$c]['name']       = $key;
+            $a[$c]['limits_url'] = htmlspecialchars($lus);
+            $a[$c]['menu_url']   = htmlspecialchars($mus);
+            $a[$c]['delete_url'] = htmlspecialchars($dus);
+            $c++;
         }
-        $this->setData('domains', $domains);
-        $this->setData('add_domain_url', htmlspecialchars("./?module=Domains&event=addDomain"));
-
-        // Language
-        $this->setData('LANG_Add_Domain', _('Add Domain'));
-        $this->setData('LANG_Domains_Page', _('Domains: Page'));
-        $this->setData('LANG_of', _('of'));
-        $this->setData('LANG_edit_domain', _('edit domain'));
-        $this->setData('LANG_delete_domain', _('delete domain'));
-
+        $this->setData('domains', $a);
+        $this->setData('add_domain_url',
+            htmlspecialchars("./?module=Domains&event=addDomain"));
         $this->tplFile = 'listDomains.tpl';
         return;
     }
@@ -115,33 +117,38 @@ class Framework_Module_Domains extends ToasterAdmin_Auth_System
 
         // Add domain
         try {
-            $result = $this->user->addDomain($form->getElementValue('domain'), $form->getElementValue('password'));
+            $result = $this->user->addDomain($form->getElementValue('domain'),
+                $form->getElementValue('password'));
         } catch (Net_Vpopmaild_Exception $e) {
             $this->setData('message', _("Error: ") . $e->getMessage());
             return $this->addDomain();
         }
-        header('Location: ./?module=Domains&class=Menu&success&domain=' . $form->getElementValue('domain'));
+        header('Location: ./?module=Domains&class=Menu&success&domain='
+            . $form->getElementValue('domain'));
         return;
     }
 
     /**
      * addDomainForm 
      * 
-     * create add domain form
+     * Create add domain form.
      * 
-     * @access private
-     * @return void
+     * @access protected
+     * @return object HTML_QuickForm object
      */
-    private function addDomainForm()
+    protected function addDomainForm()
     {
-        $form = new HTML_QuickForm('formLogin', 'post', './?module=Domains&event=addDomainNow');
+        $form = new HTML_QuickForm('formLogin', 'post',
+            './?module=Domains&event=addDomainNow');
 
         $form->addElement('text', 'domain', _('Domain'));
         $form->addElement('password', 'password', _('Password'));
         $form->addElement('submit', 'submit', _('Add Domain'));
 
-        $form->addRule('domain', _('Please a domain name'), 'required', null, 'client');
-        $form->addRule('password', _('Please enter a postmaster password'), 'required', null, 'client');
+        $form->addRule('domain', _('Please a domain name'),
+            'required', null, 'client');
+        $form->addRule('password', _('Please enter a postmaster password'),
+            'required', null, 'client');
         $form->applyFilter('__ALL__', 'trim');
 
         return $form;
@@ -162,12 +169,10 @@ class Framework_Module_Domains extends ToasterAdmin_Auth_System
             throw new Framework_Exception (_("Error: no domain supplied"));
         }
 
-        $this->setData('LANG_Are_you_sure_you_want_to_delete_this_domain', _("Are you sure you want to delete this domain?"));
-        $this->setData('LANG_cancel', _("cancel"));
-        $this->setData('LANG_delete', _("delete"));
-
-        $this->setData('delete_url', htmlspecialchars("./?module=Domains&event=delDomainNow&domain=" . $this->domain));
-        $this->setData('cancel_url', htmlspecialchars("./?module=Domains&event=cancelDelDomain"));
+        $dus = "./?module=Domains&event=delDomainNow&domain=" . $this->domain;
+        $cus = "./?module=Domains&event=cancelDelDomain";
+        $this->setData('delete_url', htmlspecialchars($dus));
+        $this->setData('cancel_url', htmlspecialchars($cus));
         $this->tplFile = 'domainConfirmDelete.tpl';
 
     }
@@ -206,17 +211,26 @@ class Framework_Module_Domains extends ToasterAdmin_Auth_System
      * @access public
      * @return void
      */
-    public function cancelDelDomain() {
+    public function cancelDelDomain()
+    {
         $this->setData('message', _("Domain deletion canceled"));
         return $this->listDomains();
     }
 
+    /**
+     * _renderForm 
+     * 
+     * Render Add Domain form
+     * 
+     * @param object $form HTML_QuickForm object
+     * 
+     * @access private
+     * @return void
+     */
     private function _renderForm($form)
     {
         $this->tplFile = 'addDomain.tpl';
         $this->setData('addDomainForm', $form->toHtml());
-        $this->setData('LANG_Main_Menu', _('Main Menu'));
-        $this->setData('LANG_List_Domains', _('List Domains'));
     }
 
 }

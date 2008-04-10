@@ -7,6 +7,6 @@
 <div class="box">
 {$addDomainForm}
 <br />
-<a href="./?module=Domains">{$LANG_List_Domains}</a> | <a href="./?module=Main">{$LANG_Main_Menu}</a>
+<a href="./?module=Domains">{t}List Domains{/t}</a> | <a href="./?module=Main">{t}Main Menu{/t}</a>
 </div>
 <div class="boxbottom"></div>
