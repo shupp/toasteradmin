@@ -1,5 +1,5 @@
 <div class="boxtop"></div>
-<div class="box">{$LANG_Add_Account_to_domain} {$domain}</div>
+<div class="box">{t}Add Account to domain{/t} {$domain}</div>
 <div class="boxbottom"></div>
 
 <div class="boxtop"></div>
@@ -31,5 +31,5 @@
 <div class="boxbottom"></div>
 
 <div class="boxtop"></div>
-<div class="box"><a href="{$domain_url}">{$LANG_Domain_Menu}</a></div>
+<div class="box"><a href="{$domain_url}">{t}Domain Menu{/t}</a></div>
 <div class="boxbottom"></div>

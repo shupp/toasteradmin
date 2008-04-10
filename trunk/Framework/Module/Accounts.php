@@ -5,10 +5,13 @@
  * 
  * This module is for viewing and editing vpopmail accounts
  * 
+ * PHP Version 5.1.0+
+ * 
+ * @category  Mail
  * @package   ToasterAdmin
  * @uses      ToasterAdmin_Auth_Domain
  * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
+ * @copyright 2007-2008 Bill Shupp
  * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
  * @link      http://trac.merchbox.com/trac/toasteradmin
  */
@@ -18,10 +21,11 @@
  * 
  * This module is for viewing and editing vpopmail accounts
  * 
+ * @category  Mail
  * @package   ToasterAdmin
  * @uses      ToasterAdmin_Auth_Domain
  * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
+ * @copyright 2007-2008 Bill Shupp
  * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
  * @link      http://trac.merchbox.com/trac/toasteradmin
  */
@@ -33,10 +37,11 @@ class Framework_Module_Accounts extends ToasterAdmin_Auth_Domain
      * 
      * Throw an exception if no domain was supplied
      * 
-     * @access protected
+     * @access public
      * @return void
      */
-    function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->noDomainSupplied();
     }
@@ -44,47 +49,49 @@ class Framework_Module_Accounts extends ToasterAdmin_Auth_Domain
     /**
      * __default 
      * 
-     * @access protected
+     * @access public
      * @return void
      */
-    public function __default() {
+    public function __default()
+    {
         $this->listAccounts();
     }
 
-    public function listAccounts() {
+    /**
+     * listAccounts 
+     * 
+     * List accounts for the current domain
+     * 
+     * @access public
+     * @return void
+     */
+    public function listAccounts()
+    {
         // Pagintation setup - let exception bubble up
         $total = $this->user->userCount($this->domain);
         $this->paginate($total);
 
         // List Accounts
-        $account_array = $this->user->listUsers($this->data['domain'], $this->data['currentPage'], $this->data['limit']);
-        $accounts = array();
-        $count = 0;
-        while (list($key,$val) = each($account_array)) {
-            $accounts[$count]['account'] = $key;
-            $accounts[$count]['comment'] = $val['comment'];
-            $accounts[$count]['quota'] = $this->user->getQuota($val['quota']);
-            $accounts[$count]['edit_url'] = htmlspecialchars("./?module=Accounts&class=Modify&domain={$this->domain}&account=$key&event=modifyAccount");
-            $accounts[$count]['delete_url'] = htmlspecialchars("./?module=Accounts&domain={$this->domain}&account=$key&event=delete");
-            $count++;
+        $a    = array();
+        $c    = 0;
+        $list = $this->user->listUsers($this->data['domain'],
+            $this->data['currentPage'], $this->data['limit']);
+        foreach ($list as $key => $val) {
+            $eus  =  "./?module=Accounts&class=Modify&domain={$this->domain}";
+            $eus .= "&account=$key&event=modifyAccount";
+            $dus  = "./?module=Accounts&domain={$this->domain}";
+            $dus .= "&account=$key&event=delete";
+
+            $a[$c]['account']    = $key;
+            $a[$c]['comment']    = $val['comment'];
+            $a[$c]['quota']      = $this->user->getQuota($val['quota']);
+            $a[$c]['edit_url']   = htmlspecialchars($eus);
+            $a[$c]['delete_url'] = htmlspecialchars($dus);
+            $c++;
         }
-        $this->setData('accounts', $accounts);
-        $this->setData('add_account_url', htmlspecialchars("./?module=Accounts&event=addAccount&domain={$this->domain}"));
-
-        // Language
-        $this->setData('LANG_Email_Accounts_in_domain', _('Email Accounts in domain'));
-        $this->setData('LANG_Accounts_Page', _('Accounts: Page'));
-        $this->setData('LANG_Add_Account', _('Add Account'));
-        $this->setData('LANG_Domain_Menu', _('Domain Menu'));
-        $this->setData('LANG_of', _('of'));
-        $this->setData('LANG_Account', _('Account'));
-        $this->setData('LANG_Comment', _('Comment'));
-        $this->setData('LANG_Quota', _('Quota'));
-        $this->setData('LANG_Edit', _('Edit'));
-        $this->setData('LANG_Delete', _('Delete'));
-        $this->setData('LANG_edit', _('edit'));
-        $this->setData('LANG_delete', _('delete'));
-
+        $aus = "./?module=Accounts&event=addAccount&domain={$this->domain}";
+        $this->setData('add_account_url', htmlspecialchars($aus));
+        $this->setData('accounts', $a);
         $this->tplFile = 'listAccounts.tpl';
         return;
     }
@@ -95,16 +102,26 @@ class Framework_Module_Accounts extends ToasterAdmin_Auth_Domain
      * @access public
      * @return void
      */
-    public function addAccount() {
-        $form = $this->addAccountForm();
-        $renderer =& new HTML_QuickForm_Renderer_AssocArray();
+    public function addAccount()
+    {
+        $form     = $this->addAccountForm();
+        $renderer = new HTML_QuickForm_Renderer_AssocArray();
         $form->accept($renderer);
         $this->setData('form', $renderer->toAssocArray());
         $this->tplFile = 'addAccount.tpl';
         return;
     }
 
-    public function addAccountNow() {
+    /**
+     * addAccountNow 
+     * 
+     * Actually add account, then list accounts
+     * 
+     * @access public
+     * @return void
+     */
+    public function addAccountNow()
+    {
         $form = $this->addAccountForm();
         if (!$form->validate()) {
             $renderer =& new HTML_QuickForm_Renderer_AssocArray();
@@ -116,7 +133,8 @@ class Framework_Module_Accounts extends ToasterAdmin_Auth_Domain
 
         $emailArray = explode('@', $_REQUEST['account']);
         try {
-            $result = $this->user->addUser($this->domain, $emailArray[0], $_REQUEST['password']);
+            $result = $this->user->addUser($this->domain, $emailArray[0],
+                $_REQUEST['password']);
         } catch (Net_Vpopmaild_Exception $e) {
             $this->setData('message', _("Error: ") . $e->getMessage());
             $renderer =& new HTML_QuickForm_Renderer_AssocArray();
@@ -126,8 +144,9 @@ class Framework_Module_Accounts extends ToasterAdmin_Auth_Domain
             return;
         }
         // Update gecos
-        $userInfo = $this->user->userInfo($this->domain, $emailArray[0]);
+        $userInfo            = $this->user->userInfo($this->domain, $emailArray[0]);
         $userInfo['comment'] = $_REQUEST['comment'];
+
         $result = $this->user->modUser($this->domain, $userInfo['name'], $userInfo);
 
         $this->setData('message', _("Account Added Successfully"));
@@ -135,11 +154,18 @@ class Framework_Module_Accounts extends ToasterAdmin_Auth_Domain
         return;
     }
 
-    private function addAccountForm() {
-        $this->setData('LANG_Add_Account_to_domain', _("Add Account to domain"));
-        $this->setData('LANG_Domain_Menu', _("Domain Menu"));
-        $form = new HTML_QuickForm('formAddAccount', 'post', "./?module=Accounts&event=addAccountNow&domain={$this->domain}");
-
+    /**
+     * addAccountForm 
+     * 
+     * Create HTML_QuickForm instance of add account form
+     * 
+     * @access protected
+     * @return object HTML_QuickForm object
+     */
+    protected function addAccountForm()
+    {
+        $form = new HTML_QuickForm('formAddAccount', 'post',
+            "./?module=Accounts&event=addAccountNow&domain={$this->domain}");
         $form->setDefaults(array('account' => '@' . $this->domain));
 
         $form->addElement('text', 'account', _("Account"));
@@ -149,30 +175,52 @@ class Framework_Module_Accounts extends ToasterAdmin_Auth_Domain
 
         $form->registerRule('sameDomain', 'regex', "/@$this->domain$/i");
 
-        $form->addRule('account', "Account is required", 'required', null, 'client');
-        $form->addRule('comment', "Comment is required", 'required', null, 'client');
-        $form->addRule('account', "Account must be the full email address", 'email', null, 'client');
-        $form->addRule('account', 'Error: wrong domain in email address', 'sameDomain');
-        $form->addRule('password', "Password is required", 'required', null, 'client');
+        $form->addRule('account',
+            _("Account is required"), 'required', null, 'client');
+        $form->addRule('comment',
+            _("Comment is required"), 'required', null, 'client');
+        $form->addRule('account',
+            _("Account must be the full email address"), 'email', null, 'client');
+        $form->addRule('account',
+            _('Error: wrong domain in email address'), 'sameDomain');
+        $form->addRule('password',
+            _("Password is required"), 'required', null, 'client');
         return $form;
     }
 
-    public function delete() {
+    /**
+     * delete 
+     * 
+     * Display delete account confirmation
+     * 
+     * @access public
+     * @return void
+     */
+    public function delete()
+    {
         if (!isset($_REQUEST['account'])) {
             throw new Framework_Exception (_("Error: no account supplied"));
         }
 
-        $this->setData('LANG_Are_you_sure_you_want_to_delete_this_account', _("Are you sure you want to delete this account"));
-        $this->setData('LANG_cancel', _("cancel"));
-        $this->setData('LANG_delete', _("delete"));
-
         $this->setData('account', $_REQUEST['account']);
-        $this->setData('cancel_url', "./?module=Accounts&event=cancelDelete&domain=" . $this->domain);
-        $this->setData('delete_now_url', "./?module=Accounts&event=deleteNow&domain=" . $this->domain . "&account=" . $_REQUEST['account']);
+        $this->setData('cancel_url',
+            "./?module=Accounts&event=cancelDelete&domain=" . $this->domain);
+        $this->setData('delete_now_url',
+            "./?module=Accounts&event=deleteNow&domain="
+            . $this->domain . "&account=" . $_REQUEST['account']);
         $this->tplFile = 'accountConfirmDelete.tpl';
     }
 
-    function deleteNow() {
+    /**
+     * deleteNow 
+     * 
+     * Actuall delete the account, then list accounts
+     * 
+     * @access public
+     * @return void
+     */
+    public function deleteNow()
+    {
         if (!isset($_REQUEST['account'])) {
             throw new Framework_Exception (_("Error: no account supplied"));
         }
@@ -187,7 +235,16 @@ class Framework_Module_Accounts extends ToasterAdmin_Auth_Domain
         return;
     }
 
-    function cancelDelete() {
+    /**
+     * cancelDelete 
+     * 
+     * Cancel account deletion and list accounts
+     * 
+     * @access public
+     * @return void
+     */
+    public function cancelDelete()
+    {
         $this->setData('message', _("Delete Canceled"));
         $this->listAccounts();
         return;

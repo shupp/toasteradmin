@@ -1,7 +1,7 @@
 <div class="boxtop"></div>
 <div class="box">
-{$LANG_Are_you_sure_you_want_to_delete_this_account} "{$account}"?
+{t}Are you sure you want to delete account{/t} "{$account}"?
 <br>
-<a href="{$cancel_url}">{$LANG_cancel}</a> &nbsp | &nbsp <a href="{$delete_now_url}">{$LANG_delete}
+<a href="{$cancel_url}">{t}cancel{/t}</a> &nbsp | &nbsp <a href="{$delete_now_url}">{t}delete{/t}
 </div>
 <div class="boxbottom"></div>
