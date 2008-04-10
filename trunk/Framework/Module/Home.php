@@ -5,19 +5,29 @@
 /**
  * Framework_Module_Home
  *
- * @author      Bill Shupp <hostmaster@shupp.org>
- * @copyright   Bill Shupp <hostmaster@shupp.org>
- * @package     ToasterAdmin
- * @subpackage  Module
- * @filesource
+ * PHP Version 5.1.0+
+ *
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org>
+ * @copyright  2007-2008 Bill Shupp <hostmaster@shupp.org>
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 
 /**
  * Framework_Module_Home
  *
- * @author      Bill Shupp <hostmaster@shupp.org>
- * @package     ToasterAdmin
- * @subpackage  Module
+ * Simple redirect home class based on privileges
+ *
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org>
+ * @copyright  2007-2008 Bill Shupp <hostmaster@shupp.org>
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 class Framework_Module_Home extends ToasterAdmin_Common
 {
@@ -36,10 +46,13 @@ class Framework_Module_Home extends ToasterAdmin_Common
         }
         $domain = $this->session->domain;
         if ($this->user->isDomainAdmin($domain)) {
-            header("Location: ./?module=Domains&class=Menu&domain=" . urlencode($domain));
+            header("Location: ./?module=Domains&class=Menu&domain="
+               . urlencode($domain));
             return;
         } else {
-            header("Location: ./?module=Accounts&class=Modify&domain=" . urlencode($domain) . '&account=' . urlencode($this->session->user) . '&event=modifyAccount');
+            header("Location: ./?module=Accounts&class=Modify&domain="
+               . urlencode($domain) . '&account=' . urlencode($this->session->user)
+               . '&event=modifyAccount');
             return;
         }
     }
