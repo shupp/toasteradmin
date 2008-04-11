@@ -92,7 +92,7 @@ class Framework_Module_Responders extends ToasterAdmin_Auth_Domain
             $a[$c]['delete_url']    = htmlspecialchars($durl);
             $c++;
         }
-        $aurl  = "./?module=Responders&event=addResponder&domain={$this->domain}";
+        $aurl = "./?module=Responders&event=addResponder&domain={$this->domain}";
         $this->setData('add_url', htmlspecialchars($aurl));
         $this->setData('autoresponders', $a);
 

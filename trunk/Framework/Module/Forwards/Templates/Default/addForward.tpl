@@ -1,5 +1,5 @@
 <div class="boxtop"></div>
-<div class="box">{$LANG_Add_Forward}</div>
+<div class="box">{t}Add Forward{/t}</div>
 <div class="boxbottom"></div>
 
 <div class="boxtop"></div>
@@ -35,7 +35,7 @@
 
 <br />
 <br />
-<a href="{$domain_url}">{$LANG_Domain_Menu}</a>
+<a href="{$domain_url}">{t}Domain Menu{/t}</a>
 
 
 </div>
