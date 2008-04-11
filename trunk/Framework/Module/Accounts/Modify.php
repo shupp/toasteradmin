@@ -5,10 +5,13 @@
  * 
  * Class just for modifying accounts
  * 
+ * PHP Version 5.1.0+
+ * 
  * @uses      ToasterAdmin_Auth_User
+ * @category  Mail
  * @package   ToasterAdmin
  * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
+ * @copyright 2007-2008 Bill Shupp
  * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
  * @link      http://trac.merchbox.com/trac/toasteradmin
  */
@@ -18,12 +21,14 @@
  * 
  * Class just for modifying accounts
  * 
- * @uses      ToasterAdmin_Auth_User
- * @package   ToasterAdmin
- * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
- * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
- * @link      http://trac.merchbox.com/trac/toasteradmin
+ * @uses       ToasterAdmin_Auth_User
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org> 
+ * @copyright  2007-2008 Bill Shupp
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
 {
@@ -64,16 +69,18 @@ class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
 
         // Get .qmail info if it exists
         try {
-            $dot_qmail = $this->user->readFile($this->domain, $_REQUEST['account'], '.qmail');
+            $dot_qmail = $this->user->readFile($this->domain,
+                $_REQUEST['account'], '.qmail');
         } catch (Net_Vpopmaild_Exception $e) {
             $dot_qmail = '';
         }
         $defaults = $this->parseHomeDotqmail($dot_qmail, $account_info);
         $this->user->recordio(print_r($defaults, 1));
-        $form = $this->modifyAccountForm($account, $defaults);
-        $renderer =& new HTML_QuickForm_Renderer_AssocArray();
+
+        $form     = $this->modifyAccountForm($account, $defaults);
+        $renderer = new HTML_QuickForm_Renderer_AssocArray();
         $form->accept($renderer);
-        if(isset($_REQUEST['modified'])) {
+        if (isset($_REQUEST['modified'])) {
             $this->setData('message', _('Account Modified Successfully'));
         }
         $this->setData('form', $renderer->toAssocArray());
@@ -89,41 +96,52 @@ class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
      * @param mixed $account  account name
      * @param mixed $defaults defaults
      * 
-     * @access private
+     * @access protected
      * @return void
      */
-    private function modifyAccountForm($account, $defaults) {
+    protected function modifyAccountForm($account, $defaults)
+    {
 
         // Language stuff
-        $this->setData('LANG_Modify_Account', _("Modify Account"));
-        $this->setData('LANG_Domain_Menu', _("Domain Menu"));
         if ($this->user->isDomainAdmin($this->domain)) {
             $this->setData('isDomainAdmin', 1);
             $this->setData('LANG_Main_Menu', _("Main Menu"));
         }
         $this->setData('account', $account);
 
-        $form = new HTML_QuickForm('formModifyAccount', 'post', "./?module=Accounts&class=Modify&event=modifyAccountNow&domain={$this->domain}&account=$account");
+        $url  =  "./?module=Accounts&class=Modify&event=modifyAccountNow";
+        $url .= "&domain={$this->domain}&account=$account";
+        $form = new HTML_QuickForm('formModifyAccount', 'post', $url);
 
         $form->setDefaults($defaults);
 
         $form->addElement('text', 'comment', _("Real Name/Comment"));
         $form->addElement('password', 'password', _("Password"));
         $form->addElement('password', 'password2', _("Re-Type Password"));
-        $form->addElement('radio', 'routing', 'Mail Routing', _('Standard (No Forwarding)'), 'routing_standard');
-        $form->addElement('radio', 'routing', '', _('All Mail Deleted'), 'routing_deleted');
-        $form->addElement('radio', 'routing', '', _('Forward to:'), 'routing_forwarded');
+        $form->addElement('radio', 'routing', 'Mail Routing',
+            _('Standard (No Forwarding)'), 'routing_standard');
+        $form->addElement('radio', 'routing', '',
+            _('All Mail Deleted'), 'routing_deleted');
+        $form->addElement('radio', 'routing', '',
+            _('Forward to:'), 'routing_forwarded');
         $form->addElement('text', 'forward');
         $form->addElement('checkbox', 'save_a_copy', _('Save A Copy'));
 
-        $form->addElement('checkbox', 'vacation', _('Send a Vacation Auto-Response'));
-        $form->addElement('text', 'vacation_subject', _('Vacation Subject:'));
-        $form->addElement('textarea', 'vacation_body', _('Vacation Message:'), 'rows="10" cols="40"');
+        $form->addElement('checkbox', 'vacation',
+            _('Send a Vacation Auto-Response'));
+        $form->addElement('text', 'vacation_subject',
+            _('Vacation Subject:'));
+        $form->addElement('textarea', 'vacation_body',
+            _('Vacation Message:'), 'rows="10" cols="40"');
         $form->addElement('submit', 'submit', _('Modify Account'));
 
-        $form->addRule(array('password', 'password2'), _('The passwords do not match'), 'compare', null, 'client');
-        $form->addRule('routing', _('Please select a mail routing type'), 'required', null, 'client');
-        $form->addRule('forward', _('"Forward to" must be a valid email address'), 'email', null, 'client');
+        $form->addRule(array('password', 'password2'),
+            _('The passwords do not match'), 'compare', null, 'client');
+        $form->addRule('routing',
+            _('Please select a mail routing type'), 'required', null, 'client');
+        $form->addRule('forward',
+            _('"Forward to" must be a valid email address'),
+            'email', null, 'client');
 
         return $form;
     }
@@ -153,12 +171,13 @@ class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
 
         // Get .qmail info if it exists
         try {
-            $dot_qmail = $this->user->readFile($this->domain, $_REQUEST['account'], '.qmail');
+            $dot_qmail = $this->user->readFile($this->domain,
+                $_REQUEST['account'], '.qmail');
         } catch (Net_Vpopmaild_Exception $e) {
             $dot_qmail = '';
         }
-        $defaultsOrig = $this->parseHomeDotqmail($dot_qmail, $account_info);
-        $form = $this->modifyAccountForm($account, $defaultsOrig);
+        $defs = $this->parseHomeDotqmail($dot_qmail, $account_info);
+        $form = $this->modifyAccountForm($account, $defs);
         if (!$form->validate()) {
             $this->setData('message', _("Error Modifying Account"));
             $renderer =& new HTML_QuickForm_Renderer_AssocArray();
@@ -190,7 +209,7 @@ class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
         }
 
         // Determine new routing
-        $routing = '';
+        $routing     = '';
         $save_a_copy = 0;
         if ($_REQUEST['routing'] == 'routing_standard') {
             $routing = 'standard';
@@ -198,7 +217,8 @@ class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
             $routing = 'deleted';
         } else if ($_REQUEST['routing'] == 'routing_forwarded') {
             if (empty($_REQUEST['forward'])) {
-                $this->setData('message', _('Error: you must supply a forward address'));
+                $this->setData('message',
+                    _('Error: you must supply a forward address'));
                 return $this->modifyAccount();
             } else {
                 $forward = $_REQUEST['forward'];
@@ -213,13 +233,13 @@ class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
         // Check for vacation
         $vacation = 0;
         if (isset($_REQUEST['vacation']) && $_REQUEST['vacation'] == 1) {
-            $vacation = 1;
+            $vacation         = 1;
             $vacation_subject = $_REQUEST['vacation_subject'];
-            $vacation_body = $_REQUEST['vacation_body'];
+            $vacation_body    = $_REQUEST['vacation_body'];
         }
 
         // Are we deleting a vacation message?
-        if ($vacation == 0 && $defaultsOrig['vacation'] == ' checked') {
+        if ($vacation == 0 && $defs['vacation'] == ' checked') {
             // Kill old message
             $this->user->rmDir($this->domain, $account_info['name'], 'vacation');
         }
@@ -234,8 +254,11 @@ class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
         }
 
         if ($vacation == 1) {
-            if (strlen($dot_qmail_contents) > 0) $dot_qmail_contents .= "\n";
+            if (strlen($dot_qmail_contents) > 0) {
+                $dot_qmail_contents .= "\n";
+            }
             $vacation_dir = $account_info['user_dir'] . '/vacation';
+
             $dot_qmail_contents .= '| ' . $this->user->vpopmailRobotProgram;
             $dot_qmail_contents .= ' ' . $this->user->vpopmailRobotTime;
             $dot_qmail_contents .= ' ' . $this->user->vpopmailRobotNumber;
@@ -246,36 +269,42 @@ class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
         if (strlen($dot_qmail_contents) > 0) {
             $contents = explode("\n", $dot_qmail_contents);
             // Write .qmail file
-            $result = $this->user->writeFile($contents, $this->domain, $account_info['name'], $dot_qmail_file);
+            $result = $this->user->writeFile($contents, $this->domain,
+                $account_info['name'], $dot_qmail_file);
 
             // Add vacation files
             if ($vacation == 1) {
-                $vcontents = "From: " . $account_info['name'] . "@{$this->domain}\n";
+                $vcontents  = "From: " . $account_info['name'] . "@{$this->domain}";
+                $vcontents .= "\n";
                 $vcontents .= "Subject: $vacation_subject\n\n";
                 $vcontents .= $vacation_body;
-                $contents = explode("\n", $vcontents);
-                $vdir = 'vacation';
-                $message = 'vacation/message';
+                $contents   = explode("\n", $vcontents);
+                $vdir       = 'vacation';
+                $message    = 'vacation/message';
                 // Delete existing file
                 try {
                     $this->user->rmDir($this->domain, $account_info['name'], $vdir);
                 } catch (Net_Vpopmaild_Exception $e) {
                 }
                 // Make vacation directory
-                $result = $this->user->mkDir($this->domain, $account_info['name'], $vdir);
+                $result = $this->user->mkDir($this->domain,
+                    $account_info['name'], $vdir);
                 // Write vacation message
-                $result = $this->user->writeFile($contents, $this->domain, $account_info['name'], $message);
+                $result = $this->user->writeFile($contents, $this->domain,
+                    $account_info['name'], $message);
             }
         } else {
             try {
-                $this->user->rmFile($this->domain, $account_info['name'], $dot_qmail_file);
+                $this->user->rmFile($this->domain,
+                    $account_info['name'], $dot_qmail_file);
             } catch (Net_Vpopmaild_Exception $e) {
             }
         }
 
-        $url = "./?module=Accounts&class=Modify&event=modifyAccount&domain={$this->domain}&account={$account_info['name']}&modified=1";
+        $url  = "./?module=Accounts&class=Modify&event=modifyAccount";
+        $url .= "&domain={$this->domain}&account={$account_info['name']}&modified=1";
         header("Location: $url");
-        return $this->modifyAccount();
+        return;
     }
 
     /**

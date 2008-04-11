@@ -1,6 +1,6 @@
 <div class="boxtop"></div>
 <div class="box">
-<b>{$LANG_Modify_Account} {$account}@{$domain}</b>
+<b>{t}Modify Account{/t} {$account}@{$domain}</b>
 </div>
 <div class="boxbottom"></div>
 <div class="boxtop"></div>
@@ -72,7 +72,7 @@
 </div>
 </form>
 
-{if $isDomainAdmin}<a href="./?module=Domains&amp;class=Menu&amp;domain={$domain}"><br /><b>{$LANG_Main_Menu}</b>{/if}
+{if $isDomainAdmin}<a href="./?module=Domains&amp;class=Menu&amp;domain={$domain}"><br /><b>{t}Main Menu{/t}</b>{/if}
 
 </div>
 <div class="boxbottom"></div>
