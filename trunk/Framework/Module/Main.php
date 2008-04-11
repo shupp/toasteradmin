@@ -51,10 +51,10 @@ class Framework_Module_Main extends ToasterAdmin_Auth_System
      * 
      * Display man menu
      * 
-     * @access public
+     * @access protected
      * @return void
      */
-    public function mainMenu()
+    protected function mainMenu()
     {
         $this->tplFile = 'menu.tpl';
         return;
