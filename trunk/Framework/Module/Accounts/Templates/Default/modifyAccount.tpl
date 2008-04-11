@@ -72,7 +72,7 @@
 </div>
 </form>
 
-{if $isDomainAdmin}<a href="./?module=Domains&amp;class=Menu&amp;domain={$domain}"><br /><b>{t}Main Menu{/t}</b>{/if}
+{if $isDomainAdmin}<a href="./?module=Domains&amp;class=Menu&amp;domain={$domain}"><br /><b>{t}Domain Menu{/t}</b>{/if}
 
 </div>
 <div class="boxbottom"></div>
