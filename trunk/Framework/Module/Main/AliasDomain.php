@@ -3,14 +3,16 @@
 /**
  * Framework_Module_Main_AliasDomain 
  * 
- * PHP Version 5
+ * PHP Version 5.1.0+
  * 
- * @uses      ToasterAdmin_Auth_System
- * @package   ToasterAdmin
- * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
- * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
- * @link      http://trac.merchbox.com/trac/toasteradmin
+ * @uses       ToasterAdmin_Auth_System
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org> 
+ * @copyright  2007-2008 Bill Shupp
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 
 
@@ -19,12 +21,14 @@
  * 
  * Add Alias Domains
  * 
- * @uses      ToasterAdmin_Auth_System
- * @package   ToasterAdmin
- * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
- * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
- * @link      http://trac.merchbox.com/trac/toasteradmin
+ * @uses       ToasterAdmin_Auth_System
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org> 
+ * @copyright  2007-2008 Bill Shupp
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 class Framework_Module_Main_AliasDomain extends ToasterAdmin_Auth_System
 {
@@ -116,6 +120,16 @@ class Framework_Module_Main_AliasDomain extends ToasterAdmin_Auth_System
         return $form;
     }
 
+    /**
+     * _renderForm 
+     * 
+     * Render the form for display
+     * 
+     * @param object $form HTML_Quickform object
+     * 
+     * @access private
+     * @return void
+     */
     private function _renderForm($form)
     {
         $this->setData('addForm', $form->toHtml());    
