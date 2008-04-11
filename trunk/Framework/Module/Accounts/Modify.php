@@ -105,7 +105,6 @@ class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
         // Language stuff
         if ($this->user->isDomainAdmin($this->domain)) {
             $this->setData('isDomainAdmin', 1);
-            $this->setData('LANG_Main_Menu', _("Main Menu"));
         }
         $this->setData('account', $account);
 
