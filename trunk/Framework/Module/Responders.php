@@ -3,21 +3,31 @@
 /**
  * Responders Module
  * 
- * @uses ToasterAdmin_Common
- * @package ToasterAdmin
- * @copyright 2006-2007 Bill Shupp
- * @author Bill Shupp <hostmaster@shupp.org> 
- * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * PHP Version 5.1.0+
+ * 
+ * @uses       ToasterAdmin_Auth_Domain
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org> 
+ * @copyright  2007-2008 Bill Shupp
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 
 /**
  * Framework_Module_Responders 
  * 
- * @uses ToasterAdmin_Common
- * @package ToasterAdmin
- * @copyright 2006-2007 Bill Shupp
- * @author Bill Shupp <hostmaster@shupp.org> 
- * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * Manage vpopmail auto responders
+ * 
+ * @uses       ToasterAdmin_Auth_Domain
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org> 
+ * @copyright  2007-2008 Bill Shupp
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 class Framework_Module_Responders extends ToasterAdmin_Auth_Domain
 {
@@ -25,67 +35,66 @@ class Framework_Module_Responders extends ToasterAdmin_Auth_Domain
     /**
      * __construct 
      * 
-     * class constructor
+     * Check that a domain as supplied
      * 
      * @access protected
      * @return void
      */
-    function __construct() {
+    public function __construct()
+    {
         parent::__construct();
-        // Make sure doamin was supplied
-        if (($result = $this->noDomainSupplied())) {
-            return $result;
-        }
+        $this->noDomainSupplied();
     }
 
     /**
      * __default 
      * 
-     * @access protected
+     * Run $this->listResponders()
+     * 
+     * @access public
      * @return void
      */
-    function __default() {
+    public function __default()
+    {
         $this->listResponders();
     }
 
-    function listResponders() {
-
-        if (($result = $this->noDomainPrivs())) {
-            return $result;
-        }
-
-        $full_alias_array = $this->user->listAlias($this->domain);
-        if (PEAR::isError($full_alias_array)) return $full_alias_array;
-        $autoresponders_raw = $this->user->parseAliases($full_alias_array, 'responders');
+    /**
+     * listResponders 
+     * 
+     * List all auto responders for a domain
+     * 
+     * @access public
+     * @return void
+     */
+    public function listResponders()
+    {
+        $f   = $this->user->listAlias($this->domain);
+        $raw = $this->user->parseAliases($f, 'responders');
 
         // Pagintation setup
-        $total = count($autoresponders_raw);
+        $total = count($raw);
         $this->paginate($total);
         
         // List Responders
-        $autoresponders_paginated = $this->user->paginateArray($autoresponders_raw, $this->data['currentPage'], $this->data['limit']);
-        $autoresponders = array();
-        $count = 0;
-        while (list($key,$val) = each($autoresponders_paginated)) {
-            $autoresponders[$count]['autoresponder'] = $key;
-            $autoresponders[$count]['edit_url'] = htmlspecialchars("./?module=Responders&domain={$this->domain}&autoresponder=$key&event=modifyResponder");
-            $autoresponders[$count]['delete_url'] = htmlspecialchars("./?module=Responders&domain={$this->domain}&autoresponder=$key&event=delete");
-            $count++;
-        }
-        $this->setData('autoresponders', $autoresponders);
-        $this->setData('add_url', htmlspecialchars("./?module=Responders&event=addResponder&domain={$this->domain}"));
+        $p = $this->user->paginateArray($raw,
+            $this->data['currentPage'], $this->data['limit']);
+        $a = array();
+        $c = 0;
+        foreach ($p as $key => $val) {
+            $eurl  = "./?module=Responders&domain={$this->domain}";
+            $eurl .= "&autoresponder=$key&event=modifyResponder";
+            $durl  = "./?module=Responders&domain={$this->domain}";
+            $durl .= "&autoresponder=$key&event=delete";
 
-        // Language
-        $this->setData('LANG_AutoResponders_in_domain', _('Auto-Responders in domain'));
-        $this->setData('LANG_AutoResponders_Page', _('Auto-Responders: Page'));
-        $this->setData('LANG_Add_AutoResponder', _('Add Auto-Responder'));
-        $this->setData('LANG_Domain_Menu', _('Domain Menu'));
-        $this->setData('LANG_of', _('of'));
-        $this->setData('LANG_AutoResponder', _('Auto-Responder'));
-        $this->setData('LANG_Edit', _('Edit'));
-        $this->setData('LANG_Delete', _('Delete'));
-        $this->setData('LANG_edit', _('edit'));
-        $this->setData('LANG_delete', _('delete'));
+            $a[$c]['autoresponder'] = $key;
+            $a[$c]['edit_url']      = htmlspecialchars($eurl);
+            $a[$c]['delete_url']    = htmlspecialchars($durl);
+            $c++;
+        }
+        $aurl  = "./?module=Responders&event=addResponder&domain={$this->domain}";
+        $this->setData('add_url', htmlspecialchars($aurl));
+        $this->setData('autoresponders', $a);
 
         $this->tplFile = 'listResponders.tpl';
         return;
@@ -94,24 +103,36 @@ class Framework_Module_Responders extends ToasterAdmin_Auth_Domain
     /**
      * addResponder
      * 
+     * Show add responder form
+     * 
      * @access public
      * @return void
      */
-    function addResponder() {
-        $form = $this->responderForm();
-        $renderer =& new HTML_QuickForm_Renderer_AssocArray();
+    public function addResponder()
+    {
+        $form     = $this->responderForm();
+        $renderer = new HTML_QuickForm_Renderer_AssocArray();
         $form->accept($renderer);
         $this->setData('form', $renderer->toAssocArray());
         $this->tplFile = 'responderForm.tpl';
         return;
     }
 
-    function addResponderNow() {
-        $this->setData('LANG_responder_submit', _("Add Auto-Responder"));
-        $this->setData('LANG_responder_header', _("Add Auto-Responder to domain "));
+    /**
+     * addResponderNow 
+     * 
+     * Add autoresponder
+     * 
+     * @access public
+     * @return mixed addResponder() on failure, listResponders() on success
+     */
+    public function addResponderNow()
+    {
+        $this->setData('responder_submit', _("Add Auto-Responder"));
+        $this->setData('responder_header', _("Add Auto-Responder to domain "));
         $form = $this->responderForm();
         if (!$form->validate()) {
-            $renderer =& new HTML_QuickForm_Renderer_AssocArray();
+            $renderer = new HTML_QuickForm_Renderer_AssocArray();
             $form->accept($renderer);
             $this->setData('form', $renderer->toAssocArray());
             $this->tplFile = 'responderForm.tpl';
@@ -120,31 +141,45 @@ class Framework_Module_Responders extends ToasterAdmin_Auth_Domain
 
         // Split autoresponder to get user
         $email_array = explode('@', $_REQUEST['autoresponder']);
-        $responder = $this->user->robotGet($this->domain, $email_array[0]);
-        if (!PEAR::isError($responder)) {
-            $this->setData('message', _('Error: autoresponder already exists: ' . $email_array[0]));
+        try {
+            $responder = $this->user->robotGet($this->domain, $email_array[0]);
+            $this->setData('message',
+                _('Error: autoresponder already exists: ' . $email_array[0]));
             return $this->addResponder();
+        } catch (Net_Vpopmaild_Exception $e) {
         }
 
-        $result = $this->user->robotSet($this->domain, $email_array[0], $_POST['subject'], $_POST['body'], $_POST['copy']);
-        if (PEAR::isError($result)) return $result;
-        $this->setData('message', _("Auto-Responder Added Successfully"));
+        $result = $this->user->robotSet($this->domain,
+            $email_array[0], $_POST['subject'], $_POST['body'], $_POST['copy']);
+        $this->setData('message', _('Auto-Responder Added Successfully'));
         return $this->listResponders();
     }
 
-    function responderForm($type = 'add', $defaults = '') {
-        $this->setData('LANG_Domain_Menu', _("Domain Menu"));
+    /**
+     * responderForm 
+     * 
+     * @param string $type     add or modify
+     * @param string $defaults default responder data
+     * 
+     * @access protected
+     * @return object    HTML_Quickform object
+     */
+    protected function responderForm($type = 'add', $defaults = '')
+    {
         $this->setData('type', $type);
         if ($type == 'add') {
-            $this->setData('LANG_responder_submit', _("Add"));
-            $this->setData('LANG_responder_header', _("Add Auto-Responder to domain ") . $this->domain);
+            $this->setData('responder_submit', _("Add"));
+            $this->setData('responder_header',
+                _("Add Auto-Responder to domain ") . $this->domain);
         } else {
             $this->setData('responder_name', $defaults['autoresponder']);
-            $this->setData('LANG_responder_submit', _("Modify"));
-            $this->setData('LANG_responder_header', _("Modify Auto-Responder ") . $_REQUEST['autoresponder']);
+            $this->setData('responder_submit', _("Modify"));
+            $this->setData('responder_header',
+                _("Modify Auto-Responder ") . $_REQUEST['autoresponder']);
         }
 
-        $form = new HTML_QuickForm('formAddAccount', 'post', "./?module=Responders&event=${type}ResponderNow&domain={$this->domain}");
+        $form = new HTML_QuickForm('formAddAccount', 'post',
+            "./?module=Responders&event=${type}ResponderNow&domain={$this->domain}");
 
         if ($defaults == '') {
             $form->setDefaults(array('autoresponder' => '@' . $this->domain));
@@ -154,109 +189,159 @@ class Framework_Module_Responders extends ToasterAdmin_Auth_Domain
 
         if ($type == 'modify') {
             $form->addElement('hidden', 'autoresponder');
-            $form->addRule('autoresponder', _("Auto-Responder is required"), 'required', null );
-            $form->addRule('autoresponder', _("Auto-Responder must be a full address"), 'email', null);
+            $form->addRule('autoresponder',
+                _("Auto-Responder is required"), 'required', null);
+            $form->addRule('autoresponder',
+                _("Auto-Responder must be a full address"), 'email', null);
         } else {
             $form->addElement('text', 'autoresponder', _('Auto-Responder'));
-            $form->addRule('autoresponder', _("Auto-Responder is required"), 'required', null, 'client');
-            $form->addRule('autoresponder', _("Auto-Responder must be a full address"), 'email', null, 'client');
+            $form->addRule('autoresponder',
+                _("Auto-Responder is required"), 'required', null, 'client');
+            $form->addRule('autoresponder',
+                _("Auto-Responder must be a full address"), 'email', null, 'client');
         }
         $form->addElement('text', 'copy', _("Send Copy To"));
         $form->addElement('text', 'subject', _("Subject"));
         $form->addElement('textarea', 'body', _("Body"), 'cols="40" rows="10"');
-        $form->addElement('submit', 'submit', $this->__get('LANG_responder_submit'));
+        $form->addElement('submit', 'submit', $this->responder_submit);
 
         $form->registerRule('sameDomain', 'regex', "/@$this->domain$/i");
 
-        $form->addRule('autoresponder', _('Error: wrong domain in Auto-Responder'), 'sameDomain');
-        $form->addRule('copy', _("'Save a copy' must be an email address"), 'email', null, 'client');
-        $form->addRule('subject', _("Subject is required"), 'required', null, 'client');
+        $form->addRule('autoresponder',
+            _('Error: wrong domain in Auto-Responder'), 'sameDomain');
+        $form->addRule('copy',
+            _("'Save a copy' must be an email address"), 'email', null, 'client');
+        $form->addRule('subject',
+            _("Subject is required"), 'required', null, 'client');
         $form->addRule('body', _("Body is required"), 'required', null, 'client');
         return $form;
     }
 
-    function delete() {
+    /**
+     * delete 
+     * 
+     * Show delete responder page
+     * 
+     * @throws Framework_Exception if autorsponder is not supplied
+     * @access public
+     * @return void
+     */
+    public function delete()
+    {
         if (!isset($_REQUEST['autoresponder'])) {
-            return PEAR::raiseError(_("Error: no responder supplied"));
+            throw new Framework_Exception(_('Error: no responder supplied'));
         }
-        $this->setData('LANG_Are_you_sure_you_want_to_delete_this_responder', _("Are you sure you want to delete the responder"));
-        $this->setData('LANG_cancel', _("cancel"));
-        $this->setData('LANG_delete', _("delete"));
         $this->setData('autoresponder', $_REQUEST['autoresponder']);
-        $this->setData('cancel_url', "./?module=Responders&event=cancelDelete&domain=" . $this->domain);
-        $this->setData('delete_now_url', "./?module=Responders&event=deleteNow&domain=" . $this->domain . "&autoresponder=" . $_REQUEST['autoresponder']);
+        $this->setData('cancel_url',
+            "./?module=Responders&event=cancelDelete&domain=" . $this->domain);
+        $durl  = "./?module=Responders&event=deleteNow&domain={$this->domain}";
+        $durl .= "&autoresponder=" . $_REQUEST['autoresponder'];
+        $this->setData('delete_now_url', $durl);
         $this->tplFile = 'responderConfirmDelete.tpl';
     }
 
-    function deleteNow() {
+    /**
+     * deleteNow 
+     * 
+     * Try and delete a responder
+     * 
+     * @throws Framework_Exception if autoresponder is not supplied,
+     * or on failure
+     * @access public
+     * @return void
+     */
+    public function deleteNow()
+    {
         if (!isset($_REQUEST['autoresponder'])) {
-            return PEAR::raiseError(_("Error: no responder supplied"));
+            throw new Framework_Exception(_('Error: no responder supplied'));
         }
-        if (!isset($_REQUEST['domain'])) {
-            return PEAR::raiseError(_("Error: no domain supplied"));
-        }
-        $array = explode('@', $_REQUEST['autoresponder']);
+        $array  = explode('@', $_REQUEST['autoresponder']);
         $result = $this->user->robotDel($this->domain, $array[0]);
-        if (PEAR::isError($result)) return $result;
         $this->setData('message', _("Responder Deleted Successfully"));
         return $this->listResponders();
     }
 
-    function cancelDelete() {
+    /**
+     * cancelDelete 
+     * 
+     * Cancel delete responder, list responders
+     * 
+     * @access public
+     * @return void
+     */
+    public function cancelDelete()
+    {
         $this->setData('message', _("Delete Canceled"));
-        $this->listResponders();
-        return;
+        return $this->listResponders();
     }
 
-    function modifyResponder() {
+    /**
+     * modifyResponder 
+     * 
+     * Show modify responder page
+     * 
+     * @access public
+     * @return void
+     */
+    public function modifyResponder()
+    {
         // Make sure account was supplied
         if (!isset($_REQUEST['autoresponder'])) {
-            return PEAR::raiseError(_("Error: no Auto-Responder supplied"));
+            throw new Framework_Exception(_("Error: no Auto-Responder supplied"));
         }
-        $array = explode('@', $_REQUEST['autoresponder']);
+        $array     = explode('@', $_REQUEST['autoresponder']);
+        $responder = $this->user->robotGet($this->domain, $array[0]);
+
         // Setup defaults
-        $responder = $this->user->robotGet($this->domain,$array[0]);
-        if (PEAR::isError($responder)) return $responder;
-        $defaults = array();
-        $defaults['subject'] = $responder['Subject'];
-        $defaults['body'] = implode("\n", $responder['Message']);
+        $defaults                  = array();
+        $defaults['subject']       = $responder['Subject'];
+        $defaults['body']          = implode("\n", $responder['Message']);
         $defaults['autoresponder'] = $_REQUEST['autoresponder'];
         if (isset($responder['Forward'])) {
             $defaults['copy'] = $responder['Forward'];
         }
 
-        $form = $this->responderForm('modify', $defaults);
-        $renderer =& new HTML_QuickForm_Renderer_AssocArray();
+        $form     = $this->responderForm('modify', $defaults);
+        $renderer = new HTML_QuickForm_Renderer_AssocArray();
         $form->accept($renderer);
         $this->setData('form', $renderer->toAssocArray());
         $this->tplFile = 'responderForm.tpl';
         return;
     }
 
-    function modifyResponderNow() {
+    /**
+     * modifyResponderNow 
+     * 
+     * Actually modify the responder
+     * 
+     * @access public
+     * @return void
+     */
+    public function modifyResponderNow()
+    {
         // Make sure account was supplied
         if (!isset($_REQUEST['autoresponder'])) {
-            return PEAR::raiseError(_("Error: no Auto-Responder supplied"));
+            throw new Framework_Exception(_("Error: no Auto-Responder supplied"));
         }
-        $array = explode('@', $_REQUEST['autoresponder']);
+        $array     = explode('@', $_REQUEST['autoresponder']);
+        $responder = $this->user->robotGet($this->domain, $array[0]);
         // Setup defaults
-        $responder = $this->user->robotGet($this->domain,$array[0]);
-        if (PEAR::isError($responder)) return $responder;
-        $defaults = array();
-        $defaults['subject'] = $responder['Subject'];
-        $defaults['body'] = implode("\n", $responder['Message']);
+        $defaults                  = array();
+        $defaults['subject']       = $responder['Subject'];
+        $defaults['body']          = implode("\n", $responder['Message']);
         $defaults['autoresponder'] = $_REQUEST['autoresponder'];
+
         $form = $this->responderForm('modify', $defaults);
         if (!$form->validate()) {
-            $renderer =& new HTML_QuickForm_Renderer_AssocArray();
+            $renderer = new HTML_QuickForm_Renderer_AssocArray();
             $form->accept($renderer);
             $this->setData('form', $renderer->toAssocArray());
             $this->tplFile = 'responderForm.tpl';
             return;
         }
         $result = $this->user->robotDel($this->domain, $array[0]);
-        $result = $this->user->robotSet($this->domain, $array[0], $_POST['subject'], $_POST['body'], $_POST['copy']);
-        if (PEAR::isError($result)) return $result;
+        $result = $this->user->robotSet($this->domain,
+            $array[0], $_POST['subject'], $_POST['body'], $_POST['copy']);
         $this->setData('message', _("Auto-Responder modified successfully"));
         return $this->listResponders();
     }

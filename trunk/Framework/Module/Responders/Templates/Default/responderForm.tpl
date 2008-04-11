@@ -1,5 +1,5 @@
 <div class="boxtop"></div>
-<div class="box">{$LANG_responder_header}</div>
+<div class="box">{$responder_header}</div>
 <div class="boxbottom"></div>
 
 <div class="boxtop"></div>
@@ -40,5 +40,5 @@
 <div class="boxbottom"></div>
 
 <div class="boxtop"></div>
-<div class="box"><a href="{$domain_url}">{$LANG_Domain_Menu}</a></div>
+<div class="box"><a href="{$domain_url}">{t}Domain Menu{/t}</a></div>
 <div class="boxbottom"></div>
