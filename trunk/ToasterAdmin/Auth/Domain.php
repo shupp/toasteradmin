@@ -5,11 +5,12 @@
  * 
  * PHP Version 5
  * 
+ * @category  Mail
  * @package   ToasterAdmin
  * @uses      Framework_Auth_User
  * @abstract
  * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
+ * @copyright 2007-2008 Bill Shupp
  * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
  * @link      http://trac.merchbox.com/trac/toasteradmin
  */
@@ -19,11 +20,12 @@
  * 
  * Check for Domain privileges
  * 
+ * @category  Mail
  * @package   ToasterAdmin
  * @uses      Framework_Auth_User
  * @abstract
  * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
+ * @copyright 2007-2008 Bill Shupp
  * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
  * @link      http://trac.merchbox.com/trac/toasteradmin
  */
