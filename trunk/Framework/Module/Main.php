@@ -5,14 +5,16 @@
  * 
  * Main Menu Module
  * 
- * PHP Version 5
+ * PHP Version 5.1.0+
  * 
- * @uses      ToasterAdmin_Auth_System
- * @package   ToasterAdmin
- * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
- * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
- * @link      http://trac.merchbox.com/trac/toasteradmin
+ * @uses       ToasterAdmin_Auth_System
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org> 
+ * @copyright  2007-2008 Bill Shupp
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 
 /**
@@ -20,12 +22,14 @@
  * 
  * Main Menu Module
  * 
- * @uses      ToasterAdmin_Auth_System
- * @package   ToasterAdmin
- * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
- * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
- * @link      http://trac.merchbox.com/trac/toasteradmin
+ * @uses       ToasterAdmin_Auth_System
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org> 
+ * @copyright  2007-2008 Bill Shupp
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 class Framework_Module_Main extends ToasterAdmin_Auth_System
 {
@@ -52,7 +56,6 @@ class Framework_Module_Main extends ToasterAdmin_Auth_System
      */
     public function mainMenu()
     {
-        // Language stuff
         $this->tplFile = 'menu.tpl';
         return;
     }
