@@ -2,11 +2,16 @@
 /**
  * Framework_Module_MailingLists 
  * 
- * @uses Framework_Auth_User
- * @package ToasterAdmin
- * @copyright 2007 Bill Shupp
- * @author Bill Shupp <hostmaster@shupp.org> 
- * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * PHP Version 5.1.0+
+ * 
+ * @uses       Framework_Auth_User
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org> 
+ * @copyright  2007-2008 Bill Shupp
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 
 /**
@@ -14,57 +19,142 @@
  * 
  * Management of ezmlm-idx lists through vpopmaild
  * 
- * @uses Framework_Auth_User
- * @package ToasterAdmin
- * @copyright 2007 Bill Shupp
- * @author Bill Shupp <hostmaster@shupp.org> 
- * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @uses       Framework_Auth_User
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org> 
+ * @copyright  2007-2008 Bill Shupp
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
-class Framework_Module_MailingLists extends ToasterAdmin_Common
+class Framework_Module_MailingLists extends ToasterAdmin_Auth_Domain
 {
-    public function __construct() {
+    /**
+     * __construct 
+     * 
+     * Check that a domain was supplied.
+     * 
+     * @access public
+     * @return void
+     */
+    public function __construct()
+    {
         parent::__construct();
         // Check that the domain was supplied
-        if (($result = $this->noDomainSupplied() {
+        if ($this->noDomainSupplied()) {
             return $result;
         }
-        // Check that they have domain edit privilges
-        if (($result = $this->noDomainPrivs() {
-            return $result;
-        }
-        $this->user->setDefaultEzmlmOpts();
+        // $this->user->setDefaultEzmlmOpts();
     }
 
-    public function __default() {
+    /**
+     * __default 
+     * 
+     * Call $this->listLists()
+     * 
+     * @access public
+     * @return void
+     */
+    public function __default()
+    {
         return $this->listLists();
     }
 
-    protected function checkPrivileges() {
+    /**
+     * listLists 
+     * 
+     * List ezmlm mailing lists
+     * 
+     * @access public
+     * @return void
+     */
+    public function listLists()
+    {
     }
 
-    public function listLists() {
+    /**
+     * addList 
+     * 
+     * Show add list page
+     * 
+     * @access public
+     * @return void
+     */
+    public function addList()
+    {
     }
 
-    public function addList() {
+    /**
+     * addListNow 
+     * 
+     * Try and add a list
+     * 
+     * @access public
+     * @return void
+     */
+    public function addListNow()
+    {
     }
 
-    public function addListNow() {
+    /**
+     * modifyList 
+     * 
+     * Show modify list page
+     * 
+     * @access public
+     * @return void
+     */
+    public function modifyList()
+    {
     }
 
-    public function modifyList() {
+    /**
+     * modifyListNow 
+     * 
+     * Try and modify a list
+     * 
+     * @access public
+     * @return void
+     */
+    public function modifyListNow()
+    {
     }
 
-    public function modifyListNow() {
+    /**
+     * deleteList 
+     * 
+     * Show delete list confirmation
+     * 
+     * @access public
+     * @return void
+     */
+    public function deleteList()
+    {
     }
 
-    public function deleteList() {
+    /**
+     * deleteListNow 
+     * 
+     * Delete a list
+     * 
+     * @access public
+     * @return void
+     */
+    public function deleteListNow()
+    {
     }
 
-    public function deleteListNow() {
-    }
-
-    public function deleteListCancel() {
+    /**
+     * deleteListCancel 
+     * 
+     * Cancel list deletion and go back to listing lists
+     * 
+     * @access public
+     * @return void
+     */
+    public function deleteListCancel()
+    {
     }
 }
 ?>
-
