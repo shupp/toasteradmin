@@ -3,12 +3,16 @@
 /**
  * Framework_Module_Main_IPMaps 
  * 
- * @uses      ToasterAdmin_Auth_System
- * @package   ToasterAdmin
- * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
- * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
- * @link      http://trac.merchbox.com/trac/toasteradmin
+ * PHP Version 5.1.0+
+ * 
+ * @uses       ToasterAdmin_Auth_System
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org> 
+ * @copyright  2007-2008 Bill Shupp
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 
 /**
@@ -16,12 +20,14 @@
  * 
  * Modify IP Maps
  * 
- * @uses      ToasterAdmin_Auth_System
- * @package   ToasterAdmin
- * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
- * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
- * @link      http://trac.merchbox.com/trac/toasteradmin
+ * @uses       ToasterAdmin_Auth_System
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org> 
+ * @copyright  2007-2008 Bill Shupp
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 class Framework_Module_Main_IPMaps extends ToasterAdmin_Auth_System
 {
@@ -49,10 +55,10 @@ class Framework_Module_Main_IPMaps extends ToasterAdmin_Auth_System
     public function listMaps()
     {
         $rawList = $this->user->showIPMap();
-        $count = 0;
-        $maps  = array();
+        $count   = 0;
+        $maps    = array();
         foreach ($rawList as $ip => $domains) {
-            $maps[$count]['ip'] = $ip;
+            $maps[$count]['ip']      = $ip;
             $maps[$count]['domains'] = explode(", ", $domains);
             $count++;
         }
@@ -87,7 +93,8 @@ class Framework_Module_Main_IPMaps extends ToasterAdmin_Auth_System
      * @access public
      * @return void
      */
-    public function deleteNow() {
+    public function deleteNow()
+    {
         if (empty($_REQUEST['domain']) || empty($_REQUEST['ip'])) {
             throw new Framework_Exception(_("Error: missing domain or ip"));
         }
@@ -130,7 +137,8 @@ class Framework_Module_Main_IPMaps extends ToasterAdmin_Auth_System
             return;
         }
         try {
-            $this->user->addIPMap($form->getElementValue('ip'), $form->getElementValue('domain'));
+            $this->user->addIPMap($form->getElementValue('ip'),
+                $form->getElementValue('domain'));
         } catch (Net_Vpopmaild_Exception $e) {
             $this->setData('message', _('Error adding IP Map'));
             $this->_renderForm($form);
@@ -165,6 +173,16 @@ class Framework_Module_Main_IPMaps extends ToasterAdmin_Auth_System
         return $form;
     }
 
+    /**
+     * _renderForm 
+     * 
+     * Render form for display
+     * 
+     * @param object $form HTML_QuickForm object
+     * 
+     * @access private
+     * @return void
+     */
     private function _renderForm($form)
     {
         $this->setData('addForm', $form->toHtml());
