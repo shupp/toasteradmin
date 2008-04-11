@@ -3,12 +3,16 @@
 /**
  * Framework_Module_Main_Find 
  * 
- * @uses      ToasterAdmin_Auth_System
- * @package   ToasterAdmin
- * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
- * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
- * @link      http://trac.merchbox.com/trac/toasteradmin
+ * PHP Version 5.1.0+
+ * 
+ * @uses       ToasterAdmin_Auth_System
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org> 
+ * @copyright  2007-2008 Bill Shupp
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 
 /**
@@ -16,12 +20,14 @@
  * 
  * Find domains
  * 
- * @uses      ToasterAdmin_Auth_System
- * @package   ToasterAdmin
- * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
- * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
- * @link      http://trac.merchbox.com/trac/toasteradmin
+ * @uses       ToasterAdmin_Auth_System
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org> 
+ * @copyright  2007-2008 Bill Shupp
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 class Framework_Module_Main_Find extends ToasterAdmin_Auth_System
 {
@@ -48,7 +54,6 @@ class Framework_Module_Main_Find extends ToasterAdmin_Auth_System
      */
     public function find()
     {
-        $this->setData('LANG_Main_Menu', _('Main Menu'));
         $form = $this->_findForm();
         $this->_renderForm($form);
         return;
@@ -78,8 +83,10 @@ class Framework_Module_Main_Find extends ToasterAdmin_Auth_System
             $this->setData('message', _('Error: does not exist'));
         } else {
             $this->setData('found', 1);
-            $this->setData('delete_url', "./?module=Domains&amp;event=delDomain&amp;domain=$domain");
-            $this->setData('edit_url', "./?module=Domains&amp;class=Menu&amp;domain=$domain");
+            $this->setData('delete_url',
+                "./?module=Domains&amp;event=delDomain&amp;domain=$domain");
+            $this->setData('edit_url',
+                "./?module=Domains&amp;class=Menu&amp;domain=$domain");
         }
     }
     /**
@@ -92,12 +99,14 @@ class Framework_Module_Main_Find extends ToasterAdmin_Auth_System
      */
     private function _findForm()
     {
-        $form = new HTML_QuickForm('formFind', 'post', './?module=Main&class=Find&event=findNow');
+        $form = new HTML_QuickForm('formFind', 'post',
+            './?module=Main&class=Find&event=findNow');
 
         $form->addElement('text', 'domain', _('Domain'));
         $form->addElement('submit', 'submit', _('Find Domain'));
 
-        $form->addRule('domain', _('Please a domain name'), 'required', null, 'client');
+        $form->addRule('domain',
+            _('Please a domain name'), 'required', null, 'client');
         $form->applyFilter('__ALL__', 'trim');
 
         return $form;
@@ -106,7 +115,10 @@ class Framework_Module_Main_Find extends ToasterAdmin_Auth_System
     /**
      * _renderForm 
      * 
-     * @param mixed $form 
+     * Render the form for display
+     * 
+     * @param object $form HTML_QuickForm object
+     * 
      * @access private
      * @return void
      */

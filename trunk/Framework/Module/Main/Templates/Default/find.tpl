@@ -13,6 +13,6 @@
 <br />
 <br />
 {/if}
-<a href="./?module=Main">{$LANG_Main_Menu}</a>
+<a href="./?module=Main">{t}Main Menu{/t}</a>
 </div>
 <div class="boxbottom"></div>
