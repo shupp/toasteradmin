@@ -3,12 +3,16 @@
 /**
  * Framework_Module_Domains_Menu 
  * 
- * @uses      ToasterAdmin_Auth_Domain
- * @package   ToasterAdmin
- * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
- * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
- * @link      http://trac.merchbox.com/trac/toasteradmin
+ * PHP Version 5.1.0+
+ * 
+ * @uses       ToasterAdmin_Auth_Domain
+ * @category   Main
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org> 
+ * @copyright  2007-2008 Bill Shupp
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 
 /**
@@ -16,12 +20,14 @@
  * 
  * Show Domain Menu
  * 
- * @uses      ToasterAdmin_Auth_Domain
- * @package   ToasterAdmin
- * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
- * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
- * @link      http://trac.merchbox.com/trac/toasteradmin
+ * @uses       ToasterAdmin_Auth_Domain
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org> 
+ * @copyright  2007-2008 Bill Shupp
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 class Framework_Module_Domains_Menu extends ToasterAdmin_Auth_Domain
 {
@@ -50,18 +56,13 @@ class Framework_Module_Domains_Menu extends ToasterAdmin_Auth_Domain
             $this->setData('isSysAdmin', 1);
         }
         // Setup URLs
+        $aurl = './?module=Accounts&domain=' . $this->data['domain'];
+        $furl = './?module=Forwards&domain=' . $this->data['domain'];
+        $rurl = './?module=Responders&domain=' . $this->data['domain'];
+        $this->setData('list_accounts_url', htmlspecialchars($aurl));
+        $this->setData('list_forwards_url', htmlspecialchars($furl));
+        $this->setData('list_responders_url', htmlspecialchars($rurl));
         $this->setData('domain', $this->domain);
-        $this->setData('list_accounts_url', htmlspecialchars('./?module=Accounts&domain=' . $this->data['domain']));
-        $this->setData('list_forwards_url', htmlspecialchars('./?module=Forwards&domain=' . $this->data['domain']));
-        $this->setData('list_responders_url', htmlspecialchars('./?module=Responders&domain=' . $this->data['domain']));
-        // $this->setData('list_lists_url', htmlspecialchars('./?module=Lists&domain=' . $this->data['domain']));
-
-        // Language
-        $this->setData('LANG_Email_Accounts', _('Email Accounts'));
-        $this->setData('LANG_Forwards', _('Forwards'));
-        $this->setData('LANG_Auto_Responders', _('Auto-Responders'));
-        $this->setData('LANG_Mailing_Lists', _('Mailing Lists'));
-        $this->setData('LANG_Domain_List', _('Domain List'));
 
         $this->tplFile = 'domainMenu.tpl';
         return;
