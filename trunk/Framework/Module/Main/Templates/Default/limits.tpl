@@ -9,7 +9,7 @@
 <br />
 <br />
 <a href="./?module=Domains">{t}Domains {/t}</a> | 
-<a href="./?module=Main">{$LANG_Main_Menu}</a>
+<a href="./?module=Main">{t}Main Menu{/t}</a>
 </div>
 <div class="boxbottom"></div>
 

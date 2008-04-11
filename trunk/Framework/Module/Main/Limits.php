@@ -5,13 +5,14 @@
  * 
  * PHP Version 5.1.0+
  * 
- * @uses      ToasterAdmin_Auth_System
- * @category  Mail
- * @package   ToasterAdmin
- * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
- * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
- * @link      http://trac.merchbox.com/trac/toasteradmin
+ * @uses       ToasterAdmin_Auth_System
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org> 
+ * @copyright  2007-2008 Bill Shupp
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 
 /**
@@ -19,13 +20,14 @@
  * 
  * Modify IP Maps
  * 
- * @uses      ToasterAdmin_Auth_System
- * @category  Mail
- * @package   ToasterAdmin
- * @author    Bill Shupp <hostmaster@shupp.org> 
- * @copyright 2007 Bill Shupp
- * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
- * @link      http://trac.merchbox.com/trac/toasteradmin
+ * @uses       ToasterAdmin_Auth_System
+ * @category   Mail
+ * @package    ToasterAdmin
+ * @subpackage Module
+ * @author     Bill Shupp <hostmaster@shupp.org> 
+ * @copyright  2007-2008 Bill Shupp
+ * @license    GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link       http://trac.merchbox.com/trac/toasteradmin
  */
 class Framework_Module_Main_Limits extends ToasterAdmin_Auth_System
 {
@@ -112,32 +114,58 @@ class Framework_Module_Main_Limits extends ToasterAdmin_Auth_System
         if ($defaults['default_quota'] > 0) {
             $defaults['default_quota'] = ($defaults['default_quota'] / 1024) / 1024;
         }
-        $form = new HTML_QuickForm('limitsForm', 'post', './?module=Main&class=Limits&event=modifyLimitsNow&domain=' . $this->domain);
+        $url  = './?module=Main&class=Limits&event=modifyLimitsNow&domain=';
+        $url .= $this->domain;
+        $form = new HTML_QuickForm('limitsForm', 'post', $url);
         $form->setDefaults($defaults);
 
-        $form->addElement('text', 'max_aliases', _('Maximum Aliases (-1 for unlimited)'), array('size' => 4));
-        $form->addElement('text', 'max_forwards', _('Maximum Forwards (-1 for unlimited)'), array('size' => 4));
-        $form->addElement('text', 'max_autoresponders', _('Maximum Mail Robots (-1 for unlimited)'), array('size' => 4));
-        $form->addElement('text', 'max_mailinglists', _('Maximum EZMLM-IDX Mailing Lists (-1 for unlimited)'), array('size' => 4));
-        $form->addElement('text', 'default_quota', _('Default Quota in MB (0 for unlimited)'), array('size' => 4));
-        $form->addElement('text', 'default_maxmsgcount', _('Default Message Count Limit (0 for unlimited)'), array('size' => 4));
+        $form->addElement('text', 'max_aliases',
+            _('Maximum Aliases (-1 for unlimited)'), array('size' => 4));
+        $form->addElement('text', 'max_forwards',
+            _('Maximum Forwards (-1 for unlimited)'), array('size' => 4));
+        $form->addElement('text', 'max_autoresponders',
+            _('Maximum Mail Robots (-1 for unlimited)'), array('size' => 4));
+        $form->addElement('text', 'max_mailinglists',
+            _('Maximum EZMLM-IDX Mailing Lists (-1 for unlimited)'),
+            array('size' => 4));
+        $form->addElement('text', 'default_quota',
+            _('Default Quota in MB (0 for unlimited)'), array('size' => 4));
+        $form->addElement('text', 'default_maxmsgcount',
+            _('Default Message Count Limit (0 for unlimited)'),
+            array('size' => 4));
         $form->addElement('checkbox', 'disable_pop', _('Disable POP'));
         $form->addElement('checkbox', 'disable_imap', _('Disable IMAP'));
         $form->addElement('checkbox', 'disable_dialup', _('Disable Dial-Up'));
-        $form->addElement('checkbox', 'disable_password_changing', _('Disable Password Changing'));
-        $form->addElement('checkbox', 'disable_webmail', _('Disable Webmail (SqWebmail)'));
-        $form->addElement('checkbox', 'disable_external_relay', _('Disable Relaying'));
-        $form->addElement('checkbox', 'disable_smtp', _('Disable SMTP-AUTH'));
+        $form->addElement('checkbox', 'disable_password_changing',
+            _('Disable Password Changing'));
+        $form->addElement('checkbox', 'disable_webmail',
+            _('Disable Webmail (SqWebmail)'));
+        $form->addElement('checkbox', 'disable_external_relay',
+            _('Disable Relaying'));
+        $form->addElement('checkbox', 'disable_smtp',
+            _('Disable SMTP-AUTH'));
         $form->addElement('submit', 'submit', _('Modify'));
 
         $form->registerRule('minusOne', 'regex', '/^(-1|[0-9]+)$/');
         $form->registerRule('zero', 'regex', '/^(0|[1-9][0-9]+)$/');
-        $form->addRule('max_aliases', _('Error: only integers of -1 and greater allowed here'), 'minusOne', null, 'client');
-        $form->addRule('max_forwards', _('Error: only integers of -1 and greater allowed here'), 'minusOne', null, 'client');
-        $form->addRule('max_autoresponders', _('Error: only integers of -1 and greater allowed here'), 'minusOne', null, 'client');
-        $form->addRule('max_mailinglists', _('Error: only integers of -1 and greater allowed here'), 'minusOne', null, 'client');
-        $form->addRule('default_quota', _('Error: only integers of 0 and greater allowed here'), 'zero', null, 'client');
-        $form->addRule('default_maxmsgcount', _('Error: only integers of 0 and greater allowed here'), 'zero', null, 'client');
+        $form->addRule('max_aliases',
+            _('Error: only integers of -1 and greater allowed here'),
+            'minusOne', null, 'client');
+        $form->addRule('max_forwards',
+            _('Error: only integers of -1 and greater allowed here'),
+            'minusOne', null, 'client');
+        $form->addRule('max_autoresponders',
+            _('Error: only integers of -1 and greater allowed here'),
+            'minusOne', null, 'client');
+        $form->addRule('max_mailinglists',
+            _('Error: only integers of -1 and greater allowed here'),
+            'minusOne', null, 'client');
+        $form->addRule('default_quota',
+            _('Error: only integers of 0 and greater allowed here'),
+            'zero', null, 'client');
+        $form->addRule('default_maxmsgcount',
+            _('Error: only integers of 0 and greater allowed here'),
+            'zero', null, 'client');
         $form->applyFilter('__ALL__', 'trim');
 
         return $form;
