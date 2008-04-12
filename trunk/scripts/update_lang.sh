@@ -1,15 +1,26 @@
 #!/bin/sh
 
 LCDIR='../Framework/Site/Default/locale/en/LC_MESSAGES'
+PHPFILE="$LCDIR/PHPmessages.po"
+SMARTYFILE="$LCDIR/SMARTYmessages.po"
 MFILE="$LCDIR/messages.po"
 
 TEMPFILE="/tmp/gettext_files.$$"
 
-find ../ | egrep -v '(.svn|Templates/Default/templates_c|Templates/Default/cache)' | egrep '(.php$)' > $TEMPFILE
+find .. -name "*.php" | egrep -v '(.svn|Templates/Default/templates_c|Templates/Default/cache)' > $TEMPFILE.php
+find .. -name "*.tpl" | egrep -v '(.svn|Templates/Default/templates_c|Templates/Default/cache)' > $TEMPFILE.tpl
 
-#xgettext -L PHP --keyword=_ public/index.php Includes/*php Modules/*php tpl/* --output=$MFILE
-xgettext -L PHP --keyword=_ -f $TEMPFILE --output=$MFILE
+php tsmarty2c.php `cat $TEMPFILE.tpl` > $TEMPFILE.smarty
+
+xgettext -L PHP --keyword=_ -f $TEMPFILE.php --output=$PHPFILE
+xgettext -L C --output=$SMARTYFILE $TEMPFILE.smarty
+sed -i -e 's/CHARSET/UTF-8/' $MFILE $PHPFILE $SMARTYFILE
+sed -i -e 's!FULL NAME <EMAIL@ADDRESS>!Bill Shupp <hostmaster@shupp.org>!' $MFILE $PHPFILE $SMARTYFILE
+
+msgcat $PHPFILE $SMARTYFILE -o $MFILE
 sed -i -e 's/CHARSET/UTF-8/' $MFILE
 sed -i -e 's!FULL NAME <EMAIL@ADDRESS>!Bill Shupp <hostmaster@shupp.org>!' $MFILE
 (cd $LCDIR ; msgfmt messages.po)
-rm $TEMPFILE
+rm $TEMPFILE.php
+rm $TEMPFILE.tpl
+rm $TEMPFILE.smarty
