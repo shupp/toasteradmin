@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<framework>
+    <!-- set to 1 to send debug info to logFile -->
+    <debug>false</debug>
+    <vpopmaildHost>localhost</vpopmaildHost>
+    <vpopmaildPort>89</vpopmaildPort>
+    <!-- inactivity timeout - in seconds -->
+    <inactiveTimeout>600</inactiveTimeout>
+    <mcryptKey>My Secret Key</mcryptKey>
+    <maxPerPage>10</maxPerPage>
+    <vpopmailRobotProgram>/usr/bin/autorespond</vpopmailRobotProgram>
+    <vpopmailRobotTime>86400</vpopmailRobotTime>
+    <vpopmailRobotNumber>3</vpopmailRobotNumber>
+    <logFile>/tmp/framework.log</logFile>
+    <dbClass>None</dbClass>
+    <user>
+        <userClass>ToasterAdmin</userClass>
+        <userLocaleDir>Framework/Site/Default/locale</userLocaleDir>
+    </user>
+</framework>
