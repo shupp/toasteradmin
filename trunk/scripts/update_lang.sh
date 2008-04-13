@@ -21,6 +21,9 @@ msgcat $PHPFILE $SMARTYFILE -o $MFILE
 sed -i -e 's/CHARSET/UTF-8/' $MFILE
 sed -i -e 's!FULL NAME <EMAIL@ADDRESS>!Bill Shupp <hostmaster@shupp.org>!' $MFILE
 (cd $LCDIR ; msgfmt messages.po)
+# cleanup
+rm $PHPFILE
+rm $SMARTYFILE
 rm $TEMPFILE.php
 rm $TEMPFILE.tpl
 rm $TEMPFILE.smarty
