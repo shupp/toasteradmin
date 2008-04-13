@@ -42,6 +42,10 @@ class Framework_Request_ToasterAdmin extends Framework_Request_Web
         parent::__construct();
         $baseLocaleDir  = FRAMEWORK_BASE_PATH . '/';
         $baseLocaleDir .= (string)Framework::$site->config->user->userLocaleDir;
+        // Fix for missing _COUNTRY in negotiated locale string
+        if (strlen($this->locale) == 2) {
+            $this->locale = $this->locale . '_' . strtoupper($this->locale);
+        }
         I18Nv2::setLocale($this->locale);
         bindtextdomain("messages", $baseLocaleDir);
         textdomain("messages");

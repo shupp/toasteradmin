@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-12 16:52-0700\n"
+"POT-Creation-Date: 2008-04-13 10:40-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Metin KAYA <metin@enderunix.org>\n"
 "Language-Team: Toaster-TR <toaster-tr@shupp.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../Framework/Module/Accounts/Modify.php:61
-#: ../Framework/Module/Accounts/Modify.php:160
+#: ../Framework/Module/Accounts/Modify.php:158
 #: ../Framework/Module/Accounts.php:202 ../Framework/Module/Accounts.php:225
 msgid "Error: no account supplied"
 msgstr "Hata: hiç hesap tanımlandı"
@@ -26,75 +26,75 @@ msgstr "Hata: hiç hesap tanımlandı"
 msgid "Account Modified Successfully"
 msgstr "Hesap Başarıyla Değiştirildi"
 
-#: ../Framework/Module/Accounts/Modify.php:117
+#: ../Framework/Module/Accounts/Modify.php:115
 #: ../Framework/Module/Accounts.php:172
 msgid "Real Name/Comment"
 msgstr "İsim/Açıklama"
 
-#: ../Framework/Module/Accounts/Modify.php:118
+#: ../Framework/Module/Accounts/Modify.php:116
 #: ../Framework/Module/Accounts.php:173 ../Framework/Module/Domains.php:145
-#: ../Framework/Module/Login.php:100
+#: ../Framework/Module/Login.php:111
 msgid "Password"
 msgstr "Parola"
 
-#: ../Framework/Module/Accounts/Modify.php:119
+#: ../Framework/Module/Accounts/Modify.php:117
 msgid "Re-Type Password"
 msgstr "Parolayı Tekrar Giriniz"
 
-#: ../Framework/Module/Accounts/Modify.php:121
+#: ../Framework/Module/Accounts/Modify.php:119
 msgid "Standard (No Forwarding)"
 msgstr "Standart (Yönlendirme Devredışı)"
 
-#: ../Framework/Module/Accounts/Modify.php:123
+#: ../Framework/Module/Accounts/Modify.php:121
 msgid "All Mail Deleted"
 msgstr "Bütün E-postalar Silindi"
 
-#: ../Framework/Module/Accounts/Modify.php:125
+#: ../Framework/Module/Accounts/Modify.php:123
 msgid "Forward to:"
 msgstr "Yönlendirme Adresi:"
 
-#: ../Framework/Module/Accounts/Modify.php:127
+#: ../Framework/Module/Accounts/Modify.php:125
 msgid "Save A Copy"
 msgstr "Kopyasını Kaydet"
 
-#: ../Framework/Module/Accounts/Modify.php:130
+#: ../Framework/Module/Accounts/Modify.php:128
 msgid "Send a Vacation Auto-Response"
 msgstr "Otomatik Tatil Mesajı Gönder"
 
-#: ../Framework/Module/Accounts/Modify.php:132
+#: ../Framework/Module/Accounts/Modify.php:130
 msgid "Vacation Subject:"
 msgstr "Tatil Mesajı Konusu:"
 
-#: ../Framework/Module/Accounts/Modify.php:134
+#: ../Framework/Module/Accounts/Modify.php:132
 msgid "Vacation Message:"
 msgstr "Tatil Mesajı Metni:"
 
-#: ../Framework/Module/Accounts/Modify.php:135
-#: /tmp/gettext_files.643.smarty:53
+#: ../Framework/Module/Accounts/Modify.php:133
+#: /tmp/gettext_files.89342.smarty:53
 msgid "Modify Account"
 msgstr "Hesabı Düzenle"
 
-#: ../Framework/Module/Accounts/Modify.php:138
+#: ../Framework/Module/Accounts/Modify.php:136
 msgid "The passwords do not match"
 msgstr "Parolalar Aynı Değil"
 
-#: ../Framework/Module/Accounts/Modify.php:140
+#: ../Framework/Module/Accounts/Modify.php:138
 msgid "Please select a mail routing type"
 msgstr "Lütfen bir e-posta yönlendirme tipi seçiniz"
 
-#: ../Framework/Module/Accounts/Modify.php:142
+#: ../Framework/Module/Accounts/Modify.php:140
 msgid "\"Forward to\" must be a valid email address"
 msgstr "\"Yönlendirme Adresi\" geçerli bir e-posta adresi olmalıdır"
 
-#: ../Framework/Module/Accounts/Modify.php:181
+#: ../Framework/Module/Accounts/Modify.php:179
 msgid "Error Modifying Account"
 msgstr "Hesap Düzenleme Hatası"
 
-#: ../Framework/Module/Accounts/Modify.php:220
+#: ../Framework/Module/Accounts/Modify.php:218
 msgid "Error: you must supply a forward address"
 msgstr "Hata: bir yönlendirme adresi yazmalısınız"
 
-#: ../Framework/Module/Accounts/Modify.php:228
+#: ../Framework/Module/Accounts/Modify.php:226
 msgid "Error: unsupported routing selection"
 msgstr "Hata: desteklenmeyen yönlendirme seçimi"
 
@@ -107,11 +107,11 @@ msgstr "Hata: "
 msgid "Account Added Successfully"
 msgstr "Hesap Başarıyla Eklendi"
 
-#: ../Framework/Module/Accounts.php:171 /tmp/gettext_files.643.smarty:29
+#: ../Framework/Module/Accounts.php:171 /tmp/gettext_files.89342.smarty:29
 msgid "Account"
 msgstr "Hesap"
 
-#: ../Framework/Module/Accounts.php:174 /tmp/gettext_files.643.smarty:26
+#: ../Framework/Module/Accounts.php:174 /tmp/gettext_files.89342.smarty:26
 msgid "Add Account"
 msgstr "Hesap Ekle"
 
@@ -154,12 +154,12 @@ msgid "Domain added successfully"
 msgstr "Alan başarıyla eklendi"
 
 #: ../Framework/Module/Domains.php:144 ../Framework/Module/Main/Find.php:105
-#: ../Framework/Module/Main/IPMaps.php:164 /tmp/gettext_files.643.smarty:233
+#: ../Framework/Module/Main/IPMaps.php:164 /tmp/gettext_files.89342.smarty:233
 msgid "Domain"
 msgstr "Alan"
 
-#: ../Framework/Module/Domains.php:146 /tmp/gettext_files.643.smarty:89
-#: /tmp/gettext_files.643.smarty:248
+#: ../Framework/Module/Domains.php:146 /tmp/gettext_files.89342.smarty:89
+#: /tmp/gettext_files.89342.smarty:248
 msgid "Add Domain"
 msgstr "Alan Ekle"
 
@@ -205,7 +205,9 @@ msgstr "Yönlendirme gerekli"
 #: ../Framework/Module/Forwards.php:155
 msgid ""
 "Forward name is invalid (should be forward name only, not full email address"
-msgstr "Yönlendirme ismi yanlış (sadece yönlendirme ismi olmalı, tam e-posta adresi değil)"
+msgstr ""
+"Yönlendirme ismi yanlış (sadece yönlendirme ismi olmalı, tam e-posta adresi "
+"değil)"
 
 #: ../Framework/Module/Forwards.php:157 ../Framework/Module/Forwards.php:392
 msgid "Destination is required"
@@ -252,37 +254,38 @@ msgstr "Hedef Başarıyla Silindi"
 msgid "Forward Deleted Successfully"
 msgstr "Yönlendirme Başarıyla Silindi"
 
-#: ../Framework/Module/Login.php:63
+#: ../Framework/Module/Login.php:74
 msgid "Login failed"
 msgstr "Giriş başarısız"
 
-#: ../Framework/Module/Login.php:98 ../Framework/Module/Login.php:101
+#: ../Framework/Module/Login.php:109 ../Framework/Module/Login.php:112
 msgid "Login"
 msgstr "Giriş"
 
-#: ../Framework/Module/Login.php:99
+#: ../Framework/Module/Login.php:110
 msgid "Email"
 msgstr "E-posta"
 
-#: ../Framework/Module/Login.php:103
+#: ../Framework/Module/Login.php:114
 msgid "Please enter your email address"
 msgstr "Lütfen e-posta adresinizi yazınız"
 
-#: ../Framework/Module/Login.php:105
+#: ../Framework/Module/Login.php:116
 msgid "Please enter a valid email address"
 msgstr "Lütfen geçerli bir e-posta adresi yazınız"
 
-#: ../Framework/Module/Login.php:107
+#: ../Framework/Module/Login.php:118
 msgid "Please enter your password"
 msgstr "Lütfen parolanızı giriniz"
 
-#: ../Framework/Module/Login.php:125
+#: ../Framework/Module/Login.php:136
 msgid "Logged out successfully"
 msgstr "Sistemden başarıyla çıkıldı"
 
-#: ../Framework/Module/Login.php:141
+#: ../Framework/Module/Login.php:152
 msgid "You have been logged out automatically for inactivity"
-msgstr "Hiçbir eylemde bulunmadığınızdan otomatik olarak sistemden çıkarıldınız"
+msgstr ""
+"Hiçbir eylemde bulunmadığınızdan otomatik olarak sistemden çıkarıldınız"
 
 #: ../Framework/Module/Main/AliasDomain.php:89
 msgid "Error:"
@@ -305,13 +308,13 @@ msgid "Please specify an Alias Domain"
 msgstr "Lütfen bir Takma (Alias) Alan adı belirtiniz"
 
 #: ../Framework/Module/Main/Find.php:71
-#: ../Framework/Module/Main/Limits.php:226 /tmp/gettext_files.643.smarty:62
-#: /tmp/gettext_files.643.smarty:107 /tmp/gettext_files.643.smarty:170
-#: /tmp/gettext_files.643.smarty:176 /tmp/gettext_files.643.smarty:182
-#: /tmp/gettext_files.643.smarty:194 /tmp/gettext_files.643.smarty:203
-#: /tmp/gettext_files.643.smarty:212 /tmp/gettext_files.643.smarty:215
-#: /tmp/gettext_files.643.smarty:221 /tmp/gettext_files.643.smarty:239
-#: /tmp/gettext_files.643.smarty:242
+#: ../Framework/Module/Main/Limits.php:226 /tmp/gettext_files.89342.smarty:62
+#: /tmp/gettext_files.89342.smarty:107 /tmp/gettext_files.89342.smarty:170
+#: /tmp/gettext_files.89342.smarty:176 /tmp/gettext_files.89342.smarty:182
+#: /tmp/gettext_files.89342.smarty:194 /tmp/gettext_files.89342.smarty:203
+#: /tmp/gettext_files.89342.smarty:212 /tmp/gettext_files.89342.smarty:215
+#: /tmp/gettext_files.89342.smarty:221 /tmp/gettext_files.89342.smarty:239
+#: /tmp/gettext_files.89342.smarty:242
 msgid "Main Menu"
 msgstr "Ana Menü"
 
@@ -319,7 +322,7 @@ msgstr "Ana Menü"
 msgid "Error: does not exist"
 msgstr "Hata: bulunamadı"
 
-#: ../Framework/Module/Main/Find.php:106 /tmp/gettext_files.643.smarty:254
+#: ../Framework/Module/Main/Find.php:106 /tmp/gettext_files.89342.smarty:254
 msgid "Find Domain"
 msgstr "Alan Bul"
 
@@ -494,216 +497,228 @@ msgstr "Hata: hiçbir Otomatik Cevaplayıcı bulunamadı"
 msgid "Auto-Responder modified successfully"
 msgstr "Otomatik Cevaplayıcı başarıyla düzenlendi"
 
-#: ../ToasterAdmin/Common.php:98
+#: ../ToasterAdmin/Common.php:108
 msgid "Error: you do not have edit privileges on domain "
 msgstr "Hata: bu alanı düzenleme hakkına sahip değilsiniz: "
 
-#: ../ToasterAdmin/Common.php:115
+#: ../ToasterAdmin/Common.php:125
 msgid "Error no domain supplied"
 msgstr "Alan bulunamama hatası"
 
-#: /tmp/gettext_files.643.smarty:2
+#: /tmp/gettext_files.89342.smarty:2
 msgid "Are you sure you want to delete account"
 msgstr "Bu hesabı silmek istediğinizden emin misiniz?"
 
-#: /tmp/gettext_files.643.smarty:5 /tmp/gettext_files.643.smarty:68
-#: /tmp/gettext_files.643.smarty:296
+#: /tmp/gettext_files.89342.smarty:5 /tmp/gettext_files.89342.smarty:68
+#: /tmp/gettext_files.89342.smarty:296
 msgid "cancel"
 msgstr "iptal"
 
-#: /tmp/gettext_files.643.smarty:8 /tmp/gettext_files.643.smarty:47
-#: /tmp/gettext_files.643.smarty:71 /tmp/gettext_files.643.smarty:104
-#: /tmp/gettext_files.643.smarty:143 /tmp/gettext_files.643.smarty:158
-#: /tmp/gettext_files.643.smarty:287 /tmp/gettext_files.643.smarty:299
+#: /tmp/gettext_files.89342.smarty:8 /tmp/gettext_files.89342.smarty:47
+#: /tmp/gettext_files.89342.smarty:71 /tmp/gettext_files.89342.smarty:104
+#: /tmp/gettext_files.89342.smarty:143 /tmp/gettext_files.89342.smarty:158
+#: /tmp/gettext_files.89342.smarty:287 /tmp/gettext_files.89342.smarty:299
 msgid "delete"
 msgstr "sil"
 
-#: /tmp/gettext_files.643.smarty:11
+#: /tmp/gettext_files.89342.smarty:11
 msgid "Add Account to domain"
 msgstr "Alana Hesap Ekle"
 
-#: /tmp/gettext_files.643.smarty:14 /tmp/gettext_files.643.smarty:50
-#: /tmp/gettext_files.643.smarty:56 /tmp/gettext_files.643.smarty:113
-#: /tmp/gettext_files.643.smarty:146 /tmp/gettext_files.643.smarty:290
-#: /tmp/gettext_files.643.smarty:302
+#: /tmp/gettext_files.89342.smarty:14 /tmp/gettext_files.89342.smarty:50
+#: /tmp/gettext_files.89342.smarty:56 /tmp/gettext_files.89342.smarty:113
+#: /tmp/gettext_files.89342.smarty:146 /tmp/gettext_files.89342.smarty:290
+#: /tmp/gettext_files.89342.smarty:302
 msgid "Domain Menu"
 msgstr "Alan Menüsü"
 
-#: /tmp/gettext_files.643.smarty:17
+#: /tmp/gettext_files.89342.smarty:17
 msgid "Email Accounts in domain"
 msgstr "Alandaki E-posta Hesapları"
 
-#: /tmp/gettext_files.643.smarty:20
+#: /tmp/gettext_files.89342.smarty:20
 msgid "Accounts Page"
 msgstr "Hesap Sayfası"
 
-#: /tmp/gettext_files.643.smarty:23 /tmp/gettext_files.643.smarty:95
-#: /tmp/gettext_files.643.smarty:122 /tmp/gettext_files.643.smarty:269
+#: /tmp/gettext_files.89342.smarty:23 /tmp/gettext_files.89342.smarty:95
+#: /tmp/gettext_files.89342.smarty:122 /tmp/gettext_files.89342.smarty:269
 msgid "of"
 msgstr "'nin"
 
-#: /tmp/gettext_files.643.smarty:32
+#: /tmp/gettext_files.89342.smarty:32
 msgid "Comment"
 msgstr "Açıklama"
 
-#: /tmp/gettext_files.643.smarty:35
+#: /tmp/gettext_files.89342.smarty:35
 msgid "Quota"
 msgstr "Kota"
 
-#: /tmp/gettext_files.643.smarty:38 /tmp/gettext_files.643.smarty:134
-#: /tmp/gettext_files.643.smarty:278
+#: /tmp/gettext_files.89342.smarty:38 /tmp/gettext_files.89342.smarty:134
+#: /tmp/gettext_files.89342.smarty:278
 msgid "Edit"
 msgstr "Düzenle"
 
-#: /tmp/gettext_files.643.smarty:41 /tmp/gettext_files.643.smarty:137
-#: /tmp/gettext_files.643.smarty:155 /tmp/gettext_files.643.smarty:236
-#: /tmp/gettext_files.643.smarty:281
+#: /tmp/gettext_files.89342.smarty:41 /tmp/gettext_files.89342.smarty:137
+#: /tmp/gettext_files.89342.smarty:155 /tmp/gettext_files.89342.smarty:236
+#: /tmp/gettext_files.89342.smarty:281
 msgid "Delete"
 msgstr "Sil"
 
-#: /tmp/gettext_files.643.smarty:44 /tmp/gettext_files.643.smarty:140
-#: /tmp/gettext_files.643.smarty:284
+#: /tmp/gettext_files.89342.smarty:44 /tmp/gettext_files.89342.smarty:140
+#: /tmp/gettext_files.89342.smarty:284
 msgid "edit"
 msgstr "düzenle"
 
-#: /tmp/gettext_files.643.smarty:59 /tmp/gettext_files.643.smarty:245
+#: /tmp/gettext_files.89342.smarty:59 /tmp/gettext_files.89342.smarty:245
 msgid "List Domains"
 msgstr "Alanları Listele"
 
-#: /tmp/gettext_files.643.smarty:65
+#: /tmp/gettext_files.89342.smarty:65
 msgid "Are you sure you want to delete this domain?"
 msgstr "Bu alanı silmek istediğinizden emin misiniz?"
 
-#: /tmp/gettext_files.643.smarty:74
+#: /tmp/gettext_files.89342.smarty:74
 msgid "Email Accounts"
 msgstr "E-posta Hesapları"
 
-#: /tmp/gettext_files.643.smarty:77
+#: /tmp/gettext_files.89342.smarty:77
 msgid "Forwards"
 msgstr "Yönlendirmeler"
 
-#: /tmp/gettext_files.643.smarty:80
+#: /tmp/gettext_files.89342.smarty:80
 msgid "Auto Responders"
 msgstr "Otomatik Cevaplayıcılar"
 
-#: /tmp/gettext_files.643.smarty:83
+#: /tmp/gettext_files.89342.smarty:83
 msgid "Mailing Lists"
 msgstr "E-posta Listeleri"
 
-#: /tmp/gettext_files.643.smarty:86
+#: /tmp/gettext_files.89342.smarty:86
 msgid "Domain List"
 msgstr "Alan Listesi"
 
-#: /tmp/gettext_files.643.smarty:92
+#: /tmp/gettext_files.89342.smarty:92
 msgid "Domains: Page"
 msgstr "Alanlar: Sayfa"
 
-#: /tmp/gettext_files.643.smarty:98
+#: /tmp/gettext_files.89342.smarty:98
 msgid "menu"
 msgstr "menü"
 
-#: /tmp/gettext_files.643.smarty:101
+#: /tmp/gettext_files.89342.smarty:101
 msgid "limits"
 msgstr "limitler"
 
-#: /tmp/gettext_files.643.smarty:110 /tmp/gettext_files.643.smarty:125
+#: /tmp/gettext_files.89342.smarty:110 /tmp/gettext_files.89342.smarty:125
 msgid "Add Forward"
 msgstr "Yönlendirme Ekle"
 
-#: /tmp/gettext_files.643.smarty:116
+#: /tmp/gettext_files.89342.smarty:116
 msgid "Forwards for domain"
 msgstr "Alan için Yönlendirme"
 
-#: /tmp/gettext_files.643.smarty:119
+#: /tmp/gettext_files.89342.smarty:119
 msgid "Forwards Page:"
 msgstr "Yönlendirme Sayfası:"
 
-#: /tmp/gettext_files.643.smarty:128
+#: /tmp/gettext_files.89342.smarty:128
 msgid "Forward"
 msgstr "Yönlendir"
 
-#: /tmp/gettext_files.643.smarty:131
+#: /tmp/gettext_files.89342.smarty:131
 msgid "Recipient"
 msgstr "Alıcı"
 
-#: /tmp/gettext_files.643.smarty:149
+#: /tmp/gettext_files.89342.smarty:149
 msgid "Modify Forward"
 msgstr "Yönlendirmeyi  Düzenle"
 
-#: /tmp/gettext_files.643.smarty:152
+#: /tmp/gettext_files.89342.smarty:152
 msgid "Destination"
 msgstr "Hedef"
 
-#: /tmp/gettext_files.643.smarty:161
+#: /tmp/gettext_files.89342.smarty:161
 msgid "Add Destination"
 msgstr "Hedef Ekle"
 
-#: /tmp/gettext_files.643.smarty:164
+#: /tmp/gettext_files.89342.smarty:164
 msgid "Forwards Menu"
 msgstr "Yönlendirme Menüsü"
 
-#: /tmp/gettext_files.643.smarty:167 /tmp/gettext_files.643.smarty:251
+#: /tmp/gettext_files.89342.smarty:167 /tmp/gettext_files.89342.smarty:251
 msgid "Add Alias Domain"
 msgstr "Takma (alias) Alan Ekle"
 
-#: /tmp/gettext_files.643.smarty:173
+#: /tmp/gettext_files.89342.smarty:173
 msgid "Alias domain added successfully"
 msgstr "Takma (alias) alan başarıyla eklendi"
 
-#: /tmp/gettext_files.643.smarty:179 /tmp/gettext_files.643.smarty:185
-#: /tmp/gettext_files.643.smarty:227
+#: /tmp/gettext_files.89342.smarty:179 /tmp/gettext_files.89342.smarty:185
+#: /tmp/gettext_files.89342.smarty:227
 msgid "Add IP Map"
 msgstr "IP Haritası Ekle"
 
-#: /tmp/gettext_files.643.smarty:188
+#: /tmp/gettext_files.89342.smarty:188
 msgid "Added IP Map Successfully"
 msgstr "IP Haritası Başarıyla Eklendi"
 
-#: /tmp/gettext_files.643.smarty:191 /tmp/gettext_files.643.smarty:224
-#: /tmp/gettext_files.643.smarty:260
+#: /tmp/gettext_files.89342.smarty:191 /tmp/gettext_files.89342.smarty:224
+#: /tmp/gettext_files.89342.smarty:260
 msgid "IP Maps"
 msgstr "IP Haritaları"
 
-#: /tmp/gettext_files.643.smarty:197 /tmp/gettext_files.643.smarty:206
+#: /tmp/gettext_files.89342.smarty:197 /tmp/gettext_files.89342.smarty:206
 msgid "Delete IP Maps"
 msgstr "IP Haritası Sil"
 
-#: /tmp/gettext_files.643.smarty:200
+#: /tmp/gettext_files.89342.smarty:200
 msgid "Are you sure you want to delete this IP Map?"
 msgstr "Bu IP haritasını silmek istediğinizden emin misiniz?"
 
-#: /tmp/gettext_files.643.smarty:209
+#: /tmp/gettext_files.89342.smarty:209
 msgid "Deleted IP Map Successfully"
 msgstr "IP Haritası Başarıyla Silindi"
 
-#: /tmp/gettext_files.643.smarty:218
+#: /tmp/gettext_files.89342.smarty:218
 msgid "Domains "
 msgstr "Alanlar "
 
-#: /tmp/gettext_files.643.smarty:230
+#: /tmp/gettext_files.89342.smarty:230
 msgid "IP"
 msgstr "IP"
 
-#: /tmp/gettext_files.643.smarty:257
+#: /tmp/gettext_files.89342.smarty:257
 msgid "Delete Domain"
 msgstr "Alan Sil"
 
-#: /tmp/gettext_files.643.smarty:263
+#: /tmp/gettext_files.89342.smarty:263
 msgid "AutoResponders in domain"
 msgstr "Alandaki Otomatik Cevaplayıcılar"
 
-#: /tmp/gettext_files.643.smarty:266
+#: /tmp/gettext_files.89342.smarty:266
 msgid "AutoResponders Page"
 msgstr "Otomatik Cevaplayıcı Sayfası"
 
-#: /tmp/gettext_files.643.smarty:272
+#: /tmp/gettext_files.89342.smarty:272
 msgid "Add AutoResponder"
 msgstr "Otomatik Cevaplayıcı Ekle"
 
-#: /tmp/gettext_files.643.smarty:275
+#: /tmp/gettext_files.89342.smarty:275
 msgid "AutoResponder"
 msgstr "Otomatik Cevaplayıcı"
 
-#: /tmp/gettext_files.643.smarty:293
+#: /tmp/gettext_files.89342.smarty:293
 msgid "Are you sure you want to delete this responder"
 msgstr "Bu otomatik cevaplayıcıyı silmek istediğinizden emin misiniz?"
+
+#: /tmp/gettext_files.89342.smarty:305
+msgid "ToasterAdmin"
+msgstr ""
+
+#: /tmp/gettext_files.89342.smarty:308
+msgid "logged in as"
+msgstr ""
+
+#: /tmp/gettext_files.89342.smarty:311
+msgid "logout"
+msgstr ""
