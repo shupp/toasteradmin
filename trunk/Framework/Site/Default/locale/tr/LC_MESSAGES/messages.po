@@ -717,8 +717,8 @@ msgstr ""
 
 #: /tmp/gettext_files.89342.smarty:308
 msgid "logged in as"
-msgstr ""
+msgstr "sisteme giren kullanıcı"
 
 #: /tmp/gettext_files.89342.smarty:311
 msgid "logout"
-msgstr ""
+msgstr "çıkış"
