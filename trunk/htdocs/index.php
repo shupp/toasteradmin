@@ -20,10 +20,9 @@ if(!isset($_GET['module'])) {
 
 define('FRAMEWORK_BASE_PATH',dirname(__FILE__) . '/..');
 $ta_include_path = FRAMEWORK_BASE_PATH;
-// If you are running a local PEAR install, uncomment the next line
-// and edit it accordingly
 
-// $ta_include_path .= PATH_SEPARATOR . '/Users/shupp/pear/lib';
+// Local copy of PEAR
+$ta_include_path .= PATH_SEPARATOR . FRAMEWORK_BASE_PATH . '/PEAR';
 
 ini_set('include_path', $ta_include_path . PATH_SEPARATOR . ini_get('include_path'));
 
