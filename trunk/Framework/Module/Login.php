@@ -29,6 +29,17 @@
  */
 class Framework_Module_Login extends Framework_Auth_No
 {
+
+    /**
+     * controllers 
+     * 
+     * We're using a custom controller here to add gettext support
+     * 
+     * @var string
+     * @access public
+     */
+    public $controllers = array('ToasterAdmin');
+
     /**
      * __default
      *

@@ -101,8 +101,6 @@ class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
      */
     protected function modifyAccountForm($account, $defaults)
     {
-
-        // Language stuff
         if ($this->user->isDomainAdmin($this->domain)) {
             $this->setData('isDomainAdmin', 1);
         }

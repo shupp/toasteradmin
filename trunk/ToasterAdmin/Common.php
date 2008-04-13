@@ -43,6 +43,16 @@ abstract class ToasterAdmin_Common extends Framework_Auth_User
     public $domain = null;
 
     /**
+     * controllers 
+     * 
+     * We're using a custom controller here to add gettext support
+     * 
+     * @var string
+     * @access public
+     */
+    public $controllers = array('ToasterAdmin');
+
+    /**
      * __construct 
      * 
      * @access public

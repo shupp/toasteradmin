@@ -30,7 +30,7 @@ ini_set('include_path', $ta_include_path . PATH_SEPARATOR . ini_get('include_pat
 try {
     require_once 'Framework.php';
 
-    $controller = 'Web';
+    $controller = 'ToasterAdmin';
     if (isset($_GET['Controller'])) {
         $controller = $_GET['Controller'];
     }
