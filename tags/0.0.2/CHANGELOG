@@ -1,0 +1,6 @@
+0.0.2 -  4/13/2008
+    * Added turkish translation (thanks Metin KAYA)
+    * Fix for missing country in locale
+    * Added some missing gettext wrappers
+0.0.1 -  4/12/2008
+    * Initial release
