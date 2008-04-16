@@ -1,0 +1,768 @@
+# Portuguese Brazilian translation of ToasterAdmin 0.0.2.
+# Copyright (C) 2008 THE ToasterAdmin COPYRIGHT HOLDER
+# This file is distributed under the same license as the ToasterAdmin package.
+# Carlos Alberto Cesario <carloscesario@gmail.com>, 2008.
+#
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ToasterAdmin 0.0.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-04-13 10:40-0700\n"
+"PO-Revision-Date: 2008-04-15 07:44-0300\n"
+"Last-Translator: Carlos Alberto Cesario <carloscesario@gmail.com>\n"
+"Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Portuguese\n"
+"X-Poedit-Country: BRAZIL\n"
+
+#: ../Framework/Module/Accounts/Modify.php:61
+#: ../Framework/Module/Accounts/Modify.php:158
+#: ../Framework/Module/Accounts.php:202
+#: ../Framework/Module/Accounts.php:225
+msgid "Error: no account supplied"
+msgstr "Erro: nenhuma conta fornecida"
+
+#: ../Framework/Module/Accounts/Modify.php:84
+msgid "Account Modified Successfully"
+msgstr "Conta Modificada com Sucesso"
+
+#: ../Framework/Module/Accounts/Modify.php:115
+#: ../Framework/Module/Accounts.php:172
+msgid "Real Name/Comment"
+msgstr "Nome Real/Comentário"
+
+#: ../Framework/Module/Accounts/Modify.php:116
+#: ../Framework/Module/Accounts.php:173
+#: ../Framework/Module/Domains.php:145
+#: ../Framework/Module/Login.php:111
+msgid "Password"
+msgstr "Senha"
+
+#: ../Framework/Module/Accounts/Modify.php:117
+msgid "Re-Type Password"
+msgstr "Digite novamente a Senha"
+
+#: ../Framework/Module/Accounts/Modify.php:119
+msgid "Standard (No Forwarding)"
+msgstr "Padrão (Sem Redirecionamento)"
+
+#: ../Framework/Module/Accounts/Modify.php:121
+msgid "All Mail Deleted"
+msgstr "Todos os Emails Apagados"
+
+#: ../Framework/Module/Accounts/Modify.php:123
+msgid "Forward to:"
+msgstr "Redirecionar para:"
+
+#: ../Framework/Module/Accounts/Modify.php:125
+msgid "Save A Copy"
+msgstr "Salvar uma Cópia"
+
+#: ../Framework/Module/Accounts/Modify.php:128
+msgid "Send a Vacation Auto-Response"
+msgstr "Enviar uma Resposta Automática de Férias"
+
+#: ../Framework/Module/Accounts/Modify.php:130
+msgid "Vacation Subject:"
+msgstr "Assunto de Férias:"
+
+#: ../Framework/Module/Accounts/Modify.php:132
+msgid "Vacation Message:"
+msgstr "Mensagem de Férias:"
+
+#: ../Framework/Module/Accounts/Modify.php:133
+#: /tmp/gettext_files.89342.smarty:53
+msgid "Modify Account"
+msgstr "Modificar Conta"
+
+#: ../Framework/Module/Accounts/Modify.php:136
+msgid "The passwords do not match"
+msgstr "As senhas não são iguais"
+
+#: ../Framework/Module/Accounts/Modify.php:138
+msgid "Please select a mail routing type"
+msgstr "Por favor selecione um tipo de roteamento para o email"
+
+#: ../Framework/Module/Accounts/Modify.php:140
+msgid "\"Forward to\" must be a valid email address"
+msgstr "\"Redirecionar para\" deve ser um endereço de email válido"
+
+#: ../Framework/Module/Accounts/Modify.php:179
+msgid "Error Modifying Account"
+msgstr "Erro ao Modificar a Conta"
+
+#: ../Framework/Module/Accounts/Modify.php:218
+msgid "Error: you must supply a forward address"
+msgstr "Erro: você deve fornecer um endereço de redirecionamento"
+
+#: ../Framework/Module/Accounts/Modify.php:226
+msgid "Error: unsupported routing selection"
+msgstr "Erro: seleção de roteamento não suportado"
+
+#: ../Framework/Module/Accounts.php:139
+#: ../Framework/Module/Domains.php:123
+#: ../Framework/Module/Domains.php:199
+msgid "Error: "
+msgstr "Erro: "
+
+#: ../Framework/Module/Accounts.php:152
+msgid "Account Added Successfully"
+msgstr "Conta Adicionada com Sucesso"
+
+#: ../Framework/Module/Accounts.php:171
+#: /tmp/gettext_files.89342.smarty:29
+msgid "Account"
+msgstr "Conta"
+
+#: ../Framework/Module/Accounts.php:174
+#: /tmp/gettext_files.89342.smarty:26
+msgid "Add Account"
+msgstr "Adicionar Conta"
+
+#: ../Framework/Module/Accounts.php:179
+msgid "Account is required"
+msgstr "Conta é requerida"
+
+#: ../Framework/Module/Accounts.php:181
+msgid "Comment is required"
+msgstr "Comentário é requerido"
+
+#: ../Framework/Module/Accounts.php:183
+msgid "Account must be the full email address"
+msgstr "A conta deve ser o endereço de email completo"
+
+#: ../Framework/Module/Accounts.php:185
+msgid "Error: wrong domain in email address"
+msgstr "Erro: domínio errado no endereço de email"
+
+#: ../Framework/Module/Accounts.php:187
+msgid "Password is required"
+msgstr "Senha é requerida"
+
+#: ../Framework/Module/Accounts.php:228
+#: ../Framework/Module/Domains/Menu.php:46
+#: ../Framework/Module/Domains.php:169
+#: ../Framework/Module/Domains.php:192
+msgid "Error: no domain supplied"
+msgstr "Erro: nenhum domínio informado"
+
+#: ../Framework/Module/Accounts.php:233
+msgid "Account Deleted Successfully"
+msgstr "Conta Apagada com Sucesso"
+
+#: ../Framework/Module/Accounts.php:248
+#: ../Framework/Module/Responders.php:274
+msgid "Delete Canceled"
+msgstr "Exclusão Cancelada"
+
+#: ../Framework/Module/Domains/Menu.php:51
+msgid "Domain added successfully"
+msgstr "Domínio Adicionado com Sucesso"
+
+#: ../Framework/Module/Domains.php:144
+#: ../Framework/Module/Main/Find.php:105
+#: ../Framework/Module/Main/IPMaps.php:164
+#: /tmp/gettext_files.89342.smarty:233
+msgid "Domain"
+msgstr "Domínio"
+
+#: ../Framework/Module/Domains.php:146
+#: /tmp/gettext_files.89342.smarty:89
+#: /tmp/gettext_files.89342.smarty:248
+msgid "Add Domain"
+msgstr "Adicionar Domínio"
+
+#: ../Framework/Module/Domains.php:148
+#: ../Framework/Module/Main/Find.php:109
+msgid "Please a domain name"
+msgstr "Por favor um nome de domínio"
+
+#: ../Framework/Module/Domains.php:150
+msgid "Please enter a postmaster password"
+msgstr "Por favor entre com a senha do postmaster"
+
+#: ../Framework/Module/Domains.php:202
+msgid "Domain deleted successfully"
+msgstr "Domínio apagado com sucesso"
+
+#: ../Framework/Module/Domains.php:216
+msgid "Domain deletion canceled"
+msgstr "Exclusão do domínio cancelada"
+
+#: ../Framework/Module/Forwards.php:87
+msgid "No Forwards.  Care to add one?"
+msgstr "Nenhum Redirecionamento. Deseja criar um?"
+
+#: ../Framework/Module/Forwards.php:148
+msgid "Forward Name"
+msgstr "Nome do Redirecionamento"
+
+#: ../Framework/Module/Forwards.php:149
+#: ../Framework/Module/Forwards.php:387
+msgid "Destination Address"
+msgstr "Endereço de Destino"
+
+#: ../Framework/Module/Forwards.php:150
+#: ../Framework/Module/Forwards.php:388
+#: ../Framework/Module/Main/AliasDomain.php:112
+#: ../Framework/Module/Main/IPMaps.php:165
+#: ../Framework/Module/Responders.php:171
+msgid "Add"
+msgstr "Adicionar"
+
+#: ../Framework/Module/Forwards.php:153
+#: ../Framework/Module/Forwards.php:390
+msgid "Forward is required"
+msgstr "Redirecionamento é requerido"
+
+#: ../Framework/Module/Forwards.php:155
+msgid "Forward name is invalid (should be forward name only, not full email address"
+msgstr "Nome do Redirecionamento é inválido (deve ser somente o nome do redirecionamento, não o endereço de email completo"
+
+#: ../Framework/Module/Forwards.php:157
+#: ../Framework/Module/Forwards.php:392
+msgid "Destination is required"
+msgstr "Destino é requerido"
+
+#: ../Framework/Module/Forwards.php:159
+#: ../Framework/Module/Forwards.php:394
+msgid "Destination must be a full email address"
+msgstr "O destino deve ser um endereço de email completo"
+
+#: ../Framework/Module/Forwards.php:192
+msgid "Forward Added Successfully"
+msgstr "Redirecionamento Adicionado com Sucesso"
+
+#: ../Framework/Module/Forwards.php:257
+msgid "Error: forward line does not exist"
+msgstr "Erro: linha de redirecionamento não existe"
+
+#: ../Framework/Module/Forwards.php:262
+msgid "Only one line, use delete instead"
+msgstr "Somente uma linha, ao invés use o comando apagar"
+
+#: ../Framework/Module/Forwards.php:287
+#: ../Framework/Module/Forwards.php:409
+#: ../Framework/Module/Forwards.php:451
+msgid "Error: no forward provided"
+msgstr "Erro: nenhum redirecionamento informado"
+
+#: ../Framework/Module/Forwards.php:361
+msgid "Error: destination already exists"
+msgstr "Erro: destino já existe"
+
+#: ../Framework/Module/Forwards.php:364
+msgid "Destination Added Successfully"
+msgstr "Destino Adicionado com Sucesso"
+
+#: ../Framework/Module/Forwards.php:414
+msgid "Error: no forward line provided"
+msgstr "Erro: nenhuma linha de redirecionamento informada"
+
+#: ../Framework/Module/Forwards.php:437
+msgid "Destination Deleted Successfully"
+msgstr "Destino Apagado com Sucesso"
+
+#: ../Framework/Module/Forwards.php:457
+msgid "Forward Deleted Successfully"
+msgstr "Redirecionamento Apagado com Sucesso"
+
+#: ../Framework/Module/Login.php:74
+msgid "Login failed"
+msgstr "Login falhou"
+
+#: ../Framework/Module/Login.php:109
+#: ../Framework/Module/Login.php:112
+msgid "Login"
+msgstr "Login"
+
+#: ../Framework/Module/Login.php:110
+msgid "Email"
+msgstr "Email"
+
+#: ../Framework/Module/Login.php:114
+msgid "Please enter your email address"
+msgstr "Por favor entre com seu endereço de email"
+
+#: ../Framework/Module/Login.php:116
+msgid "Please enter a valid email address"
+msgstr "Por favor entre com um endereço de email válido"
+
+#: ../Framework/Module/Login.php:118
+msgid "Please enter your password"
+msgstr "Por favor entre com sua senha"
+
+#: ../Framework/Module/Login.php:136
+msgid "Logged out successfully"
+msgstr "Saiu com sucesso"
+
+#: ../Framework/Module/Login.php:152
+msgid "You have been logged out automatically for inactivity"
+msgstr "Você já foi desconectado automaticamente por inatividade"
+
+#: ../Framework/Module/Main/AliasDomain.php:89
+msgid "Error:"
+msgstr "Erro:"
+
+#: ../Framework/Module/Main/AliasDomain.php:110
+msgid "Real Domain"
+msgstr "Domínio Real"
+
+#: ../Framework/Module/Main/AliasDomain.php:111
+msgid "Alias Domain"
+msgstr "Apelido para o Domínio"
+
+#: ../Framework/Module/Main/AliasDomain.php:115
+msgid "Please specify a Real Domain"
+msgstr "Por favor especifique um Domínio Real"
+
+#: ../Framework/Module/Main/AliasDomain.php:117
+msgid "Please specify an Alias Domain"
+msgstr "Por favor especifique um apelido para o Domínio"
+
+#: ../Framework/Module/Main/Find.php:71
+#: ../Framework/Module/Main/Limits.php:226
+#: /tmp/gettext_files.89342.smarty:62
+#: /tmp/gettext_files.89342.smarty:107
+#: /tmp/gettext_files.89342.smarty:170
+#: /tmp/gettext_files.89342.smarty:176
+#: /tmp/gettext_files.89342.smarty:182
+#: /tmp/gettext_files.89342.smarty:194
+#: /tmp/gettext_files.89342.smarty:203
+#: /tmp/gettext_files.89342.smarty:212
+#: /tmp/gettext_files.89342.smarty:215
+#: /tmp/gettext_files.89342.smarty:221
+#: /tmp/gettext_files.89342.smarty:239
+#: /tmp/gettext_files.89342.smarty:242
+msgid "Main Menu"
+msgstr "Menu Principal"
+
+#: ../Framework/Module/Main/Find.php:83
+msgid "Error: does not exist"
+msgstr "Erro: não existe"
+
+#: ../Framework/Module/Main/Find.php:106
+#: /tmp/gettext_files.89342.smarty:254
+msgid "Find Domain"
+msgstr "Procurar Domínio"
+
+#: ../Framework/Module/Main/IPMaps.php:80
+#: ../Framework/Module/Main/IPMaps.php:99
+msgid "Error: missing domain or ip"
+msgstr "Erro: faltando domínio ou ip"
+
+#: ../Framework/Module/Main/IPMaps.php:143
+msgid "Error adding IP Map"
+msgstr "Erro adicionando Mapa do IP"
+
+#: ../Framework/Module/Main/IPMaps.php:163
+msgid "IP Address"
+msgstr "Endereço de IP"
+
+#: ../Framework/Module/Main/IPMaps.php:168
+msgid "Please specify an IP"
+msgstr "Por favor especifique um IP"
+
+#: ../Framework/Module/Main/IPMaps.php:170
+msgid "Please specify a Domain"
+msgstr "Por favor especifique um Domínio"
+
+#: ../Framework/Module/Main/Limits.php:123
+msgid "Maximum Aliases (-1 for unlimited)"
+msgstr "Máximo de Apelidos (-1 para ilimitado)"
+
+#: ../Framework/Module/Main/Limits.php:125
+msgid "Maximum Forwards (-1 for unlimited)"
+msgstr "Máximo de Redirecionamentos (-1 para ilimitado)"
+
+#: ../Framework/Module/Main/Limits.php:127
+msgid "Maximum Mail Robots (-1 for unlimited)"
+msgstr "Máximo de Robôs de Email (-1 para ilimitado)"
+
+#: ../Framework/Module/Main/Limits.php:129
+msgid "Maximum EZMLM-IDX Mailing Lists (-1 for unlimited)"
+msgstr "Máximo de Listas de Email EZMLM-IDX (-1 para ilimitado)"
+
+#: ../Framework/Module/Main/Limits.php:132
+msgid "Default Quota in MB (0 for unlimited)"
+msgstr "Quota Padrão em MB (0 para ilimitado)"
+
+#: ../Framework/Module/Main/Limits.php:134
+msgid "Default Message Count Limit (0 for unlimited)"
+msgstr "Limite de Contagem de Mensagens Padrão (0 para ilimitado)"
+
+#: ../Framework/Module/Main/Limits.php:136
+msgid "Disable POP"
+msgstr "Desativar POP"
+
+#: ../Framework/Module/Main/Limits.php:137
+msgid "Disable IMAP"
+msgstr "Desativar IMAP"
+
+#: ../Framework/Module/Main/Limits.php:138
+msgid "Disable Dial-Up"
+msgstr "Desativar Dial-Up"
+
+#: ../Framework/Module/Main/Limits.php:140
+msgid "Disable Password Changing"
+msgstr "Desativar Alteração de Senha"
+
+#: ../Framework/Module/Main/Limits.php:142
+msgid "Disable Webmail (SqWebmail)"
+msgstr "Desativar Webmail (SqWebmail)"
+
+#: ../Framework/Module/Main/Limits.php:144
+msgid "Disable Relaying"
+msgstr "Desativar Relaying"
+
+#: ../Framework/Module/Main/Limits.php:146
+msgid "Disable SMTP-AUTH"
+msgstr "Desativar SMTP-AUTH"
+
+#: ../Framework/Module/Main/Limits.php:147
+#: ../Framework/Module/Responders.php:176
+msgid "Modify"
+msgstr "Modificar"
+
+#: ../Framework/Module/Main/Limits.php:152
+#: ../Framework/Module/Main/Limits.php:155
+#: ../Framework/Module/Main/Limits.php:158
+#: ../Framework/Module/Main/Limits.php:161
+msgid "Error: only integers of -1 and greater allowed here"
+msgstr "Erro: somente inteiros de -1 e maiores são permitidos aqui"
+
+#: ../Framework/Module/Main/Limits.php:164
+#: ../Framework/Module/Main/Limits.php:167
+msgid "Error: only integers of 0 and greater allowed here"
+msgstr "Erro: somente inteiros de 0 e maiores são permitidos aqui"
+
+#: ../Framework/Module/Responders.php:131
+msgid "Add Auto-Responder"
+msgstr "Adicionar Resposta Automática"
+
+#: ../Framework/Module/Responders.php:132
+#: ../Framework/Module/Responders.php:173
+msgid "Add Auto-Responder to domain "
+msgstr "Adicionar Resposta Automática para o domínio "
+
+#: ../Framework/Module/Responders.php:147
+msgid "Error: autoresponder already exists: "
+msgstr "Erro: resposta automática já existe: "
+
+#: ../Framework/Module/Responders.php:154
+msgid "Auto-Responder Added Successfully"
+msgstr "Resposta Automática Adicionada com Sucesso"
+
+#: ../Framework/Module/Responders.php:178
+msgid "Modify Auto-Responder "
+msgstr "Modificar Resposta Automática "
+
+#: ../Framework/Module/Responders.php:193
+#: ../Framework/Module/Responders.php:199
+msgid "Auto-Responder is required"
+msgstr "Resposta Automática é requerida"
+
+#: ../Framework/Module/Responders.php:195
+#: ../Framework/Module/Responders.php:201
+msgid "Auto-Responder must be a full address"
+msgstr "A Resposta Automática deve ter um email completo"
+
+#: ../Framework/Module/Responders.php:197
+msgid "Auto-Responder"
+msgstr "Resposta Automática"
+
+#: ../Framework/Module/Responders.php:203
+msgid "Send Copy To"
+msgstr "Enviar Cópia Para"
+
+#: ../Framework/Module/Responders.php:204
+msgid "Subject"
+msgstr "Assunto"
+
+#: ../Framework/Module/Responders.php:205
+msgid "Body"
+msgstr "Corpo"
+
+#: ../Framework/Module/Responders.php:211
+msgid "Error: wrong domain in Auto-Responder"
+msgstr "Erro: domínio errado na Resposta Automática"
+
+#: ../Framework/Module/Responders.php:213
+msgid "'Save a copy' must be an email address"
+msgstr "'Salvar uma cópia' deve ter um endereço de email"
+
+#: ../Framework/Module/Responders.php:215
+msgid "Subject is required"
+msgstr "Assunto é requerido"
+
+#: ../Framework/Module/Responders.php:216
+msgid "Body is required"
+msgstr "Corpo é requerido"
+
+#: ../Framework/Module/Responders.php:232
+#: ../Framework/Module/Responders.php:256
+msgid "Error: no responder supplied"
+msgstr "Erro: nenhuma resposta fornecida"
+
+#: ../Framework/Module/Responders.php:260
+msgid "Responder Deleted Successfully"
+msgstr "Resposta Apagada com Sucesso"
+
+#: ../Framework/Module/Responders.php:290
+#: ../Framework/Module/Responders.php:324
+msgid "Error: no Auto-Responder supplied"
+msgstr "Erro: nenhuma Resposta Automática fornecida"
+
+#: ../Framework/Module/Responders.php:345
+msgid "Auto-Responder modified successfully"
+msgstr "Resposta Automática modificada com sucesso"
+
+#: ../ToasterAdmin/Common.php:108
+msgid "Error: you do not have edit privileges on domain "
+msgstr "Erro: você não tem privilégios para editar no domínio "
+
+#: ../ToasterAdmin/Common.php:125
+msgid "Error no domain supplied"
+msgstr "Erro nenhum domínio fornecido"
+
+#: /tmp/gettext_files.89342.smarty:2
+msgid "Are you sure you want to delete account"
+msgstr "Você está certo de que quer apagar esta conta"
+
+#: /tmp/gettext_files.89342.smarty:5
+#: /tmp/gettext_files.89342.smarty:68
+#: /tmp/gettext_files.89342.smarty:296
+msgid "cancel"
+msgstr "cancelar"
+
+#: /tmp/gettext_files.89342.smarty:8
+#: /tmp/gettext_files.89342.smarty:47
+#: /tmp/gettext_files.89342.smarty:71
+#: /tmp/gettext_files.89342.smarty:104
+#: /tmp/gettext_files.89342.smarty:143
+#: /tmp/gettext_files.89342.smarty:158
+#: /tmp/gettext_files.89342.smarty:287
+#: /tmp/gettext_files.89342.smarty:299
+msgid "delete"
+msgstr "apagar"
+
+#: /tmp/gettext_files.89342.smarty:11
+msgid "Add Account to domain"
+msgstr "Adicionar Conta ao domínio"
+
+#: /tmp/gettext_files.89342.smarty:14
+#: /tmp/gettext_files.89342.smarty:50
+#: /tmp/gettext_files.89342.smarty:56
+#: /tmp/gettext_files.89342.smarty:113
+#: /tmp/gettext_files.89342.smarty:146
+#: /tmp/gettext_files.89342.smarty:290
+#: /tmp/gettext_files.89342.smarty:302
+msgid "Domain Menu"
+msgstr "Menu Domínio"
+
+#: /tmp/gettext_files.89342.smarty:17
+msgid "Email Accounts in domain"
+msgstr "Contas de Email no domínio"
+
+#: /tmp/gettext_files.89342.smarty:20
+msgid "Accounts Page"
+msgstr "Página de Contas"
+
+#: /tmp/gettext_files.89342.smarty:23
+#: /tmp/gettext_files.89342.smarty:95
+#: /tmp/gettext_files.89342.smarty:122
+#: /tmp/gettext_files.89342.smarty:269
+msgid "of"
+msgstr "de"
+
+#: /tmp/gettext_files.89342.smarty:32
+msgid "Comment"
+msgstr "Comentário"
+
+#: /tmp/gettext_files.89342.smarty:35
+msgid "Quota"
+msgstr "Quota"
+
+#: /tmp/gettext_files.89342.smarty:38
+#: /tmp/gettext_files.89342.smarty:134
+#: /tmp/gettext_files.89342.smarty:278
+msgid "Edit"
+msgstr "Editar"
+
+#: /tmp/gettext_files.89342.smarty:41
+#: /tmp/gettext_files.89342.smarty:137
+#: /tmp/gettext_files.89342.smarty:155
+#: /tmp/gettext_files.89342.smarty:236
+#: /tmp/gettext_files.89342.smarty:281
+msgid "Delete"
+msgstr "Apagar"
+
+#: /tmp/gettext_files.89342.smarty:44
+#: /tmp/gettext_files.89342.smarty:140
+#: /tmp/gettext_files.89342.smarty:284
+msgid "edit"
+msgstr "editar"
+
+#: /tmp/gettext_files.89342.smarty:59
+#: /tmp/gettext_files.89342.smarty:245
+msgid "List Domains"
+msgstr "Listar Domínios"
+
+#: /tmp/gettext_files.89342.smarty:65
+msgid "Are you sure you want to delete this domain?"
+msgstr "Você está certo de que quer apagar este domínio?"
+
+#: /tmp/gettext_files.89342.smarty:74
+msgid "Email Accounts"
+msgstr "Contas de Email"
+
+#: /tmp/gettext_files.89342.smarty:77
+msgid "Forwards"
+msgstr "Redirecionamentos"
+
+#: /tmp/gettext_files.89342.smarty:80
+msgid "Auto Responders"
+msgstr "Respostas Automáticas"
+
+#: /tmp/gettext_files.89342.smarty:83
+msgid "Mailing Lists"
+msgstr "Listas de Email"
+
+#: /tmp/gettext_files.89342.smarty:86
+msgid "Domain List"
+msgstr "Listar Domínios"
+
+#: /tmp/gettext_files.89342.smarty:92
+msgid "Domains: Page"
+msgstr "Página: Domínios"
+
+#: /tmp/gettext_files.89342.smarty:98
+msgid "menu"
+msgstr "menu"
+
+#: /tmp/gettext_files.89342.smarty:101
+msgid "limits"
+msgstr "limites"
+
+#: /tmp/gettext_files.89342.smarty:110
+#: /tmp/gettext_files.89342.smarty:125
+msgid "Add Forward"
+msgstr "Adicionar Redirecionamento"
+
+#: /tmp/gettext_files.89342.smarty:116
+msgid "Forwards for domain"
+msgstr "Redirecionamentos para o domínio"
+
+#: /tmp/gettext_files.89342.smarty:119
+msgid "Forwards Page:"
+msgstr "Página de Redirecionamentos:"
+
+#: /tmp/gettext_files.89342.smarty:128
+msgid "Forward"
+msgstr "Redirecionamento"
+
+#: /tmp/gettext_files.89342.smarty:131
+msgid "Recipient"
+msgstr "Destinatário"
+
+#: /tmp/gettext_files.89342.smarty:149
+msgid "Modify Forward"
+msgstr "Modificar Redirecionamento"
+
+#: /tmp/gettext_files.89342.smarty:152
+msgid "Destination"
+msgstr "Destino"
+
+#: /tmp/gettext_files.89342.smarty:161
+msgid "Add Destination"
+msgstr "Adicionar Destino"
+
+#: /tmp/gettext_files.89342.smarty:164
+msgid "Forwards Menu"
+msgstr "Menu Redirecionamentos"
+
+#: /tmp/gettext_files.89342.smarty:167
+#: /tmp/gettext_files.89342.smarty:251
+msgid "Add Alias Domain"
+msgstr "Adicionar Apelido ao Domínio"
+
+#: /tmp/gettext_files.89342.smarty:173
+msgid "Alias domain added successfully"
+msgstr "Apelido ao domínio adicionado com sucesso"
+
+#: /tmp/gettext_files.89342.smarty:179
+#: /tmp/gettext_files.89342.smarty:185
+#: /tmp/gettext_files.89342.smarty:227
+msgid "Add IP Map"
+msgstr "Adicionar Mapa de IP"
+
+#: /tmp/gettext_files.89342.smarty:188
+msgid "Added IP Map Successfully"
+msgstr "Mapa de IP Adicionado com Sucesso"
+
+#: /tmp/gettext_files.89342.smarty:191
+#: /tmp/gettext_files.89342.smarty:224
+#: /tmp/gettext_files.89342.smarty:260
+msgid "IP Maps"
+msgstr "Mapas de IP"
+
+#: /tmp/gettext_files.89342.smarty:197
+#: /tmp/gettext_files.89342.smarty:206
+msgid "Delete IP Maps"
+msgstr "Apagar Mapas de IP"
+
+#: /tmp/gettext_files.89342.smarty:200
+msgid "Are you sure you want to delete this IP Map?"
+msgstr "Você está certo de que quer apagar este Mapa de IP?"
+
+#: /tmp/gettext_files.89342.smarty:209
+msgid "Deleted IP Map Successfully"
+msgstr "Mapa de IP Apagado com Sucesso"
+
+#: /tmp/gettext_files.89342.smarty:218
+msgid "Domains "
+msgstr "Domínios "
+
+#: /tmp/gettext_files.89342.smarty:230
+msgid "IP"
+msgstr "IP"
+
+#: /tmp/gettext_files.89342.smarty:257
+msgid "Delete Domain"
+msgstr "Apagar Domínio"
+
+#: /tmp/gettext_files.89342.smarty:263
+msgid "AutoResponders in domain"
+msgstr "Respostas Automáticas no domínio"
+
+#: /tmp/gettext_files.89342.smarty:266
+msgid "AutoResponders Page"
+msgstr "Página de Respostas Automáticas"
+
+#: /tmp/gettext_files.89342.smarty:272
+msgid "Add AutoResponder"
+msgstr "Adicionar Resposta Automática"
+
+#: /tmp/gettext_files.89342.smarty:275
+msgid "AutoResponder"
+msgstr "Resposta Automática"
+
+#: /tmp/gettext_files.89342.smarty:293
+msgid "Are you sure you want to delete this responder"
+msgstr "Você está certo de que quer apagar essa resposta"
+
+#: /tmp/gettext_files.89342.smarty:305
+msgid "ToasterAdmin"
+msgstr "ToasterAdmin"
+
+#: /tmp/gettext_files.89342.smarty:308
+msgid "logged in as"
+msgstr "logado como"
+
+#: /tmp/gettext_files.89342.smarty:311
+msgid "logout"
+msgstr "sair"
+

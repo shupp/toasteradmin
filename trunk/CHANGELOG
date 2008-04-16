@@ -1,3 +1,7 @@
+0.0.3 -  4/15/2008
+    * Force character set with bind_textdomain_charset()
+    * Added Dutch translation (thanks Harm von Tilburg)
+    * Added Portuguese BR translation (thanks Carlos Cesario)
 0.0.2 -  4/13/2008
     * Added turkish translation (thanks Metin KAYA)
     * Fix for missing country in locale

@@ -115,7 +115,7 @@ class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
         $form->addElement('text', 'comment', _("Real Name/Comment"));
         $form->addElement('password', 'password', _("Password"));
         $form->addElement('password', 'password2', _("Re-Type Password"));
-        $form->addElement('radio', 'routing', 'Mail Routing',
+        $form->addElement('radio', 'routing', _('Mail Routing'),
             _('Standard (No Forwarding)'), 'routing_standard');
         $form->addElement('radio', 'routing', '',
             _('All Mail Deleted'), 'routing_deleted');

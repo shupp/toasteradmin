@@ -48,6 +48,7 @@ class Framework_Request_ToasterAdmin extends Framework_Request_Web
         }
         I18Nv2::setLocale($this->locale);
         bindtextdomain("messages", $baseLocaleDir);
+        bind_textdomain_codeset("messages", 'UTF-8');
         textdomain("messages");
     }
 }
