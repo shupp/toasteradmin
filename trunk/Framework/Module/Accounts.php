@@ -79,6 +79,8 @@ class Framework_Module_Accounts extends ToasterAdmin_Auth_Domain
         foreach ($list as $key => $val) {
             $eus  =  "./?module=Accounts&class=Modify&domain={$this->domain}";
             $eus .= "&account=$key&event=modifyAccount";
+            $lus  =  "./?module=Accounts&class=Limits&domain={$this->domain}";
+            $lus .= "&account=$key";
             $dus  = "./?module=Accounts&domain={$this->domain}";
             $dus .= "&account=$key&event=delete";
 
@@ -86,8 +88,12 @@ class Framework_Module_Accounts extends ToasterAdmin_Auth_Domain
             $a[$c]['comment']    = $val['comment'];
             $a[$c]['quota']      = $this->user->getQuota($val['quota']);
             $a[$c]['edit_url']   = htmlspecialchars($eus);
+            $a[$c]['limits_url'] = htmlspecialchars($lus);
             $a[$c]['delete_url'] = htmlspecialchars($dus);
             $c++;
+        }
+        if ($this->user->isSysAdmin()) {
+            $this->setData('isSysAdmin', 1);
         }
         $aus = "./?module=Accounts&event=addAccount&domain={$this->domain}";
         $this->setData('add_account_url', htmlspecialchars($aus));

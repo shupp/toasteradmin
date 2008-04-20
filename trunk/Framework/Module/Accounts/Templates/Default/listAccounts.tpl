@@ -20,6 +20,9 @@
     <td class="domaincell">{t}Comment{/t}</td>
     <td class="domaincell">{t}Quota{/t}</td>
     <td class="domaincell">{t}Edit{/t}</td>
+{if $isSysAdmin}
+    <td class="domaincell">{t}Limits{/t}</td>
+{/if}
     <td class="domaincell">{t}Delete{/t}</td>
 </tr>
 
@@ -29,6 +32,9 @@
     <td>{$account.comment}</td>
     <td>{$account.quota}</td>
     <td><a href="{$account.edit_url}">{t}edit{/t}</a></td>
+{if $isSysAdmin}
+    <td><a href="{$account.limits_url}">{t}limits{/t}</a></td>
+{/if}
     <td><a href="{$account.delete_url}">{t}delete{/t}</a></td>
 </tr>
 {/foreach}
