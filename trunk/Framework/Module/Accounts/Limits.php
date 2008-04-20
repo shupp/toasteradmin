@@ -124,9 +124,11 @@ class Framework_Module_Accounts_Limits extends ToasterAdmin_Auth_System
             $param);
         }
         // To MB
-        if ($this->userInfo['quota'] > 0) {
-            $defaults['quota'] = ($this->userInfo['quota'] / 1024) / 1024;
+        $quota = (int)$this->userInfo['quota'];
+        if ($quota > 0) {
+            $quota = ((int)$quota / 1024) / 1024;
         }
+        $defaults['quota'] = $quota;
 
         $url  = './?module=Accounts&class=Limits&event=modifyLimitsNow&';
         $url .= "&account={$this->account}&domain={$this->domain}";
@@ -173,8 +175,11 @@ class Framework_Module_Accounts_Limits extends ToasterAdmin_Auth_System
 
         $form->registerRule('zero', 'regex', '/^(0|[1-9][0-9]+)$/');
         $form->addRule('quota',
-            _('Error: only integers of 0 and greater allowed here'),
+            _('Error: only integers of 0 and greater are allowed for quotas'),
             'zero', null, 'client');
+        $form->addRule('quota',
+            _('Error: only integers of 0 and greater are allowed for quotas'),
+            'numeric', null, 'client');
         $form->applyFilter('__ALL__', 'trim');
 
         return $form;
@@ -203,8 +208,8 @@ class Framework_Module_Accounts_Limits extends ToasterAdmin_Auth_System
         if ($limits['quota'] > 0) {
             $limits['quota'] = ($limits['quota'] * 1024) * 1024;
         }
-        // Convert 0 to NO_QUOTA
-        $userInfo['quota'] = $limits['quota'] > 0 ? $limits['quota'] : 'NO_QUOTA';
+        // Convert 0 to NOQUOTA
+        $userInfo['quota'] = $limits['quota'] > 0 ? $limits['quota'] : 'NOQUOTA';
         unset($limits['quota']);
         // Set disable flags to zero if not set
         foreach ($flagParms as $flag) {
