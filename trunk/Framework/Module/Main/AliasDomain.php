@@ -104,8 +104,8 @@ class Framework_Module_Main_AliasDomain extends ToasterAdmin_Auth_System
      */
     private function _addForm()
     {
-        $form = new HTML_QuickForm('addAliasDomainForm', 
-            'post', './?module=Main&class=AliasDomain&event=addNow');
+        $form = ToasterAdmin_Form::factory('addAliasDomainForm', 
+            './?module=Main&class=AliasDomain&event=addNow');
 
         $form->addElement('text', 'domain', _('Real Domain'));
         $form->addElement('text', 'alias', _('Alias Domain'));

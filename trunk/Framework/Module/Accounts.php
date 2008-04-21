@@ -170,8 +170,8 @@ class Framework_Module_Accounts extends ToasterAdmin_Auth_Domain
      */
     protected function addAccountForm()
     {
-        $form = new HTML_QuickForm('formAddAccount', 'post',
-            "./?module=Accounts&event=addAccountNow&domain={$this->domain}");
+        $url  = "./?module=Accounts&event=addAccountNow&domain={$this->domain}";
+        $form = ToasterAdmin_Form::factory('formAddAccount', $url);
         $form->setDefaults(array('account' => '@' . $this->domain));
 
         $form->addElement('text', 'account', _("Account"));

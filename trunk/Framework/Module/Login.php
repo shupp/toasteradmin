@@ -103,8 +103,8 @@ class Framework_Module_Login extends Framework_Auth_No
      */
     protected function createLoginForm()
     {
-        $form = new HTML_QuickForm('formLogin', 'post',
-            $_SERVER['REQUEST_URI'] . '&event=loginNow');
+        $url  = $_SERVER['REQUEST_URI'] . '&event=loginNow';
+        $form = ToasterAdmin_Form::factory('formLogin', $url);
 
         $form->addElement('header', 'MyHeader', _('Login'));
         $form->addElement('text', 'email', _('Email'));

@@ -157,8 +157,8 @@ class Framework_Module_Main_IPMaps extends ToasterAdmin_Auth_System
      */
     private function _addForm()
     {
-        $form = new HTML_QuickForm('addIPMapForm',
-            'post', './?module=Main&class=IPMaps&event=addNow');
+        $form = ToasterAdmin_Form::factory('addIPMapForm',
+            './?module=Main&class=IPMaps&event=addNow');
 
         $form->addElement('text', 'ip', _('IP Address'));
         $form->addElement('text', 'domain', _('Domain'));

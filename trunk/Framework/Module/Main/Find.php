@@ -99,7 +99,7 @@ class Framework_Module_Main_Find extends ToasterAdmin_Auth_System
      */
     private function _findForm()
     {
-        $form = new HTML_QuickForm('formFind', 'post',
+        $form = ToasterAdmin_Form::factory('formFind',
             './?module=Main&class=Find&event=findNow');
 
         $form->addElement('text', 'domain', _('Domain'));

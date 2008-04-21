@@ -178,7 +178,7 @@ class Framework_Module_Responders extends ToasterAdmin_Auth_Domain
                 _("Modify Auto-Responder ") . $_REQUEST['autoresponder']);
         }
 
-        $form = new HTML_QuickForm('formAddAccount', 'post',
+        $form = ToasterAdmin_Form::factory('formAddAccount',
             "./?module=Responders&event=${type}ResponderNow&domain={$this->domain}");
 
         if ($defaults == '') {

@@ -138,7 +138,7 @@ class Framework_Module_Domains extends ToasterAdmin_Auth_System
      */
     protected function addDomainForm()
     {
-        $form = new HTML_QuickForm('formLogin', 'post',
+        $form = ToasterAdmin_Form::factory('addDomainForm',
             './?module=Domains&event=addDomainNow');
 
         $form->addElement('text', 'domain', _('Domain'));

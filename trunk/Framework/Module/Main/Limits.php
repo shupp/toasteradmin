@@ -116,7 +116,7 @@ class Framework_Module_Main_Limits extends ToasterAdmin_Auth_System
         }
         $url  = './?module=Main&class=Limits&event=modifyLimitsNow&domain=';
         $url .= $this->domain;
-        $form = new HTML_QuickForm('limitsForm', 'post', $url);
+        $form = ToasterAdmin_Form::factory('limitsForm', $url);
         $form->setDefaults($defaults);
 
         $form->addElement('text', 'max_aliases',

@@ -138,7 +138,7 @@ class Framework_Module_Forwards extends ToasterAdmin_Auth_Domain
      */
     protected function addForwardForm()
     {
-        $form = new HTML_QuickForm('form', 'post',
+        $form = ToasterAdmin_Form::factory('addForwrdForm',
             './?module=Forwards&event=addForwardNow');
 
         $form->registerRule('validForwardName', 'regex',
@@ -379,7 +379,7 @@ class Framework_Module_Forwards extends ToasterAdmin_Auth_Domain
             htmlspecialchars("./?module=Forwards&domain={$this->domain}"));
 
         // Form
-        $form = new HTML_QuickForm('form', 'post',
+        $form = ToasterAdmin_Form::factory('modifyForwardForm',
             './?module=Forwards&event=modifyForwardNow');
 
         $form->addElement('hidden', 'domain', $this->domain);

@@ -1,4 +1,7 @@
-0.0.3 -  4/15/2008
+0.0.3 -  4/20/2008
+    * Centralize form creation in ToasterAdmin_Form::factory()
+    * Added edit account limits
+    * Added Italian Translation (thanks Filip Majewski)
     * Force character set with bind_textdomain_charset()
     * Added Dutch translation (thanks Harm von Tilburg)
     * Added Portuguese BR translation (thanks Carlos Cesario)

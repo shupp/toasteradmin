@@ -108,7 +108,7 @@ class Framework_Module_Accounts_Modify extends ToasterAdmin_Auth_User
 
         $url  =  "./?module=Accounts&class=Modify&event=modifyAccountNow";
         $url .= "&domain={$this->domain}&account=$account";
-        $form = new HTML_QuickForm('formModifyAccount', 'post', $url);
+        $form = ToasterAdmin_Form::factory('formModifyAccount', $url);
 
         $form->setDefaults($defaults);
 
