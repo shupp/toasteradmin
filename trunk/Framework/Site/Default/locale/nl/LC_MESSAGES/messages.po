@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-14 20:51+0200\n"
+"POT-Creation-Date: 2008-04-21 21:01-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Harm van Tilborg <harm@zeroxcool.net>\n"
 "Language-Team: ToasterAdmin <toaster-tr@shupp.org>\n"
@@ -15,23 +15,132 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: ../Framework/Module/Accounts/Limits.php:47
 #: ../Framework/Module/Accounts/Modify.php:61
 #: ../Framework/Module/Accounts/Modify.php:158
-#: ../Framework/Module/Accounts.php:202 ../Framework/Module/Accounts.php:225
+#: ../Framework/Module/Accounts.php:208 ../Framework/Module/Accounts.php:231
 msgid "Error: no account supplied"
 msgstr "Error: geen account aangegeven"
+
+#: ../Framework/Module/Accounts/Limits.php:50
+#, fuzzy
+msgid "Error: invalid account supplied"
+msgstr "Error: geen account aangegeven"
+
+#: ../Framework/Module/Accounts/Limits.php:139
+#, fuzzy
+msgid "Quota in MB (0 for unlimited)"
+msgstr "Standaard quota in MB (0 voor onbeperkt)"
+
+#: ../Framework/Module/Accounts/Limits.php:140
+#: ../Framework/Module/Main/Limits.php:136
+msgid "Disable POP"
+msgstr "Schakel POP uit"
+
+#: ../Framework/Module/Accounts/Limits.php:141
+#: ../Framework/Module/Main/Limits.php:137
+msgid "Disable IMAP"
+msgstr "Schakel IMAP uit"
+
+#: ../Framework/Module/Accounts/Limits.php:142
+#: ../Framework/Module/Main/Limits.php:138
+msgid "Disable Dial-Up"
+msgstr "Schakel dial-up uit"
+
+#: ../Framework/Module/Accounts/Limits.php:143
+msgid "Bounce Mail"
+msgstr ""
+
+#: ../Framework/Module/Accounts/Limits.php:145
+#: ../Framework/Module/Main/Limits.php:140
+msgid "Disable Password Changing"
+msgstr "Schakel wachtwoord veranderen uit"
+
+#: ../Framework/Module/Accounts/Limits.php:147
+#: ../Framework/Module/Main/Limits.php:142
+msgid "Disable Webmail (SqWebmail)"
+msgstr "Schakel webmail (SqWebmail) uit"
+
+#: ../Framework/Module/Accounts/Limits.php:149
+#: ../Framework/Module/Main/Limits.php:144
+msgid "Disable Relaying"
+msgstr "Schale relaying uit"
+
+#: ../Framework/Module/Accounts/Limits.php:151
+#: ../Framework/Module/Main/Limits.php:146
+msgid "Disable SMTP-AUTH"
+msgstr "Schakel SMTP-AUTH uit"
+
+#: ../Framework/Module/Accounts/Limits.php:153
+msgid "SysAdmin Privileges"
+msgstr ""
+
+#: ../Framework/Module/Accounts/Limits.php:155
+msgid "System Expert Privileges"
+msgstr ""
+
+#: ../Framework/Module/Accounts/Limits.php:157
+msgid "Domain Admin Privileges"
+msgstr ""
+
+#: ../Framework/Module/Accounts/Limits.php:159
+#, fuzzy
+msgid "Override Domain Limits"
+msgstr "Domeinen weergeven"
+
+#: ../Framework/Module/Accounts/Limits.php:161
+#, fuzzy
+msgid "Disable SpamAssassin"
+msgstr "Schakel wachtwoord veranderen uit"
+
+#: ../Framework/Module/Accounts/Limits.php:163
+msgid "Disable Maildrop Processing"
+msgstr ""
+
+#: ../Framework/Module/Accounts/Limits.php:165
+#, fuzzy
+msgid "Delete Spam"
+msgstr "Verwijder"
+
+#: ../Framework/Module/Accounts/Limits.php:167
+msgid "User Flag 0"
+msgstr ""
+
+#: ../Framework/Module/Accounts/Limits.php:169
+msgid "User Flag 1"
+msgstr ""
+
+#: ../Framework/Module/Accounts/Limits.php:171
+msgid "User Flag 2"
+msgstr ""
+
+#: ../Framework/Module/Accounts/Limits.php:173
+msgid "User Flag 3"
+msgstr ""
+
+#: ../Framework/Module/Accounts/Limits.php:174
+#: ../Framework/Module/Main/Limits.php:147
+#: ../Framework/Module/Responders.php:176
+msgid "Modify"
+msgstr "Pas aan"
+
+#: ../Framework/Module/Accounts/Limits.php:178
+#: ../Framework/Module/Accounts/Limits.php:181
+#, fuzzy
+msgid "Error: only integers of 0 and greater are allowed for quotas"
+msgstr "Error: enkel gehele getallen of 0 en groter zijn hier toegestaan"
 
 #: ../Framework/Module/Accounts/Modify.php:84
 msgid "Account Modified Successfully"
 msgstr "Account succesvol aangepast"
 
 #: ../Framework/Module/Accounts/Modify.php:115
-#: ../Framework/Module/Accounts.php:172
+#: ../Framework/Module/Accounts.php:178
 msgid "Real Name/Comment"
 msgstr "Echte naam/opmerking"
 
 #: ../Framework/Module/Accounts/Modify.php:116
-#: ../Framework/Module/Accounts.php:173 ../Framework/Module/Domains.php:145
+#: ../Framework/Module/Accounts.php:179 ../Framework/Module/Domains.php:145
 #: ../Framework/Module/Login.php:111
 msgid "Password"
 msgstr "Wachtwoord"
@@ -39,6 +148,10 @@ msgstr "Wachtwoord"
 #: ../Framework/Module/Accounts/Modify.php:117
 msgid "Re-Type Password"
 msgstr "Wachtwoord (opnieuw)"
+
+#: ../Framework/Module/Accounts/Modify.php:118
+msgid "Mail Routing"
+msgstr ""
 
 #: ../Framework/Module/Accounts/Modify.php:119
 msgid "Standard (No Forwarding)"
@@ -69,7 +182,7 @@ msgid "Vacation Message:"
 msgstr "Vakantie bericht:"
 
 #: ../Framework/Module/Accounts/Modify.php:133
-#: /tmp/gettext_files.89342.smarty:53
+#: /tmp/gettext_files.98845.smarty:65
 msgid "Modify Account"
 msgstr "Verander account"
 
@@ -97,54 +210,54 @@ msgstr "Error: er moet een doorstuur adres gegeven worden"
 msgid "Error: unsupported routing selection"
 msgstr "Error: niet toegestaan e-mail aflever type geselecteerd"
 
-#: ../Framework/Module/Accounts.php:139 ../Framework/Module/Domains.php:123
+#: ../Framework/Module/Accounts.php:145 ../Framework/Module/Domains.php:123
 #: ../Framework/Module/Domains.php:199
 msgid "Error: "
 msgstr ""
 
-#: ../Framework/Module/Accounts.php:152
+#: ../Framework/Module/Accounts.php:158
 msgid "Account Added Successfully"
 msgstr "Account succesvol toegevoegd"
 
-#: ../Framework/Module/Accounts.php:171 /tmp/gettext_files.89342.smarty:29
+#: ../Framework/Module/Accounts.php:177 /tmp/gettext_files.98845.smarty:35
 msgid "Account"
 msgstr ""
 
-#: ../Framework/Module/Accounts.php:174 /tmp/gettext_files.89342.smarty:26
+#: ../Framework/Module/Accounts.php:180 /tmp/gettext_files.98845.smarty:32
 msgid "Add Account"
 msgstr "Voeg account toe"
 
-#: ../Framework/Module/Accounts.php:179
+#: ../Framework/Module/Accounts.php:185
 msgid "Account is required"
 msgstr "Account moet ingevuld worden"
 
-#: ../Framework/Module/Accounts.php:181
+#: ../Framework/Module/Accounts.php:187
 msgid "Comment is required"
 msgstr "Opmerking moet ingevuld worden"
 
-#: ../Framework/Module/Accounts.php:183
+#: ../Framework/Module/Accounts.php:189
 msgid "Account must be the full email address"
 msgstr "Account moet het gehele e-mail adres zijn"
 
-#: ../Framework/Module/Accounts.php:185
+#: ../Framework/Module/Accounts.php:191
 msgid "Error: wrong domain in email address"
 msgstr "Error: verkeerde domein in e-mail adres"
 
-#: ../Framework/Module/Accounts.php:187
+#: ../Framework/Module/Accounts.php:193
 msgid "Password is required"
 msgstr "Wachtwoord moet ingevuld worden"
 
-#: ../Framework/Module/Accounts.php:228
+#: ../Framework/Module/Accounts.php:234
 #: ../Framework/Module/Domains/Menu.php:46 ../Framework/Module/Domains.php:169
 #: ../Framework/Module/Domains.php:192
 msgid "Error: no domain supplied"
 msgstr "Error: geen domein aangegeven"
 
-#: ../Framework/Module/Accounts.php:233
+#: ../Framework/Module/Accounts.php:239
 msgid "Account Deleted Successfully"
 msgstr "Account succesvol verwijderd"
 
-#: ../Framework/Module/Accounts.php:248 ../Framework/Module/Responders.php:274
+#: ../Framework/Module/Accounts.php:254 ../Framework/Module/Responders.php:274
 msgid "Delete Canceled"
 msgstr "Verwijderen geannuleerd"
 
@@ -153,12 +266,12 @@ msgid "Domain added successfully"
 msgstr "Domein succesvol toegevoegd"
 
 #: ../Framework/Module/Domains.php:144 ../Framework/Module/Main/Find.php:105
-#: ../Framework/Module/Main/IPMaps.php:164 /tmp/gettext_files.89342.smarty:233
+#: ../Framework/Module/Main/IPMaps.php:164 /tmp/gettext_files.98845.smarty:245
 msgid "Domain"
 msgstr "Domein"
 
-#: ../Framework/Module/Domains.php:146 /tmp/gettext_files.89342.smarty:89
-#: /tmp/gettext_files.89342.smarty:248
+#: ../Framework/Module/Domains.php:146 /tmp/gettext_files.98845.smarty:101
+#: /tmp/gettext_files.98845.smarty:260
 msgid "Add Domain"
 msgstr "Voeg domein toe"
 
@@ -204,7 +317,9 @@ msgstr "Doorsturen moet ingevuld worden"
 #: ../Framework/Module/Forwards.php:155
 msgid ""
 "Forward name is invalid (should be forward name only, not full email address"
-msgstr "Doorstuur naam is ongeldig (moet enkel een doorstuur naam zijn, geen volledig e-mail adres"
+msgstr ""
+"Doorstuur naam is ongeldig (moet enkel een doorstuur naam zijn, geen "
+"volledig e-mail adres"
 
 #: ../Framework/Module/Forwards.php:157 ../Framework/Module/Forwards.php:392
 msgid "Destination is required"
@@ -304,13 +419,13 @@ msgid "Please specify an Alias Domain"
 msgstr "Geef een alias domeinnaam op"
 
 #: ../Framework/Module/Main/Find.php:71
-#: ../Framework/Module/Main/Limits.php:226 /tmp/gettext_files.89342.smarty:62
-#: /tmp/gettext_files.89342.smarty:107 /tmp/gettext_files.89342.smarty:170
-#: /tmp/gettext_files.89342.smarty:176 /tmp/gettext_files.89342.smarty:182
-#: /tmp/gettext_files.89342.smarty:194 /tmp/gettext_files.89342.smarty:203
-#: /tmp/gettext_files.89342.smarty:212 /tmp/gettext_files.89342.smarty:215
-#: /tmp/gettext_files.89342.smarty:221 /tmp/gettext_files.89342.smarty:239
-#: /tmp/gettext_files.89342.smarty:242
+#: ../Framework/Module/Main/Limits.php:226 /tmp/gettext_files.98845.smarty:20
+#: /tmp/gettext_files.98845.smarty:74 /tmp/gettext_files.98845.smarty:119
+#: /tmp/gettext_files.98845.smarty:182 /tmp/gettext_files.98845.smarty:188
+#: /tmp/gettext_files.98845.smarty:194 /tmp/gettext_files.98845.smarty:206
+#: /tmp/gettext_files.98845.smarty:215 /tmp/gettext_files.98845.smarty:224
+#: /tmp/gettext_files.98845.smarty:227 /tmp/gettext_files.98845.smarty:233
+#: /tmp/gettext_files.98845.smarty:251 /tmp/gettext_files.98845.smarty:254
 msgid "Main Menu"
 msgstr "Hoofdmenu"
 
@@ -318,7 +433,7 @@ msgstr "Hoofdmenu"
 msgid "Error: does not exist"
 msgstr "Error: bestaat niet"
 
-#: ../Framework/Module/Main/Find.php:106 /tmp/gettext_files.89342.smarty:254
+#: ../Framework/Module/Main/Find.php:106 /tmp/gettext_files.98845.smarty:266
 msgid "Find Domain"
 msgstr "Zoek domein"
 
@@ -366,39 +481,6 @@ msgstr "Standaard quota in MB (0 voor onbeperkt)"
 #: ../Framework/Module/Main/Limits.php:134
 msgid "Default Message Count Limit (0 for unlimited)"
 msgstr "Standaard bericht aantal limiet (0 voor onbeperkt)"
-
-#: ../Framework/Module/Main/Limits.php:136
-msgid "Disable POP"
-msgstr "Schakel POP uit"
-
-#: ../Framework/Module/Main/Limits.php:137
-msgid "Disable IMAP"
-msgstr "Schakel IMAP uit"
-
-#: ../Framework/Module/Main/Limits.php:138
-msgid "Disable Dial-Up"
-msgstr "Schakel dial-up uit"
-
-#: ../Framework/Module/Main/Limits.php:140
-msgid "Disable Password Changing"
-msgstr "Schakel wachtwoord veranderen uit"
-
-#: ../Framework/Module/Main/Limits.php:142
-msgid "Disable Webmail (SqWebmail)"
-msgstr "Schakel webmail (SqWebmail) uit"
-
-#: ../Framework/Module/Main/Limits.php:144
-msgid "Disable Relaying"
-msgstr "Schale relaying uit"
-
-#: ../Framework/Module/Main/Limits.php:146
-msgid "Disable SMTP-AUTH"
-msgstr "Schakel SMTP-AUTH uit"
-
-#: ../Framework/Module/Main/Limits.php:147
-#: ../Framework/Module/Responders.php:176
-msgid "Modify"
-msgstr "Pas aan"
 
 #: ../Framework/Module/Main/Limits.php:152
 #: ../Framework/Module/Main/Limits.php:155
@@ -501,220 +583,230 @@ msgstr "Error: u heeft niet de rechten dit domein aan te passen: "
 msgid "Error no domain supplied"
 msgstr "Error: geen domein aangegeven"
 
-#: /tmp/gettext_files.89342.smarty:2
+#: ../ToasterAdmin/Form.php:47
+#, fuzzy
+msgid "denotes required field"
+msgstr "Opmerking moet ingevuld worden"
+
+#: /tmp/gettext_files.98845.smarty:2
 msgid "Are you sure you want to delete account"
 msgstr "Weet u zeker dat u dit account wilt verwijderen?"
 
-#: /tmp/gettext_files.89342.smarty:5 /tmp/gettext_files.89342.smarty:68
-#: /tmp/gettext_files.89342.smarty:296
+#: /tmp/gettext_files.98845.smarty:5 /tmp/gettext_files.98845.smarty:80
+#: /tmp/gettext_files.98845.smarty:308
 msgid "cancel"
 msgstr "annuleren"
 
-#: /tmp/gettext_files.89342.smarty:8 /tmp/gettext_files.89342.smarty:47
-#: /tmp/gettext_files.89342.smarty:71 /tmp/gettext_files.89342.smarty:104
-#: /tmp/gettext_files.89342.smarty:143 /tmp/gettext_files.89342.smarty:158
-#: /tmp/gettext_files.89342.smarty:287 /tmp/gettext_files.89342.smarty:299
+#: /tmp/gettext_files.98845.smarty:8 /tmp/gettext_files.98845.smarty:59
+#: /tmp/gettext_files.98845.smarty:83 /tmp/gettext_files.98845.smarty:116
+#: /tmp/gettext_files.98845.smarty:155 /tmp/gettext_files.98845.smarty:170
+#: /tmp/gettext_files.98845.smarty:299 /tmp/gettext_files.98845.smarty:311
 msgid "delete"
 msgstr "verwijder"
 
-#: /tmp/gettext_files.89342.smarty:11
+#: /tmp/gettext_files.98845.smarty:11
 msgid "Add Account to domain"
 msgstr "Voeg account toe aan domein"
 
-#: /tmp/gettext_files.89342.smarty:14 /tmp/gettext_files.89342.smarty:50
-#: /tmp/gettext_files.89342.smarty:56 /tmp/gettext_files.89342.smarty:113
-#: /tmp/gettext_files.89342.smarty:146 /tmp/gettext_files.89342.smarty:290
-#: /tmp/gettext_files.89342.smarty:302
+#: /tmp/gettext_files.98845.smarty:14 /tmp/gettext_files.98845.smarty:17
+#: /tmp/gettext_files.98845.smarty:62 /tmp/gettext_files.98845.smarty:68
+#: /tmp/gettext_files.98845.smarty:125 /tmp/gettext_files.98845.smarty:158
+#: /tmp/gettext_files.98845.smarty:302 /tmp/gettext_files.98845.smarty:314
 msgid "Domain Menu"
 msgstr "Domein menu"
 
-#: /tmp/gettext_files.89342.smarty:17
+#: /tmp/gettext_files.98845.smarty:23
 msgid "Email Accounts in domain"
 msgstr "E-mail accounts in domein"
 
-#: /tmp/gettext_files.89342.smarty:20
+#: /tmp/gettext_files.98845.smarty:26
 msgid "Accounts Page"
 msgstr "Account pagina"
 
-#: /tmp/gettext_files.89342.smarty:23 /tmp/gettext_files.89342.smarty:95
-#: /tmp/gettext_files.89342.smarty:122 /tmp/gettext_files.89342.smarty:269
+#: /tmp/gettext_files.98845.smarty:29 /tmp/gettext_files.98845.smarty:107
+#: /tmp/gettext_files.98845.smarty:134 /tmp/gettext_files.98845.smarty:281
 msgid "of"
 msgstr "van"
 
-#: /tmp/gettext_files.89342.smarty:32
+#: /tmp/gettext_files.98845.smarty:38
 msgid "Comment"
 msgstr "Opmerking"
 
-#: /tmp/gettext_files.89342.smarty:35
+#: /tmp/gettext_files.98845.smarty:41
 msgid "Quota"
 msgstr ""
 
-#: /tmp/gettext_files.89342.smarty:38 /tmp/gettext_files.89342.smarty:134
-#: /tmp/gettext_files.89342.smarty:278
+#: /tmp/gettext_files.98845.smarty:44 /tmp/gettext_files.98845.smarty:146
+#: /tmp/gettext_files.98845.smarty:290
 msgid "Edit"
 msgstr "Verander"
 
-#: /tmp/gettext_files.89342.smarty:41 /tmp/gettext_files.89342.smarty:137
-#: /tmp/gettext_files.89342.smarty:155 /tmp/gettext_files.89342.smarty:236
-#: /tmp/gettext_files.89342.smarty:281
+#: /tmp/gettext_files.98845.smarty:47
+#, fuzzy
+msgid "Limits"
+msgstr "limieten"
+
+#: /tmp/gettext_files.98845.smarty:50 /tmp/gettext_files.98845.smarty:149
+#: /tmp/gettext_files.98845.smarty:167 /tmp/gettext_files.98845.smarty:248
+#: /tmp/gettext_files.98845.smarty:293
 msgid "Delete"
 msgstr "Verwijder"
 
-#: /tmp/gettext_files.89342.smarty:44 /tmp/gettext_files.89342.smarty:140
-#: /tmp/gettext_files.89342.smarty:284
+#: /tmp/gettext_files.98845.smarty:53 /tmp/gettext_files.98845.smarty:152
+#: /tmp/gettext_files.98845.smarty:296
 msgid "edit"
 msgstr "pas aan"
 
-#: /tmp/gettext_files.89342.smarty:59 /tmp/gettext_files.89342.smarty:245
-msgid "List Domains"
-msgstr "Domeinen weergeven"
-
-#: /tmp/gettext_files.89342.smarty:65
-msgid "Are you sure you want to delete this domain?"
-msgstr "Weet u zeker dat u dit domein wilt verwijderen?"
-
-#: /tmp/gettext_files.89342.smarty:74
-msgid "Email Accounts"
-msgstr "E-mail accounts"
-
-#: /tmp/gettext_files.89342.smarty:77
-msgid "Forwards"
-msgstr "Doorstuur adressen"
-
-#: /tmp/gettext_files.89342.smarty:80
-msgid "Auto Responders"
-msgstr "E-mail robots"
-
-#: /tmp/gettext_files.89342.smarty:83
-msgid "Mailing Lists"
-msgstr ""
-
-#: /tmp/gettext_files.89342.smarty:86
-msgid "Domain List"
-msgstr "Domeinen weergeven"
-
-#: /tmp/gettext_files.89342.smarty:92
-msgid "Domains: Page"
-msgstr "Domein: pagina"
-
-#: /tmp/gettext_files.89342.smarty:98
-msgid "menu"
-msgstr ""
-
-#: /tmp/gettext_files.89342.smarty:101
+#: /tmp/gettext_files.98845.smarty:56 /tmp/gettext_files.98845.smarty:113
 msgid "limits"
 msgstr "limieten"
 
-#: /tmp/gettext_files.89342.smarty:110 /tmp/gettext_files.89342.smarty:125
+#: /tmp/gettext_files.98845.smarty:71 /tmp/gettext_files.98845.smarty:257
+msgid "List Domains"
+msgstr "Domeinen weergeven"
+
+#: /tmp/gettext_files.98845.smarty:77
+msgid "Are you sure you want to delete this domain?"
+msgstr "Weet u zeker dat u dit domein wilt verwijderen?"
+
+#: /tmp/gettext_files.98845.smarty:86
+msgid "Email Accounts"
+msgstr "E-mail accounts"
+
+#: /tmp/gettext_files.98845.smarty:89
+msgid "Forwards"
+msgstr "Doorstuur adressen"
+
+#: /tmp/gettext_files.98845.smarty:92
+msgid "Auto Responders"
+msgstr "E-mail robots"
+
+#: /tmp/gettext_files.98845.smarty:95
+msgid "Mailing Lists"
+msgstr ""
+
+#: /tmp/gettext_files.98845.smarty:98
+msgid "Domain List"
+msgstr "Domeinen weergeven"
+
+#: /tmp/gettext_files.98845.smarty:104
+msgid "Domains: Page"
+msgstr "Domein: pagina"
+
+#: /tmp/gettext_files.98845.smarty:110
+msgid "menu"
+msgstr ""
+
+#: /tmp/gettext_files.98845.smarty:122 /tmp/gettext_files.98845.smarty:137
 msgid "Add Forward"
 msgstr "Voeg doorstuur adres toe"
 
-#: /tmp/gettext_files.89342.smarty:116
+#: /tmp/gettext_files.98845.smarty:128
 msgid "Forwards for domain"
 msgstr "Doorstuur adressen voor domein"
 
-#: /tmp/gettext_files.89342.smarty:119
+#: /tmp/gettext_files.98845.smarty:131
 msgid "Forwards Page:"
 msgstr "Doorstuur adres pagina:"
 
-#: /tmp/gettext_files.89342.smarty:128
+#: /tmp/gettext_files.98845.smarty:140
 msgid "Forward"
 msgstr "Doorstuur adres"
 
-#: /tmp/gettext_files.89342.smarty:131
+#: /tmp/gettext_files.98845.smarty:143
 msgid "Recipient"
 msgstr "Ontvanger"
 
-#: /tmp/gettext_files.89342.smarty:149
+#: /tmp/gettext_files.98845.smarty:161
 msgid "Modify Forward"
 msgstr "Verander doorstuur adres"
 
-#: /tmp/gettext_files.89342.smarty:152
+#: /tmp/gettext_files.98845.smarty:164
 msgid "Destination"
 msgstr "Bestemming adres"
 
-#: /tmp/gettext_files.89342.smarty:161
+#: /tmp/gettext_files.98845.smarty:173
 msgid "Add Destination"
 msgstr "Voeg bestemming adres toe"
 
-#: /tmp/gettext_files.89342.smarty:164
+#: /tmp/gettext_files.98845.smarty:176
 msgid "Forwards Menu"
 msgstr "Doorstuur adres menu"
 
-#: /tmp/gettext_files.89342.smarty:167 /tmp/gettext_files.89342.smarty:251
+#: /tmp/gettext_files.98845.smarty:179 /tmp/gettext_files.98845.smarty:263
 msgid "Add Alias Domain"
 msgstr "Voeg alias domein toe"
 
-#: /tmp/gettext_files.89342.smarty:173
+#: /tmp/gettext_files.98845.smarty:185
 msgid "Alias domain added successfully"
 msgstr "Alias domein succesvol toegevoegd"
 
-#: /tmp/gettext_files.89342.smarty:179 /tmp/gettext_files.89342.smarty:185
-#: /tmp/gettext_files.89342.smarty:227
+#: /tmp/gettext_files.98845.smarty:191 /tmp/gettext_files.98845.smarty:197
+#: /tmp/gettext_files.98845.smarty:239
 msgid "Add IP Map"
 msgstr "Voeg IP-map toe"
 
-#: /tmp/gettext_files.89342.smarty:188
+#: /tmp/gettext_files.98845.smarty:200
 msgid "Added IP Map Successfully"
 msgstr "IP-map succesvol toegevoegd"
 
-#: /tmp/gettext_files.89342.smarty:191 /tmp/gettext_files.89342.smarty:224
-#: /tmp/gettext_files.89342.smarty:260
+#: /tmp/gettext_files.98845.smarty:203 /tmp/gettext_files.98845.smarty:236
+#: /tmp/gettext_files.98845.smarty:272
 msgid "IP Maps"
 msgstr "IP maps"
 
-#: /tmp/gettext_files.89342.smarty:197 /tmp/gettext_files.89342.smarty:206
+#: /tmp/gettext_files.98845.smarty:209 /tmp/gettext_files.98845.smarty:218
 msgid "Delete IP Maps"
 msgstr "Verwijder IP-maps"
 
-#: /tmp/gettext_files.89342.smarty:200
+#: /tmp/gettext_files.98845.smarty:212
 msgid "Are you sure you want to delete this IP Map?"
 msgstr "Weet u zeker dat u deze IP-map wilt verwijderen?"
 
-#: /tmp/gettext_files.89342.smarty:209
+#: /tmp/gettext_files.98845.smarty:221
 msgid "Deleted IP Map Successfully"
 msgstr "IP-map succesvol verwijderd"
 
-#: /tmp/gettext_files.89342.smarty:218
+#: /tmp/gettext_files.98845.smarty:230
 msgid "Domains "
 msgstr "Domeinen "
 
-#: /tmp/gettext_files.89342.smarty:230
+#: /tmp/gettext_files.98845.smarty:242
 msgid "IP"
 msgstr ""
 
-#: /tmp/gettext_files.89342.smarty:257
+#: /tmp/gettext_files.98845.smarty:269
 msgid "Delete Domain"
 msgstr "Verwijder domein"
 
-#: /tmp/gettext_files.89342.smarty:263
+#: /tmp/gettext_files.98845.smarty:275
 msgid "AutoResponders in domain"
 msgstr "E-mail robots in domein"
 
-#: /tmp/gettext_files.89342.smarty:266
+#: /tmp/gettext_files.98845.smarty:278
 msgid "AutoResponders Page"
 msgstr "E-mail robot pagina"
 
-#: /tmp/gettext_files.89342.smarty:272
+#: /tmp/gettext_files.98845.smarty:284
 msgid "Add AutoResponder"
 msgstr "Voeg e-mail robot toe"
 
-#: /tmp/gettext_files.89342.smarty:275
+#: /tmp/gettext_files.98845.smarty:287
 msgid "AutoResponder"
 msgstr "E-mail robot"
 
-#: /tmp/gettext_files.89342.smarty:293
+#: /tmp/gettext_files.98845.smarty:305
 msgid "Are you sure you want to delete this responder"
 msgstr "Weet u zeker dat u deze e-mail robot wilt verwijderen"
 
-#: /tmp/gettext_files.89342.smarty:305
+#: /tmp/gettext_files.98845.smarty:317
 msgid "ToasterAdmin"
 msgstr ""
 
-#: /tmp/gettext_files.89342.smarty:308
+#: /tmp/gettext_files.98845.smarty:320
 msgid "logged in as"
 msgstr "ingelogd als"
 
-#: /tmp/gettext_files.89342.smarty:311
+#: /tmp/gettext_files.98845.smarty:323
 msgid "logout"
 msgstr "uitloggen"
