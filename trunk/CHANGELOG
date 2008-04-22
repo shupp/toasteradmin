@@ -1,4 +1,4 @@
-0.0.3 -  4/20/2008
+0.0.3 -  4/21/2008
     * Centralize form creation in ToasterAdmin_Form::factory()
     * Added edit account limits
     * Added Italian Translation (thanks Filip Majewski)
