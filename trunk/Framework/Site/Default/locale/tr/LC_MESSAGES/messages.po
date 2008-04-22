@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST Metin KAYA <metin@EnderUNIX.org>, 2008.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
