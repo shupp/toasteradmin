@@ -1,0 +1,151 @@
+/* CSS Document */
+
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	/* color: #8E8E8E; */
+	color: #000000;
+}
+body {
+	background-color: #ececec;
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+a:link {
+	color: #000000;
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+	color: #000000;
+}
+a:hover {
+	text-decoration: underline;
+	color: #CC0000;
+}
+a:active {
+	text-decoration: none;
+	color: #CC0000;
+}
+p {
+line-height: 16px;
+margin-top: 0px;
+margin-bottom: 16px;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-weight: bold;
+}
+h1 {
+	font-size: 11px;
+	margin-bottom: 0px;
+}
+
+#wrapper { 
+width:550px; 
+margin:0px auto; 
+position: relative;
+}
+
+#container { 
+width:550px;
+}
+
+#head {
+background-image: url(images/top.gif);
+background-repeat: no-repeat;
+height: 107px;
+}
+
+#contentwrapper {
+background-image: url(images/bg-container.gif);
+background-repeat: repeat;
+text-align: center;
+}
+
+#bottom {
+width: 550px;
+height: 23px;
+background-image: url(images/bottom.gif);
+}
+
+.boxtop {
+background-image: url(images/boxtop.gif);
+background-repeat: no-repeat;
+width: 514px;
+height: 10px;
+}
+
+.boxtopDomains {
+background-image: url(images/boxtop-domains.gif);
+background-repeat: no-repeat;
+width: 514px;
+height: 75px;
+}
+
+.box {
+background-image: url(images/boxbg.gif);
+background-repeat: repeat;
+width: 514px;
+}
+
+.boxbottom {
+background-image: url(images/boxbottom.gif) ;
+background-repeat: no-repeat;
+width: 514px;
+height: 8px;
+padding-bottom: 14px;
+}
+
+.clear {
+height: 15px;
+}
+
+.boxtopDomainscontent {
+margin: 0px 10px 0px 10px;
+padding: 14px 0px 14px 0px;
+}
+
+#datatable {
+width: 450px;
+}
+
+.domaincell {
+width: 275px;
+height: 20px;
+text-align: left;
+padding-bottom: 4px;
+}
+.editcell {
+width: 175px;
+height: 20px;
+text-align: right;
+padding-bottom: 4px;
+}
+.dividercell {
+height: 1px;
+background-color: #8E8E8E;;
+}
+.framework_pager {
+font-size: 12px;
+color: #E0423A;
+text-decoration: none;
+}
+.framework_pager a {
+font-size: 12px;
+color: #E0423A;
+text-decoration: none;
+}
+.framework_pager a.current {
+font-size: 12px;
+color: #E0423A;
+text-decoration: underline;
+}
+
+#pages a, a:link, a:visited {
+ font-size: 12px;
+ color: #E0423A;
+ text-decoration: none;
+}
