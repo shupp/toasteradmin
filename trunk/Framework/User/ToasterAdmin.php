@@ -2,30 +2,40 @@
 /**
  * Framework_User_ToasterAdmin 
  * 
- * @package ToasterAdmin
- * @copyright 2005-2006 Bill Shupp
- * @author Bill Shupp <hostmaster@shupp.org> 
- * @license GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * PHP Version 5.2.0+
+ * 
+ * @uses      Net_Vpopmaild
+ * @category  Mail
+ * @package   ToasterAdmin
+ * @author    Bill Shupp <hostmaster@shupp.org> 
+ * @copyright 2008 Bill Shupp
+ * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link      {http://trac.merchbox.com/trac/toasteradmin
  */
-
 /**
- *
- * Extension of Net_Vpopmaild
- *
- * @author Bill Shupp <hostmaster@shupp.org>
- * @package ToasterAdmin
- * @version 1.0
- *
+ * Framework_User_ToasterAdmin 
+ * 
+ * Provides access to vpopmail, as well as authentication for Framework
+ * 
+ * @uses      Net_Vpopmaild
+ * @category  Mail
+ * @package   ToasterAdmin
+ * @author    Bill Shupp <hostmaster@shupp.org> 
+ * @copyright 2008 Bill Shupp
+ * @license   GPL 2.0  {@link http://www.gnu.org/licenses/gpl.txt}
+ * @link      {http://trac.merchbox.com/trac/toasteradmin
  */
-class Framework_User_ToasterAdmin extends Net_Vpopmaild {
-
+class Framework_User_ToasterAdmin extends Net_Vpopmaild
+{
     /**
      * __construct 
      * 
-     * @access protected
+     * @access public
+     * @throws  Framework_Exception
      * @return void
      */
-    function __construct() {
+    public function __construct()
+    {
         $this->userID = null;
         parent::__construct();
         $this->acceptLog(Framework::$log);
@@ -42,17 +52,22 @@ class Framework_User_ToasterAdmin extends Net_Vpopmaild {
         }
     }
 
-
-    public function isDefault() {
-
+    /**
+     * isDefault 
+     * 
+     * @access public
+     * @return bool   false if the user is authenticated, true if not (default user)
+     */
+    public function isDefault()
+    {
         $session =& Framework_Session::singleton();
         if (is_null($session->email)) {
             return true;
         }
         // Check timeout
-        $time = time();
+        $time           = time();
         $lastActionTime = $session->lastActionTime;
-        $timeLimit = (int)Framework::$site->config->inactiveTimeout;
+        $timeLimit      = (int)Framework::$site->config->inactiveTimeout;
         $this->recordio("timeout info: time: $time, lastActionTime: $lastActionTime, timeLimit: $timeLimit");
         if (($time - $lastActionTime) > $timeLimit) {
             header('Location: ./?module=Login&event=logoutInactive');
